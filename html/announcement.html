@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- FullCalendar CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
+
+    <title>About</title>
+
+    <link rel="stylesheet" href="../css/announcement_public.css">
+</head>
+
+<body>
+    <!--navbar -->
+    <nav class="navbar navbar-header navbar-expand-lg bg-light fixed-top">
+        <div class="container-fluid">
+            <div class="navbar-logo ">
+                <img src="../asset/img/brgy_official_seal.png" alt="Barangay Ligaya official seal">
+                <a class="me-auto navbar-brand " href="../html/home.html">Ligaya</a>
+            </div>
+
+            <!-- Offcanvas Menu -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Logo</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                </div>
+
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
+                        <!-- nav home -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link " aria-current="page" href="../html/home.html">Home</a>
+                        </li>
+                        <!-- nav about -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link" href="../html/about.html">About</a>
+                        </li>
+                        <!-- nav services -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link" href="/html/home.html#service">Service</a>
+                        </li>
+
+                        <!-- nav services 
+                        <li class="nav-item dropdown">
+                            <a class="mx-md-2 nav-link dropdown-toggle" href="../html/service.html" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Services
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">View Services</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Document Request</a></li>
+                                <li><a class="dropdown-item" href="#">Submit Complaints</a></li>
+                            </ul>
+                        </li>
+                        -->
+
+                        <!-- nav announcement -->
+                        <li class="nav-item dropdown">
+                            <a class="mx-md-2 nav-link active dropdown-toggle" href="announcement-section" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                Announcement
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#news-updates">News & Updates</a></li>
+                                <li><a class="dropdown-item" href="#upcoming-events">Upcomming Events</a></li>
+                                <li><a class="dropdown-item" href="#special-announcements">Special Announcements</a>
+                                </li>
+                                <li><a class="dropdown-item" href="#job-opportunities">Job Oppurtunity</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#others">Others</a></li>
+                            </ul>
+                            <!-- nav community -->
+                        <li class="nav-item dropdown">
+                            <a class="mx-md-2 nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                Community
+                            </a>
+                            <ul class="dropdown-menu">
+
+                                <li><a class="dropdown-item" href="leaderboard.html">Leaderboard</a></li>
+                                <li><a class="dropdown-item" href="">Suggestion Box</a></li>
+                            </ul>
+                        </li>
+                        <!-- nav more 
+                        <li class="nav-item dropdown">
+                            <a class="mx-md-2 nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                More
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="#">Separated link</a></li>
+                            </ul>
+                        </li>
+                        -->
+                    </ul>
+                </div>
+            </div>
+            <!-- Login & Menu Button Group -->
+            <div class="d-flex align-items-center">
+                <a href="../html/login.html" class="btn login-button">Login</a>
+
+                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <!--navbar end-->
+
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Announcement Header -->
+        <section class="announcement-header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <h1 class="display-4">Announcements</h1>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filter Section -->
+        <section class="filter-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search announcements...">
+                            <button class="btn btn-primary" type="button">Search</button>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <select class="form-select" aria-label="Filter by category">
+                            <option selected>All Categories</option>
+                            <option id="news" value="news">News & Updates</option>
+                            <option id="events" value="events">Events</option>
+                            <option id="Special Announcements" value="special">Special Announcements</option>
+                            <option id="Job Opportunities" value="jobs">Job Opportunities</option>
+                            <option id="other" value="others">Others</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- News & Updates Section -->
+        <section id="news-updates" class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">News & Updates</h2>
+                        <div class="section-divider mb-4"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card news-card">
+                            <span class="badge bg-info category-badge">Community</span>
+                            <img src="../asset/img/neighborhood-illustration.png" class="card-img-top"
+                                alt="Community Garden">
+                            <div class="card-body">
+                                <div class="news-date">March 15, 2025</div>
+                                <h5 class="card-title">New Community Garden Opening</h5>
+                                <p class="card-text">Join us for the grand opening of our community garden, a new green
+                                    space where neighbors can grow food and build connections.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card news-card">
+                            <span class="badge bg-success category-badge">Youth</span>
+                            <img src="../asset/img/neighborhood-illustration.png" class="card-img-top"
+                                alt="Youth Program">
+                            <div class="card-body">
+                                <div class="news-date">March 10, 2025</div>
+                                <h5 class="card-title">Youth Mentor Program Launches</h5>
+                                <p class="card-text">Our new mentor program pairs local youth with accomplished
+                                    professionals to provide guidance and support for future careers.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4">
+                        <div class="card news-card">
+                            <span class="badge bg-warning text-dark category-badge">Business</span>
+                            <img src="../asset/img/neighborhood-illustration.png" class="card-img-top"
+                                alt="Local Business">
+                            <div class="card-body">
+                                <div class="news-date">March 5, 2025</div>
+                                <h5 class="card-title">Local Business Spotlight Series</h5>
+                                <p class="card-text">We're excited to announce our new monthly feature highlighting the
+                                    diverse small businesses that make our community special.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Upcoming Events Section -->
+        <section id="upcoming-events" class="py-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">Upcoming Events</h2>
+                        <div class="section-divider mb-4"></div>
+                    </div>
+                </div>
+
+                <!-- List of Events -->
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title mb-0">Community Clean-up Drive</h5>
+                                    <span class="badge bg-success">March 25, 2025</span>
+                                </div>
+                                <p class="card-text">Join your neighbors for our monthly community clean-up. Gloves and
+                                    bags will be provided. Meet at the barangay hall at 7:00 AM.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">7:00 AM - 10:00 AM</small>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Register</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <h5 class="card-title mb-0">Senior Citizens' Day</h5>
+                                    <span class="badge bg-info">March 28, 2025</span>
+                                </div>
+                                <p class="card-text">Special program for our senior citizens including health checks,
+                                    recreational activities, and free lunch. Bring your senior citizen ID.</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-muted">9:00 AM - 3:00 PM</small>
+                                    <a href="#" class="btn btn-sm btn-outline-primary">Learn More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Special Announcements Section 
+        <section id="special-announcements" class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">Special Announcements</h2>
+                        <div class="section-divider mb-4"></div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <div class="card bg-warning text-dark">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-exclamation-triangle me-2"></i>Important: Water Service Interruption</h5>
+                                <p class="card-text">Water service will be interrupted on March 22, 2025, from 10:00 PM to 4:00 AM the following day due to maintenance work. Please store enough water for your needs.</p>
+                                <p class="card-text"><small>Posted: March 15, 2025</small></p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-12 mb-4">
+                        <div class="card bg-info text-white">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="fas fa-info-circle me-2"></i>COVID-19 Booster Shots Available</h5>
+                                <p class="card-text">The health center is now offering COVID-19 booster shots for eligible residents. Bring your vaccination card and valid ID. No appointment necessary.</p>
+                                <p class="card-text"><small>Posted: March 10, 2025</small></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        -->
+
+        <!-- Job Opportunities Section -->
+        <section id="job-opportunities" class="py-4 bg-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">Job Opportunities</h2>
+                        <div class="section-divider mb-4"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6 mb-4">
+                        <div class="card news-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Barangay Health Worker</h5>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="badge bg-primary">Full-time</span>
+                                    <span class="text-muted">Posted: March 12, 2025</span>
+                                </div>
+                                <p class="card-text">We are looking for a dedicated health worker to join our barangay
+                                    health center. Responsibilities include assisting with medical consultations,
+                                    record-keeping, and community health programs.</p>
+                                <p><strong>Requirements:</strong></p>
+                                <ul>
+                                    <li>Healthcare-related educational background</li>
+                                    <li>At least 1 year of experience in healthcare</li>
+                                    <li>Resident of Barangay Ligaya preferred</li>
+                                </ul>
+                                <a href="#" class="btn btn-primary">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6 mb-4">
+                        <div class="card news-card h-100">
+                            <div class="card-body">
+                                <h5 class="card-title">Daycare Teacher</h5>
+                                <div class="d-flex justify-content-between mb-3">
+                                    <span class="badge bg-info">Full-time</span>
+                                    <span class="text-muted">Posted: March 1, 2025</span>
+                                </div>
+                                <p class="card-text">The barangay daycare center is hiring a teacher to provide early
+                                    childhood education and care for children ages 3-5.</p>
+                                <p><strong>Requirements:</strong></p>
+                                <ul>
+                                    <li>Education background in Early Childhood Education</li>
+                                    <li>Experience working with young children</li>
+                                    <li>Patient and nurturing personality</li>
+                                </ul>
+                                <a href="#" class="btn btn-primary">Apply Now</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 text-center mt-3">
+                        <a href="#" class="btn btn-outline-primary">View All Job Listings</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Others Section -->
+        <section id="others" class="py-4">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <h2 class="section-title">Other Announcements</h2>
+                        <div class="section-divider mb-4"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4 mb-4">
+                        <div class="card news-card">
+                            <div class="card-body">
+                                <div class="news-date">March 3, 2025</div>
+                                <h5 class="card-title">Upcoming Scheduled Power Outages</h5>
+                                <p class="card-text">The electric company has announced scheduled maintenance that will
+                                    affect our area. See the full schedule of affected streets and times.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-4">
+                        <div class="card news-card">
+                            <div class="card-body">
+                                <div class="news-date">March 3, 2025</div>
+                                <h5 class="card-title">Upcoming Scheduled Power Outages</h5>
+                                <p class="card-text">The electric company has announced scheduled maintenance that will
+                                    affect our area. See the full schedule of affected streets and times.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 mb-4">
+                        <div class="card news-card">
+                            <div class="card-body">
+                                <div class="news-date">February 25, 2025</div>
+                                <h5 class="card-title">Garbage Collection Schedule Change</h5>
+                                <p class="card-text">Starting April 1, there will be changes to the garbage collection
+                                    schedule. Please check the new schedule for your area.</p>
+                                <a href="#" class="btn btn-sm btn-outline-primary">Read More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="container pagination-container">
+            <div class="row">
+                <div class="col-12">
+                    <nav aria-label="Announcements pagination">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                            </li>
+                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">Next</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer bg-dark text-white py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 text-center text-md-start">
+                    <p class="mb-0">&copy; 2025 Barangay Ligaya. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-center text-md-end">
+                    <a href="#" class="text-white me-2">Privacy Policy</a> |
+                    <a href="#" class="text-white me-2">Terms of Service</a> |
+                    <a href="#" class="text-white">Accessibility</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+
+
+
+
+
+
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- FullCalendar JS -->
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+</body>
+
+</html>

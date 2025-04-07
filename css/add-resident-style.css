@@ -1,0 +1,101 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.modal {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: none;
+    overflow-y: auto; /* Ensures scrolling when needed */
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    width: 90%;
+    max-width: 850px;
+    max-height: 90vh; /* Prevents modal from overflowing the screen */
+    overflow-y: auto; /* Enables internal scrolling */
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    position: relative;
+}
+
+h2 {
+    text-align: center;
+}
+
+fieldset {
+    border: 2px solid #ccc;
+    padding: 10px;
+    margin-bottom: 18px;
+}
+
+legend {
+    font-weight: bold;
+}
+
+label {
+    display: block;
+    margin: 5px 10px;
+}
+
+input, select {
+    padding: 5px;
+    margin-top: 3px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: block;
+}
+
+.form-buttons {
+    text-align: center;
+    margin-top: 10px;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.close-btn:hover {
+    background-color: #c82333;
+}
+
+.personalInfo-data{
+    display: flex;
+    flex-wrap: wrap;
+}
+.addressInfo-data{
+    display: flex;
+    flex-wrap: wrap;
+}
+.contactInfo-data{
+    display: flex;
+    flex-wrap: wrap;
+}
+.householdInfo-data{
+    display: flex;
+    flex-wrap: wrap;
+}
+.emergencyInfo-data{
+    display: flex;
+    flex-wrap: wrap;
+}

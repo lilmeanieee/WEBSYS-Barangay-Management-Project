@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Resident</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../../../css/add-resident-style.css">
+    
+    
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+</head>
+
+<body>
+    <script src=" "></script>
+    <div class="modal">
+        <div class="modal-content">
+            <h2>Create Resident Data</h2>
+
+            <div class = "data container">
+                <form id="residentForm">
+                    
+                    <fieldset>
+                        <legend>Personal Information</legend>
+                        <div class = "personalInfo-container"></div>
+                            <div class = "personalInfo-data">
+                                <label>Last Name: <input type="text"  id="last_name" required></label>
+                                <label>First Name: <input type="text"  id="first_name" required ></label>
+                                <label>Middle Name: <input type="text"  id="middle_name"></label>
+                                <label>Suffix: <input type="text" id="suffix"></label>
+                        
+                                <label>Birthdate: <input type="date" id="birthdate" required></label>
+                                <label>Age: <input type="number" id="age" required></label>
+                                <label>Place of Birth: <input type="text" id="place_of_birth"required ></label>
+                                <label>Gender: 
+                                <select id="gender" required>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                    <option value="preferNotToSay">Prefer not to say</option>
+                                </select>
+                                </label>
+                                <label>Civil Status: 
+                                    <select id="civil_status" required >
+                                        <option value="single">Single</option>
+                                        <option value="married">Married</option>
+                                        <option value="widowed">Widowed</option>
+                                        <option value="divorced">Divorced</option>
+                                        <option value="separated">Separated</option>
+                                    </select>
+                                </label>
+                                
+                                <label>Nationality: <input type="text" id="nationality" required></label>
+                                <label>Religion: <input type="text" id="religion" required></label>
+                            </div>
+                        </div> 
+                    </fieldset>
+                    
+    
+                    <fieldset>
+                        <legend>Address Information</legend>
+                        <div class = "addressInfo-container">
+                            <div class="addressInfo-data">
+                                <label>House/Lot Number: <input type="text" id="house_lot_no" ></label>
+                                <label>Purok: <input type="text" id="purok" required></label>
+                                <label>Street: <input type="text" id="street"required ></label>
+                                <label>Subdivision: <input type="text" id="subdivision"></label>
+                                <label>Barangay: <input type="text" id="barangay" required></label>
+                                <label>City/Municipality: <input type="text" id="city_municipality"required ></label>
+                                <label>Province: <input type="text" id="province" required></label>
+                                <label>Region: <input type="text" id="region" required></label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    
+                    <fieldset>
+                        <legend>Contact Information</legend>
+                        <div class = "contactInfo-container">
+                            <div class="contactInfo-data">
+                                <label>Mobile No.: <input type="text" id="mobile_no" required></label>
+                                <label>Email Address: <input type="email" id="email_address" required></label>
+                            </div>
+                        </div>
+                    </fieldset>
+    
+                    <fieldset>
+                        <legend>Emergency Contact</legend>
+                        <div class = "emergencyInfo-container">
+                            <div class="emergencyInfo-data">
+                                <label>Name: <input type="text" id="emergency_name" ></label>
+                                <label>Contact Number: <input type="text" id="emergency_contact_num" ></label>
+                                <label>Relationship: 
+                                    <select id="emergency_relationship">
+                                        <option value="parent">Parent</option>
+                                        <option value="spouse">Spouse</option>
+                                        <option value="sibling">Sibling</option>
+                                        <option value="relative">Relative</option>
+                                        <option value="friend">Friend</option>
+                                    </select>
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+    
+                    <div class="form-buttons">
+                        <button type="submit" id="btn_submit">Submit</button>
+                        <button type="button" class="close-btn" onclick="history.back();">Cancel</button>
+                    </div>
+
+                    
+                    
+                </form>
+            </div>
+            
+        </div>
+    </div>
+
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+</body>
+</html>

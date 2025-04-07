@@ -1,0 +1,123 @@
+<!-- Admin UI w/ Sidebar -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="../../css/dashboard-style.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row ">
+            <!-- Sidebar -->
+            <div class="sidebar min-vh-100 bg-dark text-white p-3">
+                <div class="logo pt-4 pb-1  mb-auto text-center">
+                    <a href="#" class="text-white text-decoration-none">
+                        <img src="../../asset/img/brgy logo.png" alt="">
+                        <span class="fs-4 d-none d-sm-inline">Brgy Ligaya</span>
+                    </a>
+                </div>
+                <hr class="text-white">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <!-- Dashboard -->
+                    <li class="nav-item ">
+                        <a href="dashboard.html" class="nav-link active text-white">
+                            <i class="bi bi-grid me-2"></i>
+                            <span class="d-none  d-sm-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Manage Residents -->
+                    <li class="nav-item ">
+                        <a href="manage_residents/resident-info.html" class="nav-link text-white">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Residents</span>
+                        </a>
+                    </li>
+
+                    <!-- Brgy Service-->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse"
+                            data-bs-target="#servicesDropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Brangay Services</span>
+                        </a>
+                        <ul class="collapse list-unstyled ps-4" id="servicesDropdown">
+                            <li><a href="barangay_services/document-request-list.html"
+                                    class="nav-link text-white">Document Request</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Announcement -->
+                    <li class="nav-item ">
+                        <a href="announcement_admin.html" class="nav-link text-white">
+                            <i class="bi bi-megaphone me-2"></i>
+                            <span class="d-none d-sm-inline">Announcement</span>
+                        </a>
+                    </li>
+
+                    <!-- Community-->
+
+
+                    <!-- Manage Leaderboards-->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link  text-white dropdown-toggle" data-bs-toggle="collapse"
+                            data-bs-target="#manageLB_Dropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Leaderboards</span>
+                        </a>
+                        <ul class="collapse active-submenu list-unstyled ps-4" id="manageLB_Dropdown">
+                            <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View
+                                    Leaderboard</a></li>
+                            <li><a href="manage_leaderboards/assign-exp-pts.html"
+                                    class="nav-link active-nav-link text-white">Assign Exp Points</a></li>
+                            <li><a href="manage_leaderboards/achievement&badges.html"
+                                    class="nav-link text-white">Achievements & Badges </a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+                <!-- Settings -->
+                <hr class="text-white">
+                <div class="pt-4 pb-1  mb-auto">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-gear me-2"></i>
+                        <span class="d-none d-sm-inline">Settings</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content col min-vh-100">
+                <div class="container content-header">
+                    <!-- Content Header Title -->
+                    <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
+                        <h4 class="mb-0">Dashboard</h4>
+                    </div>
+                    <!-- End Content Header Title -->
+
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

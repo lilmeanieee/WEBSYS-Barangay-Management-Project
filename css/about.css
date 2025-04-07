@@ -1,0 +1,142 @@
+.section-divider {
+    height: 3px;
+    width: 60px;
+    background-color: #fb8500;
+    margin: 0 auto 30px;
+}
+/* navbar */
+.navbar{
+    background-color: white;
+    height: 80px;
+    padding: 1rem;
+    border-radius: 16px;
+    margin: 10px 15px;
+}
+.navbar-brand{
+    color: #ffd803;
+    font-size: 24px;
+    font-weight: 500;
+    transition: 0.3s color;
+}
+.navbar-logo{
+    display: flex;
+}
+.navbar-logo img{
+    width: 50px;
+    height: 50px;
+    margin-inline-end: 8px;
+}
+.navbar-brand:hover{
+    color: #fb8500;
+}
+.login-button{
+    color: #272343;
+    background-color: #ffd803;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 8px 20px;
+    text-decoration: none;
+    transition:  0.3s background-color;
+}
+.login-button:hover{
+    background-color: #E6C200;
+    color: #272343;
+}
+
+.navbar-toggler{
+    border: none;
+    font-size: 1.25rem;
+}
+.navbar-toggler:focus, .btn-close:focus{
+    box-shadow: none;
+    outline: none;
+}
+.navbar-toggler{
+    border: none;
+    font-size: 1.25rem;
+}
+.navbar-toggler:focus, .btn-close:focus{
+    box-shadow: none;
+    outline: none;
+}
+.nav-link{
+    color: #404258;
+    font-weight: 500;
+    position: relative;
+}
+.nav-link:hover, .nav-link.active{
+    color: #fb8500;;
+}
+@media (min-width: 768px){
+    .nav-link::before{
+        content: "";
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%;
+        height: 2px;
+        background-color: #219ebc;
+        visibility: hidden;
+        transition: 0.3s ease-in-out;
+    }
+
+    .nav-link:hover::before, .nav-link.active::before{
+        Width:100%;
+        Visibility:visible;
+    }  
+}
+
+/* navbar end */
+
+.announcement-header {
+    background-color: #f8f9fa;
+    padding: 80px 0 30px;
+    margin-bottom: 30px;
+}
+
+.filter-section {
+    margin-bottom: 30px;
+}
+
+.news-card {
+    transition: transform 0.3s ease;
+    margin-bottom: 30px;
+    height: 100%;
+}
+
+.news-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.news-date {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.category-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 0.8rem;
+}
+
+.pagination-container {
+    margin: 40px 0;
+}
+
+.event-calendar {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+#calendar {
+    max-width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}

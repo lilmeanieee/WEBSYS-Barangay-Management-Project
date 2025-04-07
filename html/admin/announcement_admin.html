@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Announcement</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <link rel="stylesheet" href="../../css/announcement_admin-style.css">
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row ">
+            <!-- Sidebar -->
+            <div class="sidebar min-vh-100 bg-dark text-white p-3">
+                <div class="logo pt-4 pb-1  mb-auto text-center">
+                    <a href="#" class="text-white text-decoration-none">
+                        <img src="../../../asset/img/brgy logo.png" alt="">
+                        <span class="fs-4 d-none d-sm-inline">Brgy Ligaya</span>
+                    </a>
+                </div>
+                <hr class="text-white">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <!-- Dashboard -->
+                    <li class="nav-item ">
+                        <a href="dashboard.html" class="nav-link text-white">
+                            <i class="bi bi-grid me-2"></i>
+                            <span class="d-none d-sm-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Manage Residents -->
+                    <li class="nav-item ">
+                        <a href="manage_residents/resident-info.html" class="nav-link text-white">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Residents</span>
+                        </a>
+                    </li>
+                    <!-- Brgy Service-->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse"
+                            data-bs-target="#servicesDropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Brangay Services</span>
+                        </a>
+                        <ul class="collapse list-unstyled ps-4" id="servicesDropdown">
+                            <li><a href="barangay_services/document-request-list.html"
+                                    class="nav-link text-white">Document Request</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Announcement -->
+                    <li class="nav-item ">
+                        <a href="announcement_admin.html" class="nav-link active text-white">
+                            <i class="bi bi-megaphone me-2"></i>
+                            <span class="d-none d-sm-inline">Announcement</span>
+                        </a>
+                    </li>
+
+                
+
+                    <!-- Community-->
+                    
+                    <!-- Manage Leaderboards-->
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link  text-white dropdown-toggle" data-bs-toggle="collapse"
+                            data-bs-target="#manageLB_Dropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Leaderboards</span>
+                        </a>
+                        <ul class="collapse active-submenu list-unstyled ps-4" id="manageLB_Dropdown">
+                            <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View
+                                    Leaderboard</a></li>
+                            <li><a href="manage_leaderboards/assign-exp-pts.html"
+                                    class="nav-link active-nav-link text-white">Assign Exp Points</a></li>
+                            <li><a href="manage_leaderboards/achievement&badges.html"
+                                    class="nav-link text-white">Achievements & Badges </a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- Settings -->
+                <hr class="text-white">
+                <div class="pt-4 pb-1  mb-auto">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-gear me-2"></i>
+                        <span class="d-none d-sm-inline">Settings</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="main-content col min-vh-100">
+                <div class="container content-header">
+                    <!-- Content Header Title -->
+                    <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
+                        <h4 class="mb-0">Announcements</h4>
+                    </div>
+                    <!-- End Content Header Title -->
+                    <h4 class="mb-3 p-3">Post New Announcements</h4>
+
+                    <!--  Content  -->
+                    <div class="container mt-4">
+                        <button class="btn btn-primary" id="postNewBtn" data-bs-toggle="modal" data-bs-target="#announcementModal">Post New Announcement</button>
+                
+                        <!-- Modal for creating an announcement -->
+                        <div class="modal fade" id="announcementModal" tabindex="-1" aria-labelledby="announcementModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="announcementModalLabel">Create Announcement</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label for="announcementCategory">What kind of announcement?</label>
+                                            <select class="form-select" id="announcementCategory">
+                                                <option value="" disabled selected>Select Category</option>
+                                                <option value="upcomingEvent">Upcoming Event</option>
+                                                <option value="newsUpdate">News and Update</option>
+                                                <option value="volunteerDrive">Barangay Volunteer Drive</option>
+                                            </select>
+                                        </div>
+                
+                                        <!-- Form for announcements -->
+                                        <div id="announcementForm" class="mt-3">
+                                            <!-- Upcoming Event Form -->
+                                            <div id="upcomingEventForm" class="announcementFields">
+                                                <label for="eventTitle">Title/Header</label>
+                                                <input type="text" class="form-control" id="eventTitle" placeholder="Enter title">
+                                                <label for="eventDetails">Details</label>
+                                                <textarea class="form-control" id="eventDetails" rows="3" placeholder="Enter event details"></textarea>
+                                                <label for="eventDate">Event Date</label>
+                                                <input type="date" class="form-control" id="eventDate">
+                                                <label for="eventImage">Upload Image/File</label>
+                                                <input type="file" class="form-control" id="eventImage">
+                                            </div>
+                
+                                            <!-- News and Update Form -->
+                                            <div id="newsUpdateForm" class="announcementFields">
+                                                <label for="newsTitle">Title/Header</label>
+                                                <input type="text" class="form-control" id="newsTitle" placeholder="Enter title">
+                                                <label for="newsDetails">Details</label>
+                                                <textarea class="form-control" id="newsDetails" rows="3" placeholder="Enter details"></textarea>
+                                                <label for="newsImage">Upload Image/File</label>
+                                                <input type="file" class="form-control" id="newsImage">
+                                            </div>
+                
+                                            <!-- Barangay Volunteer Drive Form -->
+                                            <div id="volunteerDriveForm" class="announcementFields">
+                                                <label for="volunteerTitle">Title/Header</label>
+                                                <input type="text" class="form-control" id="volunteerTitle" placeholder="Enter title">
+                                                <label for="volunteerDetails">Details</label>
+                                                <textarea class="form-control" id="volunteerDetails" rows="3" placeholder="Enter details"></textarea>
+                                                <label for="volunteerDate">Event Date</label>
+                                                <input type="date" class="form-control" id="volunteerDate">
+                                                <label for="applicationDeadline">Application Deadline</label>
+                                                <input type="date" class="form-control" id="applicationDeadline">
+                                                <label for="volunteerImage">Upload Image/File</label>
+                                                <input type="file" class="form-control" id="volunteerImage">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="postAnnouncementBtn">Post Announcement</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4" id="announcementsFeed">
+                        <h4 class="mb-3 p-3">Recent Announcements</h4>
+                        <div class="mb-3 px-3">
+                            <label for="categoryFilter" class="form-label">Filter by Category:</label>
+                            <select class="form-select w-auto" id="categoryFilter">
+                                <option value="all" selected>All Announcements</option>
+                                <option value="upcomingEvent">Upcoming Events</option>
+                                <option value="newsUpdate">News and Updates</option>
+                                <option value="volunteerDrive">Volunteer Drives</option>
+                            </select>
+                        </div>
+                    
+                        <div id="announcementList" class="px-3">
+                            <!-- Announcement cards will appear here dynamically -->
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../../js/modal_announcement-script.js"></script>
+</body>
+
+</html>
