@@ -40,7 +40,16 @@
 .announcementFields {
     display: none;
 }
-.announcementFields {
+
+.announcementFields .hidden {
+    display: none;
+}
+
+.announcementFields .custom-dropdown-width {
+    width: 250px;
+}
+
+.announcementFields .locationInputOption{
     display: none;
 }
 
@@ -48,6 +57,14 @@
     margin-top: 20px;
 }
 
+hr.line-color{
+    border-top: 2px solid #ffd803;
+    opacity: 1;
+}
+.announcementModal label{
+    font-weight: 500;
+    color: #023047;
+}
 .modal-header {
     background-color: #007bff;
     color: white;

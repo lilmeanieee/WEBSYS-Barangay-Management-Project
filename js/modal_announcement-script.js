@@ -1,9 +1,75 @@
-document.getElementById('announcementCategory').addEventListener('change', function() {
+//event location's script for a category choices or input
+document.getElementById('volunteerLocationCategory').addEventListener('change', function () {
+    var otherCategoryInput = document.getElementById('volunteerLocationInputOption');
+    if (this.value === 'other') {
+        otherCategoryInput.style.display = 'block';
+        otherCategoryInput.focus();
+    } else {
+        otherCategoryInput.style.display = 'none';
+    }
+});
+
+document.getElementById('upEventLocationCategory').addEventListener('change', function () {
+    var upEvent = document.getElementById('upEventLocationInputOption');
+    if (this.value === 'other') {
+        upEvent.style.display = 'block';
+        upEvent.focus();
+    } else {
+        upEvent.style.display = 'none';
+    }
+});
+// end of event location's script
+
+// script for the eligility of the volunteer drive
+const checkboxes = document.querySelectorAll('.eligibility-option');
+const otherCheck = document.getElementById('otherEligibilityCheck');
+const otherInputWrapper = document.getElementById('otherEligibilityInputWrapper');
+const otherInput = document.getElementById('otherEligibilityInput');
+const selectedList = document.getElementById('selectedList');
+
+function updateSelected() {
+    let selected = [];
+    checkboxes.forEach(cb => {
+        if (cb.checked) {
+            selected.push(cb.value);
+        }
+    });
+
+    if (otherCheck.checked && otherInput.value.trim() !== "") {
+        selected.push(otherInput.value.trim());
+    }
+
+    selectedList.textContent = selected.length > 0 ? selected.join(', ') : "None";
+}
+
+// Show/hide input for "Other"
+otherCheck.addEventListener('change', function () {
+    if (this.checked) {
+        otherInputWrapper.classList.remove('d-none');
+        otherInput.focus();
+    } else {
+        otherInputWrapper.classList.add('d-none');
+        otherInput.value = "";
+    }
+    updateSelected();
+});
+
+// Listen to checkbox changes
+checkboxes.forEach(cb => {
+    cb.addEventListener('change', updateSelected);
+});
+
+// Listen to input change
+otherInput.addEventListener('input', updateSelected);
+
+// end of script for the eligility of the volunteer drive
+
+document.getElementById('announcementCategory').addEventListener('change', function () {
     const selectedCategory = this.value;
     const upcomingEventForm = document.getElementById('upcomingEventForm');
     const newsUpdateForm = document.getElementById('newsUpdateForm');
     const volunteerDriveForm = document.getElementById('volunteerDriveForm');
-    
+
     // Hide all categ form
     upcomingEventForm.style.display = 'none';
     newsUpdateForm.style.display = 'none';
@@ -19,7 +85,7 @@ document.getElementById('announcementCategory').addEventListener('change', funct
     }
 });
 
-document.getElementById('postAnnouncementBtn').addEventListener('click', function() {
+document.getElementById('postAnnouncementBtn').addEventListener('click', function () {
     const form = document.getElementById('announcementForm');
     const editIndex = form.dataset.editIndex;
 
@@ -92,7 +158,7 @@ function renderAnnouncements(category = 'all') {
     filtered.forEach((announcement, index) => {
         const card = document.createElement('div');
         card.className = 'card mb-3';
-    
+
         card.innerHTML = `
             <div class="card-body d-flex justify-content-between align-items-start">
                 <div>
@@ -107,21 +173,21 @@ function renderAnnouncements(category = 'all') {
                 </div>
             </div>
         `;
-    
+
         container.appendChild(card);
     });
-    
+
 }
 
 document.addEventListener('click', function (e) {
     if (e.target.classList.contains('edit-btn')) {
         const index = e.target.dataset.index;
         const announcement = sampleAnnouncements[index];
-    
+
         // Select the form based on categ
         document.getElementById('announcementCategory').value = announcement.type;
         document.getElementById('announcementCategory').dispatchEvent(new Event('change'));
-    
+
         // Populate fields based on categ
         if (announcement.type === 'upcomingEvent') {
             document.getElementById('eventTitle').value = announcement.title;
@@ -134,22 +200,22 @@ document.addEventListener('click', function (e) {
             document.getElementById('volunteerTitle').value = announcement.title;
             document.getElementById('volunteerDetails').value = announcement.details;
             document.getElementById('volunteerDate').value = announcement.date || '';
-            
+
         }
-    
+
         // Store index to update later
         document.getElementById('announcementForm').dataset.editIndex = index;
-    
+
         // Show modal
         const modal = new bootstrap.Modal(document.getElementById('announcementModal'));
         modal.show();
     }
-    
+
 });
 
 
 function formatType(type) {
-    switch(type) {
+    switch (type) {
         case 'upcomingEvent': return 'Upcoming Event';
         case 'newsUpdate': return 'News and Update';
         case 'volunteerDrive': return 'Volunteer Drive';
