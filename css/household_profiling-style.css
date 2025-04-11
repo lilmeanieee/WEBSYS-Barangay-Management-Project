@@ -1,28 +1,14 @@
-
 body {
     background-color: #f8f9fa;
 }
 
-/* content */
-.content-header {
-    padding: 0;
-    margin: 0;
-    width: 100%;
-}
-.main-content {
-    padding: 0;
-}
-.add-search{
-    margin-bottom: 30px;
-}
-
-.table-responsive {
-    overflow-x: auto;
-}
-/* end content */
-
-.otherInputBox {
-    display: none;
+.container {
+    background: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
 }
 
 .section-title {
@@ -80,9 +66,4 @@ table .quarter {
 .header-rotate {
     writing-mode: vertical-rl;
     transform: rotate(180deg);
-}
-
-.dropdown-menu-scrollable {
-    max-height: 200px;
-    overflow-y: auto;
 }
