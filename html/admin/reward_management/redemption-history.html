@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Issuance </title>
+    <title>Reward Management </title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,7 +12,8 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="../../../css/document-issuance-style.css">
+    <link rel="stylesheet" href="../../../css/reward-redemption-request-style.css">
+    <link rel="stylesheet" href="../../../css/reward-management-style.css">
     <link rel="stylesheet" href="../../../css/sidebar-style.css">
 </head>
 
@@ -49,12 +50,12 @@
                     <!-- Document Issuance -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover"
+                        <a href="#" class="nav-link  text-white d-sm-none mobile-popover"
                             title="Document Issuance" data-bs-toggle="popover" data-bs-html="true"
                             data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="document-request-list.html" class="nav-link text-white">Document Requests</a></li>
-                                    <li><a href="document-issuance.html" class="nav-link nav-link-active text-white">Document Issuance</a></li>
+                                    <li><a href="document-issuance.html" class="nav-link  text-white">Document Issuance</a></li>
                                     <li><a href="document-template.html" class="nav-link list text-white">Add Document Template</a></li>
                                     <li><a href="document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
                                 </ul>'>
@@ -62,15 +63,16 @@
                         </a>
 
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex"
+                        <a href="#" class="nav-link  text-white dropdown-toggle d-none d-sm-flex"
                             data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
                             <i class="bi bi-file-earmark-text me-2"></i>
                             <span class="d-none d-sm-inline">Document Issuance</span>
                         </a>
                         <ul class="collapse list-unstyled " id="servicesDropdown">
-                            <li><a href="document-request-list.html" class="nav-link list  text-white">Document Requests</a></li>
+                            <li><a href="document-request-list.html" class="nav-link list  text-white">Document
+                                    Requests</a></li>
                             <li><a href="document-issuance.html"
-                                    class="nav-link list  nav-link-active text-white ">Document
+                                    class="nav-link list  text-white ">Document
                                     Issuance</a></li>
                             <li><a href="document-template.html" class="nav-link list text-white">Add Document
                                     Template</a></li>
@@ -88,7 +90,7 @@
                         </a>
                     </li>
 
-                    <!-- Community-->
+                    
 
                     <!-- Manage Leaderboards-->
                     <li class="nav-item dropdown">
@@ -121,18 +123,18 @@
                                     Badges</a></li>
                         </ul>
                     </li>
-
+                    
                     <!-- Reward Management -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Rewards"
+                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover" title="Manage Rewards"
                             data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="../reward_management/redemption-request.html" class="nav-link   text-white">Redemption Request</a></li>
-                                <li><a href="../reward_management/rewards-incentives.html" class="nav-link text-white">Incentives</a></li>
-                                <li><a href="../reward_management/rewards-catalog.html" class="nav-link text-white">Reward Catalog</a></li>
-                                <li><a href="../reward_management/redemption-history.html" class="nav-link text-white">Redemption History</a></li>
-                            </ul>'>
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="redemption-request.html" class="nav-link  nav-link-active text-white">Redemption Request</a></li>
+                                    <li><a href="rewards-incentives.html" class="nav-link text-white">Incentives</a></li>
+                                    <li><a href="rewards-catalog.html" class="nav-link text-white">Reward Catalog</a></li>
+                                    <li><a href="redemption-history.html" class="nav-link text-white">Redemption History</a></li>
+                                </ul>'>
                             <i class="bi bi-trophy"></i>
                         </a>
 
@@ -143,17 +145,14 @@
                             <span class="d-none d-sm-inline">Manage Rewards</span>
                         </a>
                         <ul class="collapse list-unstyled" id="reward_Dropdown">
-                            <li><a href="../reward_management/redemption-request.html"
-                                    class="nav-link text-white">Redemption Request</a></li>
-                            <li><a href="../reward_management/rewards-incentives.html"
-                                    class="nav-link text-white">Incentives</a></li>
-                            <li><a href="reward_management/rewards-catalog.html" class="nav-link text-white">Reward
-                                    Catalog</a></li>
-                            <li><a href="../reward_management/redemption-history.html"
-                                    class="nav-link text-white">Redemption History</a></li>
-
+                            <li><a href="redemption-request.html" class="nav-link  nav-link-active text-white">Redemption Request</a></li>
+                                    <li><a href="rewards-incentives.html" class="nav-link text-white">Incentives</a></li>
+                                    <li><a href="rewards-catalog.html" class="nav-link text-white">Reward Catalog</a></li>
+                                    <li><a href="redemption-history.html" class="nav-link text-white">Redemption History</a></li>
+                               
                         </ul>
                     </li>
+
                 </ul>
                 <!-- Settings -->
                 <hr class="text-white">
@@ -180,43 +179,13 @@
                 <div class="container content-header">
                     <!-- Content Header Title -->
                     <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
-                        <h4 class="mb-0">Document Issuance</h4>
+                        <h4 class="mb-0">Reward Management</h4>
                     </div>
                     <!-- End Content Header Title -->
-                    <h4 class="mb-3 p-3">Document Issuance</h4>
+                    <h4 class="mb-3 p-3">Pending Redemption Requests</h4>
 
-                    <div class="container-fluid py-4 no-print p-3">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-10">
-
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <label for="certificateType" class="form-label">Select Certificate Type</label>
-                                        <select class="form-select" id="certificateType" onchange="loadCertificate()">
-                                            <option value="residency">Certificate of Residency</option>
-                                            <option value="indigency">Certificate of Indigency</option>
-                                            <option value="clearance">Barangay Clearance</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-6 d-flex align-items-end justify-content-end">
-                                        <button class="btn btn-success" onclick="printCertificate()">🖨 Print
-                                            Document</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="container-fluid">
-                        <div class="row justify-content-center">
-                            <div class="col-12 px-3 px-md-4">
-                                <div id="certificate-content" class="word-page editable" contenteditable="true">
-                                    <!-- Certificate content will load here -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
+                    
+                    
                 </div>
             </div>
         </div>
@@ -230,8 +199,7 @@
 
     <script src="../../../js/sidebar-script.js"></script>
     <script src="../../../js/logout-script.js"></script>
-    <script src="../../../js/document_issuance-script.js"></script>
-    <script src="../../../js/print-document-script.js"></script>
+    <script src="../../../js/reward-management-script.js"></script>
 </body>
 
 </html>
