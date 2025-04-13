@@ -45,30 +45,37 @@
                             <span class="d-none d-sm-inline">Manage Residents</span>
                         </a>
                     </li>
-                    
-                    <!-- Brgy Service-->
+
+                    <!-- Document Issuance-->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link  text-white d-sm-none mobile-popover" title="Barangay Services"
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Document Issuance"
                             data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
-                                    <li><a href="../barangay_services/document-request-list.html" class="nav-link text-white">Document Request</a></li>
+                                    <li><a href="../document_request/document-request-list.html" class="nav-link text-white">Document Issuance</a></li>
+                                    <li><a href="../document_request/document-template.html" class="nav-link list text-white">Add Document Template</a></li>
+                                    <li><a href="../document_request/document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
                                 </ul>'>
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-file-earmark-text"></i>
                         </a>
-        
+
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link  text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
-                            data-bs-target="#servicesDropdown">
-                            <i class="bi bi-people me-2"></i>
-                            <span class="d-none d-sm-inline">Barangay Services</span>
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
+                            <i class="bi bi-file-earmark-text me-2"></i>
+                            <span class="d-none d-sm-inline">Document Issuance</span>
                         </a>
-                        <ul class="collapse list-unstyled  " id="servicesDropdown">
-                            <li><a href="../barangay_services/document-request-list.html" class="nav-link list text-white">Document
-                                    Request</a></li>
+                        <ul class="collapse list-unstyled " id="servicesDropdown">
+                            <li><a href="../document_request/document-request-list.html"
+                                    class="nav-link list text-white">Document Request</a></li>
+                            <li><a href="../document_request/document-template.html"
+                                    class="nav-link list text-white">Add Document Template</a></li>
+                            <li><a href="../document_request/document-report.html"
+                                    class="nav-link list text-white">Report (Recent Requests)</a></li>
                         </ul>
                     </li>
 
+                    
                     <!-- Announcement -->
                     <li class="nav-item ">
                         <a href="../announcement_admin.html" class="nav-link text-white">
@@ -83,28 +90,32 @@
                     <!-- Manage Leaderboards-->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover" title="Manage Leaderboards"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover"
+                            title="Manage Leaderboards" data-bs-toggle="popover" data-bs-html="true"
+                            data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="../manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View Leaderboard</a></li>
                                     <li><a href="../manage_leaderboards/assign-exp-pts.html" class="nav-link nav-link-active text-white">Assign Exp Points</a></li>
                                     <li><a href="../manage_leaderboards/achievement&badges.html" class="nav-link text-white">Achievements & Badges</a></li>
                                 </ul>'>
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-trophy"></i>
                         </a>
-        
+
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
-                            data-bs-target="#manageLB_Dropdown">
-                            <i class="bi bi-people me-2"></i>
+                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#manageLB_Dropdown">
+                            <i class="bi bi-trophy me-2"></i>
                             <span class="d-none d-sm-inline">Manage Leaderboards</span>
                         </a>
                         <ul class="collapse list-unstyled" id="manageLB_Dropdown">
-                            <li><a href="../manage_leaderboards/view-leaderboard.html" class="nav-link list text-white">View
+                            <li><a href="../manage_leaderboards/view-leaderboard.html"
+                                    class="nav-link list text-white">View
                                     Leaderboard</a></li>
-                            <li><a href="../manage_leaderboards/assign-exp-pts.html" class="nav-link list nav-link-active text-white">Assign Exp
+                            <li><a href="../manage_leaderboards/assign-exp-pts.html"
+                                    class="nav-link list nav-link-active text-white">Assign Exp
                                     Points</a></li>
-                            <li><a href="../manage_leaderboards/achievement&badges.html" class="nav-link list text-white">Achievements &
+                            <li><a href="../manage_leaderboards/achievement&badges.html"
+                                    class="nav-link list text-white">Achievements &
                                     Badges</a></li>
                         </ul>
                     </li>
@@ -195,7 +206,8 @@
                                                                 <th>
                                                                     <div class="form-check">
                                                                         <input class="form-check-input" type="checkbox"
-                                                                            title="Select user" id="selectAllUsers_Indiv">
+                                                                            title="Select user"
+                                                                            id="selectAllUsers_Indiv">
                                                                     </div>
                                                                 </th>
                                                                 <th>User</th>
@@ -786,7 +798,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
-        <script src="../../../js/sidebar-script.js"></script>
+    <script src="../../../js/sidebar-script.js"></script>
 </body>
 
 </html>

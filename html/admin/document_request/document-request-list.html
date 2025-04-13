@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Issuance </title>
+    <title>Document Requests </title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -12,7 +12,7 @@
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="../../../css/document-request-list-style.css">
+    <link rel="stylesheet" href="../../../css/document-requests-style.css">
     <link rel="stylesheet" href="../../../css/sidebar-style.css">
 </head>
 
@@ -53,22 +53,24 @@
                             title="Document Issuance" data-bs-toggle="popover" data-bs-html="true"
                             data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
-                                    <li><a href="document-request-list.html" class="nav-link nav-link-active text-white">Document Issuance</a></li>
+                                    <li><a href="document-request-list.html" class="nav-link text-white">Document Requests</a></li>
+                                    <li><a href="document-issuance.html" class="nav-link nav-link-active text-white">Document Issuance</a></li>
                                     <li><a href="document-template.html" class="nav-link list text-white">Add Document Template</a></li>
                                     <li><a href="document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
                                 </ul>'>
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-file-earmark-text"></i>
                         </a>
 
                         <!-- Normal dropdown for larger screens -->
                         <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex"
                             data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
-                            <i class="bi bi-people me-2"></i>
+                            <i class="bi bi-file-earmark-text me-2"></i>
                             <span class="d-none d-sm-inline">Document Issuance</span>
                         </a>
                         <ul class="collapse list-unstyled " id="servicesDropdown">
                             <li><a href="document-request-list.html"
-                                    class="nav-link list nav-link-active text-white ">Document
+                                    class="nav-link list nav-link-active text-white">Document Requests</a></li>
+                            <li><a href="document-issuance.html" class="nav-link list  text-white ">Document
                                     Issuance</a></li>
                             <li><a href="document-template.html" class="nav-link list text-white">Add Document
                                     Template</a></li>
@@ -99,13 +101,13 @@
                                     <li><a href="../manage_leaderboards/assign-exp-pts.html" class="nav-link text-white">Assign Exp Points</a></li>
                                     <li><a href="../manage_leaderboards/achievement&badges.html" class="nav-link text-white">Achievements & Badges</a></li>
                                 </ul>'>
-                            <i class="bi bi-people"></i>
+                            <i class="bi bi-trophy"></i>
                         </a>
 
                         <!-- Normal dropdown for larger screens -->
                         <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
                             data-bs-toggle="collapse" data-bs-target="#manageLB_Dropdown">
-                            <i class="bi bi-people me-2"></i>
+                            <i class="bi bi-trophy me-2"></i>
                             <span class="d-none d-sm-inline">Manage Leaderboards</span>
                         </a>
                         <ul class="collapse list-unstyled" id="manageLB_Dropdown">
@@ -150,37 +152,114 @@
                         <h4 class="mb-0">Document Issuance</h4>
                     </div>
                     <!-- End Content Header Title -->
-                    <div class="container-fluid py-4 no-print">
-                        <div class="row justify-content-center">
-                          <div class="col-lg-10">
-                            
-                            <div class="row mb-3">
-                              <div class="col-md-6">
-                                <label for="certificateType" class="form-label">Select Certificate Type</label>
-                                <select class="form-select" id="certificateType" onchange="loadCertificate()">
-                                  <option value="residency">Certificate of Residency</option>
-                                  <option value="indigency">Certificate of Indigency</option>
-                                  <option value="clearance">Barangay Clearance</option>
-                                </select>
-                              </div>
-                              <div class="col-md-6 d-flex align-items-end justify-content-end">
-                                <button class="btn btn-success" onclick="printCertificate()">🖨 Print Document</button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    
-                      <div class="container-fluid">
-                        <div class="row justify-content-center">
-                          <div class="col-12 px-3 px-md-4">
-                            <div id="certificate-content" class="word-page editable" contenteditable="true">
-                              <!-- Certificate content will load here -->
-                            </div>
-                          </div>
-                        </div>
-                      </div>
 
+                    <div class="container-fluid py-4 no-print p-3">
+                        <div class="row mb-3 p-">
+                            <div class="col-md-6">
+                                <h5>Pending Document Requests</h5>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="d-flex justify-content-end">
+                                    <div class="input-group w-75">
+                                        <input type="text" class="form-control"
+                                            placeholder="Search by name or document type">
+                                        <button class="btn btn-outline-secondary" type="button"><i
+                                                class="bi bi-search"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="status-filter btn-group mb-3">
+                            <button type="button" class="btn btn-outline-secondary active">All</button>
+                            <button type="button" class="btn btn-outline-secondary">Pending</button>
+                            <button type="button" class="btn btn-outline-secondary">Approved</button>
+                            <button type="button" class="btn btn-outline-secondary">Rejected</button>
+                        </div>
+
+                        <!-- Document Request List -->
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th>Request ID</th>
+                                        <th>Resident</th>
+                                        <th>Document Type</th>
+                                        <th>Date Requested</th>
+                                        <th>Purpose</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>DOC-2025-0001</td>
+                                        <td>Juan Dela Cruz</td>
+                                        <td>Barangay Clearance</td>
+                                        <td>Apr 12, 2025</td>
+                                        <td>Job Application</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-success" title="Approve Request"><i class="bi bi-check-lg"></i></button>
+                                            <button class="btn btn-sm btn-danger" title="Reject Request"><i class="bi bi-x-lg"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DOC-2025-0002</td>
+                                        <td>Maria Santos</td>
+                                        <td>Certificate of Residency</td>
+                                        <td>Apr 11, 2025</td>
+                                        <td>School Requirement</td>
+                                        <td><span class="badge bg-warning">Pending</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-success" title="Approve Request"><i class="bi bi-check-lg"></i></button>
+                                            <button class="btn btn-sm btn-danger" title="Reject Request"><i class="bi bi-x-lg"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DOC-2025-0003</td>
+                                        <td>Pedro Reyes</td>
+                                        <td>Barangay ID</td>
+                                        <td>Apr 10, 2025</td>
+                                        <td>Personal ID</td>
+                                        <td><span class="badge bg-success">Approved</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
+                                            <button class="btn btn-sm btn-secondary" title="Print Document"><i class="bi bi-printer"></i></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>DOC-2025-0004</td>
+                                        <td>Anna Lim</td>
+                                        <td>Certificate of Indigency</td>
+                                        <td>Apr 9, 2025</td>
+                                        <td>Medical Assistance</td>
+                                        <td><span class="badge bg-danger">Rejected</span></td>
+                                        <td>
+                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
                 </div>
             </div>
         </div>
@@ -194,8 +273,7 @@
 
     <script src="../../../js/sidebar-script.js"></script>
     <script src="../../../js/logout-script.js"></script>
-    <script src="../../../js/document_issuance-script.js"></script>
-    <script src="../../../js/print-document-script.js"></script>
+    <script src="../../../js/document-requests-script.js"></script>
 </body>
 
 </html>
