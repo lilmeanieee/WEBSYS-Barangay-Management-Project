@@ -46,7 +46,7 @@
 }
 
 /* Mobile Responsiveness */
-@media (max-width: 576px) {
+@media (max-width: 768px) {
     .sidebar {
         width: 80px;
         padding: 1rem 0.5rem;
@@ -108,5 +108,32 @@
     }
     .popover .popover-header {
         color: #023047;
+    }
+}
+/* Tablet Sidebar Collapse */
+@media (max-width: 992px) {
+    .sidebar {
+        width: 80px;
+        padding: 1rem 0.5rem;
+    }
+
+    .sidebar .logo span,
+    .sidebar .nav-link span,
+    .sidebar hr,
+    .sidebar .dropdown-toggle::after {
+        display: none !important;
+    }
+
+    .sidebar .nav-link {
+        justify-content: center;
+        padding: 0.75rem;
+    }
+
+    .sidebar .nav-link i {
+        font-size: 1.25rem;
+    }
+
+    .sidebar .collapse {
+        display: none !important;
     }
 }
