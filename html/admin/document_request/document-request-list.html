@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document Request </title>
+    <title>Document Issuance </title>
 
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -28,6 +28,7 @@
                     </a>
                 </div>
                 <hr class="text-white">
+
                 <ul class="nav nav-pills flex-column mb-auto">
                     <!-- Dashboard -->
                     <li class="nav-item ">
@@ -45,26 +46,35 @@
                         </a>
                     </li>
 
-                    <!-- Document Request -->
+                    <!-- Document Issuance -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover" title="Document Request"
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover"
+                            title="Document Issuance" data-bs-toggle="popover" data-bs-html="true"
+                            data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
-                                    <li><a href="../document_request/document-request-list.html" class="nav-link nav-link-active text-white">Document Request</a></li>
+                                    <li><a href="document-request-list.html" class="nav-link nav-link-active text-white">Document Issuance</a></li>
+                                    <li><a href="document-template.html" class="nav-link list text-white">Add Document Template</a></li>
+                                    <li><a href="document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
                                 </ul>'>
                             <i class="bi bi-people"></i>
                         </a>
-        
+
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
-                            data-bs-target="#servicesDropdown">
+                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
                             <i class="bi bi-people me-2"></i>
-                            <span class="d-none d-sm-inline">Document Request</span>
+                            <span class="d-none d-sm-inline">Document Issuance</span>
                         </a>
                         <ul class="collapse list-unstyled " id="servicesDropdown">
-                            <li><a href="document-request-list.html" class="nav-link list nav-link-active text-white ">Document
-                                    Request</a></li>
+                            <li><a href="document-request-list.html"
+                                    class="nav-link list nav-link-active text-white ">Document
+                                    Issuance</a></li>
+                            <li><a href="document-template.html" class="nav-link list text-white">Add Document
+                                    Template</a></li>
+                            <li><a href="document-report.html" class="nav-link list text-white">Report (Recent
+                                    Requests)</a></li>
+
                         </ul>
                     </li>
 
@@ -91,19 +101,22 @@
                                 </ul>'>
                             <i class="bi bi-people"></i>
                         </a>
-        
+
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
-                            data-bs-target="#manageLB_Dropdown">
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#manageLB_Dropdown">
                             <i class="bi bi-people me-2"></i>
                             <span class="d-none d-sm-inline">Manage Leaderboards</span>
                         </a>
                         <ul class="collapse list-unstyled" id="manageLB_Dropdown">
-                            <li><a href="../manage_leaderboards/view-leaderboard.html" class="nav-link list text-white">View
+                            <li><a href="../manage_leaderboards/view-leaderboard.html"
+                                    class="nav-link list text-white">View
                                     Leaderboard</a></li>
-                            <li><a href="../manage_leaderboards/assign-exp-pts.html" class="nav-link list text-white">Assign Exp
+                            <li><a href="../manage_leaderboards/assign-exp-pts.html"
+                                    class="nav-link list text-white">Assign Exp
                                     Points</a></li>
-                            <li><a href="../manage_leaderboards/achievement&badges.html" class="nav-link list text-white">Achievements &
+                            <li><a href="../manage_leaderboards/achievement&badges.html"
+                                    class="nav-link list text-white">Achievements &
                                     Badges</a></li>
                         </ul>
                     </li>
@@ -126,17 +139,47 @@
                     </a>
                 </div>
 
-                
+
             </div>
 
             <!-- Main Content -->
-            <div class="main-content col min-vh-100">
+            <div class="main-content col-lg-10 content">
                 <div class="container content-header">
                     <!-- Content Header Title -->
                     <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
-                        <h4 class="mb-0">Document Request</h4>
+                        <h4 class="mb-0">Document Issuance</h4>
                     </div>
                     <!-- End Content Header Title -->
+                    <div class="container-fluid py-4 no-print">
+                        <div class="row justify-content-center">
+                          <div class="col-lg-10">
+                            
+                            <div class="row mb-3">
+                              <div class="col-md-6">
+                                <label for="certificateType" class="form-label">Select Certificate Type</label>
+                                <select class="form-select" id="certificateType" onchange="loadCertificate()">
+                                  <option value="residency">Certificate of Residency</option>
+                                  <option value="indigency">Certificate of Indigency</option>
+                                  <option value="clearance">Barangay Clearance</option>
+                                </select>
+                              </div>
+                              <div class="col-md-6 d-flex align-items-end justify-content-end">
+                                <button class="btn btn-success" onclick="window.print()">🖨 Print Document</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                      <div class="container-fluid">
+                        <div class="row justify-content-center">
+                          <div class="col-12 px-3 px-md-4">
+                            <div id="certificate-content" class="word-page editable" contenteditable="true">
+                              <!-- Certificate content will load here -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
 
                 </div>
             </div>
@@ -151,6 +194,7 @@
 
     <script src="../../../js/sidebar-script.js"></script>
     <script src="../../../js/logout-script.js"></script>
+    <script src="../../../js/document_issuance-script.js"></script>
 </body>
 
 </html>

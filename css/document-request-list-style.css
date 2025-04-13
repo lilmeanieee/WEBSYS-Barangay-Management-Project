@@ -1,34 +1,8 @@
-/* sidebar */
-.sidebar{
-    width: 300px;
-}
-
-.row {
-    flex-wrap: nowrap; 
-}
-
-.col-auto {
-    min-width: 250px; /* minimum width for the sidebar */
-}
-
-.col {
-    flex-grow: 1; 
-}
-
-.collapse{
-    background: #023047;
-}
-.logo img {
-    width: 50px;
-    height: 50px;
-}
-/* end sidebar */
 
 /* content */
 .content-header {
     padding: 0;
     margin: 0;
-    
     width: 100%;
 }
 .main-content {
@@ -37,5 +11,60 @@
 
 /* end content */
 
+.content {
+    min-height: 100vh;
+}
+.document-preview {
+    min-height: 600px;
+    border: 1px solid #dee2e6;
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+.print-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.logo-placeholder {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+    background-color: #f8f9fa;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
 
+.word-page {
+    background: white;
+    width: 100%;
+    max-width: 850px; /* 8.5in = 850px roughly */
+    min-height: 1100px; /* 11in */
+    padding: 2rem;
+    margin: 1rem auto;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+  }
+
+  .editable {
+    outline: none;
+  }
+
+  @media print {
+    body {
+      background: white;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .word-page {
+      margin: 0;
+      box-shadow: none;
+      border: none;
+      width: 100%;
+      padding: 0.5in;
+    }
+  }
