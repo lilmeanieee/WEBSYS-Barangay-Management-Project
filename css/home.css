@@ -199,7 +199,7 @@
     justify-content: center; 
     align-items: flex-start;
     padding: 80px 20px;
-    min-height: auto;
+    height: auto;
 }
 
 .service-section .card {

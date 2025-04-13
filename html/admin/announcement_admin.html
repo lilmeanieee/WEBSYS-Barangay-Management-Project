@@ -9,7 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-        
+
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
@@ -23,7 +23,7 @@
             <div class="sidebar min-vh-100 bg-dark text-white p-3">
                 <div class="logo pt-4 pb-1  mb-auto text-center">
                     <a href="#" class="text-white text-decoration-none">
-                        <img src="../../../asset/img/brgy logo.png" alt="">
+                        <img src="../../asset/img/brgy logo.png" alt="">
                         <span class="fs-4 d-none d-sm-inline">Brgy Ligaya</span>
                     </a>
                 </div>
@@ -64,10 +64,10 @@
                         </a>
                     </li>
 
-                
+
 
                     <!-- Community-->
-                    
+
                     <!-- Manage Leaderboards-->
                     <li class="nav-item dropdown">
                         <a href="#" class="nav-link  text-white dropdown-toggle" data-bs-toggle="collapse"
@@ -108,70 +108,278 @@
 
                     <!--  Content  -->
                     <div class="container mt-4">
-                        <button class="btn btn-primary" id="postNewBtn" data-bs-toggle="modal" data-bs-target="#announcementModal">Post New Announcement</button>
-                
+                        <button class="btn btn-primary" id="postNewBtn" data-bs-toggle="modal"
+                            data-bs-target="#announcementModal">Post New Announcement</button>
+                        
+                            <button id="archive-announcement-btn" class="archive-announcement-btn">View Archive</button>
+
+                            
+
                         <!-- Modal for creating an announcement -->
-                        <div class="modal fade" id="announcementModal" tabindex="-1" aria-labelledby="announcementModalLabel" aria-hidden="true">
+                        <div class="modal fade announcementModal" id="announcementModal" tabindex="-1"
+                            aria-labelledby="announcementModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
                                         <h5 class="modal-title" id="announcementModalLabel">Create Announcement</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
                                     </div>
-                                    <div class="modal-body">
+                                    <!-- Category for type of annoouncement to make -->
+                                    <form method="post" enctype="multipart/form-data" id="announcementForm"> 
+                                    <div class="modal-body mt-3">
                                         <div class="form-group">
                                             <label for="announcementCategory">What kind of announcement?</label>
-                                            <select class="form-select" id="announcementCategory">
+                                            <select class="form-select" id="announcementCategory" name="announcementCategory">
                                                 <option value="" disabled selected>Select Category</option>
-                                                <option value="upcomingEvent">Upcoming Event</option>
-                                                <option value="newsUpdate">News and Update</option>
-                                                <option value="volunteerDrive">Barangay Volunteer Drive</option>
+                                                <option value="Upcoming Event">Upcoming Event</option>
+                                                <option value="News and Update">News and Update</option>
+                                                <option value="Barangay Volunteer Drive">Barangay Volunteer Drive</option>
                                             </select>
                                         </div>
-                
+                                        <hr class="line-color">
+
+
                                         <!-- Form for announcements -->
-                                        <div id="announcementForm" class="mt-3">
+                                        <div id="announcementForm" class="mt-2">
                                             <!-- Upcoming Event Form -->
                                             <div id="upcomingEventForm" class="announcementFields">
-                                                <label for="eventTitle">Title/Header</label>
-                                                <input type="text" class="form-control" id="eventTitle" placeholder="Enter title">
-                                                <label for="eventDetails">Details</label>
-                                                <textarea class="form-control" id="eventDetails" rows="3" placeholder="Enter event details"></textarea>
-                                                <label for="eventDate">Event Date</label>
-                                                <input type="date" class="form-control" id="eventDate">
-                                                <label for="eventImage">Upload Image/File</label>
-                                                <input type="file" class="form-control" id="eventImage">
+                                                <h5 class="text-center">Announcement Details</h5>
+
+                                                <label for="target_audience">Target Audience</label>
+                                                <select class="form-select" id="target_audience" required>
+                                                    <option selected disabled>Select target audience</option>
+                                                    <option value="All Residents" id="all_residents">All Residents</option>
+                                                    <option value="Youth" id="youth">Youth</option>
+                                                    <option value="Senior Citizens" id="senior_citizen">Senior Citizens</option>
+                                                </select>
+                                                <br>
+                                                
+                                                <label for="upcoming_event_title">Title/Header</label>
+                                                <input type="text" class="form-control" id="upcoming_event_title"
+                                                    placeholder="Enter title" required>
+
+                                                <label for="upcoming_event_details">Details</label>
+                                                <textarea class="form-control" id="upcoming_event_details" rows="3"
+                                                    placeholder="Enter event details" required></textarea>
+
+                                                <label for="upcoming_event_file">Upload Image/File</label>
+                                                <input type="file" class="form-control" id="upcoming_event_file">
+                                                <br>
+
+ 
+                                                <hr class="line-color">
+                                                <!-- location -->
+                                                <h5 class="text-center">Event Scheduling Details</h5>
+                                                <label for="upcoming_event_location">Upcoming Event's
+                                                    Location</label>
+                                                <div class="mb-2">
+                                                    <select class="form-select" id="upEventLocationCategory"
+                                                        name="upEventLocationCategory" required>
+                                                        <option value="" disabled selected>Select Location</option>
+                                                        <option value="Barangay Hall">Barangay Hall</option>
+                                                        <option value="Barangay Gymnasium">Barangay Gymnasium</option>
+                                                        <option value="other">Other...</option>
+                                                    </select>
+                                                </div>
+                                                <div id="upEventLocationInputWrapper">
+                                                    <input type="text" class="form-control locationInputOption"
+                                                        id="upEventLocationInputOption"
+                                                        placeholder="Enter where will the event be held">
+                                                </div>
+
+                                                <!-- event date-->
+                                                <label for="upcoming_event_date">Event Date</label>
+                                                <input type="date" class="form-control" id="upcoming_event_date" required>
+
+                                                <div class="row mb-2">
+                                                    <div class="col-6">
+                                                        <label for="upcoming_event_timeStart" required>Time Start</label>
+                                                        <input type="time" class="form-control" id="upcoming_event_timeStart">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="upcoming_event_timeEnd">Time End</label>
+                                                        <input type="time" class="form-control" id="upcoming_event_timeEnd">
+                                                    </div>
+                                                </div>
                                             </div>
-                
+
                                             <!-- News and Update Form -->
                                             <div id="newsUpdateForm" class="announcementFields">
+                                                <h5 class="text-center">Announcement Details</h5>
+
+                                                <label for="categoryNewsUpdate">News and Updates Category Type</label>
+                                                <select class="form-select" id="categoryNewsUpdate" required>
+                                                    <option selected disabled>Select announcement type</option>
+                                                    <option value="Reminder">Reminder</option>
+                                                    <option value="Alert">Alert</option>
+                                                    <option value="Health">Health</option>
+                                                    <option value="Public Safety">Public Safety</option>
+                                                    <option value="Government">Government</option>
+                                                </select>
+                                                <br>
                                                 <label for="newsTitle">Title/Header</label>
-                                                <input type="text" class="form-control" id="newsTitle" placeholder="Enter title">
+                                                <input type="text" class="form-control" id="newsTitle"
+                                                    placeholder="Enter title" required >
+
+                                                <label for="newsSource">Source of News</label>
+                                                <input type="text" class="form-control" id="newsSource"
+                                                    placeholder="Enter source of news (e.g. link)" >
+
                                                 <label for="newsDetails">Details</label>
-                                                <textarea class="form-control" id="newsDetails" rows="3" placeholder="Enter details"></textarea>
+                                                <textarea class="form-control" id="newsDetails" rows="3"
+                                                    placeholder="Enter details" required></textarea>
+
                                                 <label for="newsImage">Upload Image/File</label>
                                                 <input type="file" class="form-control" id="newsImage">
                                             </div>
-                
+
                                             <!-- Barangay Volunteer Drive Form -->
-                                            <div id="volunteerDriveForm" class="announcementFields">
+                                            <div id="Barangay_Volunteer_DriveForm" class="announcementFields">
+                                                <h5 class="text-center">Announcement Details</h5>
+
                                                 <label for="volunteerTitle">Title/Header</label>
-                                                <input type="text" class="form-control" id="volunteerTitle" placeholder="Enter title">
+                                                <input type="text" class="form-control" id="volunteerTitle"
+                                                    placeholder="Enter title" required>
                                                 <label for="volunteerDetails">Details</label>
-                                                <textarea class="form-control" id="volunteerDetails" rows="3" placeholder="Enter details"></textarea>
-                                                <label for="volunteerDate">Event Date</label>
-                                                <input type="date" class="form-control" id="volunteerDate">
-                                                <label for="applicationDeadline">Application Deadline</label>
-                                                <input type="date" class="form-control" id="applicationDeadline">
-                                                <label for="volunteerImage">Upload Image/File</label>
-                                                <input type="file" class="form-control" id="volunteerImage">
+                                                <textarea class="form-control" id="volunteerDetails" rows="3"
+                                                    placeholder="Enter details" required></textarea>
+                                                <label for="volunteerFile">Upload Image/File</label>
+                                                <input type="file" class="form-control" id="volunteerFile">
+
+                                                <hr class="line-color">
+                                                <!-- Event Scheduling Details -->
+                                                <h5 class="text-center mb-3">Select Who's Eligible to Volunteer</h5>
+                                                <div class="mb-3">
+                                                    <!-- Dropdown -->
+                                                    <div class="dropdown mb-2" required>
+                                                        <button class="btn btn-primary dropdown-toggle" type="button"
+                                                            id="eligibilityDropdown" data-bs-toggle="dropdown"
+                                                            aria-expanded="false">
+                                                            Select Eligible Volunteers
+                                                        </button>
+                                                        <ul class="dropdown-menu p-3 custom-dropdown-width"
+                                                            aria-labelledby="eligibilityDropdown">
+                                                            <li>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input eligibility-option"
+                                                                        type="checkbox" value="All Residents"
+                                                                        id="allResidents">
+                                                                    <label class="form-check-label"
+                                                                        for="seniorOnly">All Residents</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input eligibility-option"
+                                                                        type="checkbox" value="Seniors Only"
+                                                                        id="seniorOnly">
+                                                                    <label class="form-check-label"
+                                                                        for="seniorOnly">Senior Citizens Only</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input eligibility-option"
+                                                                        type="checkbox" value="Age 20-30"
+                                                                        id="age20to30">
+                                                                    <label class="form-check-label" for="age20to30">Age
+                                                                        20-30</label>
+                                                                </div>
+                                                            </li>
+                                                            <li>
+                                                                <div class="form-check">
+                                                                    <input class="form-check-input" type="checkbox"
+                                                                        id="otherEligibilityCheck">
+                                                                    <label class="form-check-label"
+                                                                        for="otherEligibilityCheck">Other</label>
+                                                                </div>
+                                                            </li>
+                                                            <li id="otherEligibilityInputWrapper" class="d-none">
+                                                                <input type="text" class="form-control mt-2"
+                                                                    id="otherEligibilityInput"
+                                                                    placeholder="Enter other type">
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+
+                                                    <!-- Display Selected (moved below dropdown) -->
+                                                    <div id="selectedEligibility">
+                                                        <strong>Selected:</strong>
+                                                        <span id="selectedList">None</span>
+                                                    </div>
+                                                </div>
+
+                                                <hr class="line-color">
+                                                <!-- Event Scheduling Details -->
+                                                <h5 class="text-center">Scheduling Details</h5>
+                                                <!-- location -->
+                                                <label for="volunteerLocationCategory">Volunteer Event's
+                                                    Location</label>
+                                                <div class="mb-2">
+                                                    <select class="form-select" id="volunteerLocationCategory"
+                                                        name="volunteerLocationCategory" required>
+                                                        <option value="" disabled selected>Select Location</option>
+                                                        <option value="Barangay Hall">Barangay Hall</option>
+                                                        <option value="Barangay Gymnasium">Barangay Gymnasium</option>
+                                                        <option value="other">Other...</option>
+                                                    </select>
+                                                </div>
+                                                <div id="volunteerLocationInputWrapper">
+                                                    <input type="text" class="form-control locationInputOption"
+                                                        id="volunteerLocationInputOption"
+                                                        placeholder="Enter where will the event be held">
+                                                </div>
+                                                <!-- event date-->
+                                                <div class="row mb-2 mt-2">
+                                                    <div class="col-6">
+                                                        <label for="volunteerDate">Volunteer Date</label>
+                                                        <input type="date" class="form-control" id="volunteerDate" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="applicationDeadline" required>Application Deadline</label>
+                                                        <input type="date" class="form-control"
+                                                            id="applicationDeadline">
+                                                    </div>
+                                                </div>
+                                                <!-- event time-->
+                                                <div class="row mb-2">
+                                                    <div class="col-6">
+                                                        <label for="volunteer_TimeStart" required>Time Start</label>
+                                                        <input type="time" class="form-control" id="volunteer_TimeStart">
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="volunteer_TimeEnd">Time End</label>
+                                                        <input type="time" class="form-control" id="volunteer_TimeEnd">
+                                                    </div>
+                                                </div>
+
+                                                <hr class="line-color">
+                                                <!-- Assign Points-->
+                                                <h5 class="text-center">Assign Points</h5>
+                                                <div class="row mb-2 mt-2">
+                                                    <div class="col-6">
+                                                        <label for="experiencePts" >Experience points</label>
+                                                        <input type="text" class="form-control" id="experiencePts"
+                                                            placeholder="Enter experience points" required>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <label for="redeemablePts">Redeemable points</label>
+                                                        <input type="text" class="form-control" id="redeemablePts"
+                                                            placeholder="Enter redeemable points" required>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                    
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" id="postAnnouncementBtn">Post Announcement</button>
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="postAnnouncementBtn">Post
+                                            Announcement</button>
                                     </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -183,17 +391,17 @@
                             <label for="categoryFilter" class="form-label">Filter by Category:</label>
                             <select class="form-select w-auto" id="categoryFilter">
                                 <option value="all" selected>All Announcements</option>
-                                <option value="upcomingEvent">Upcoming Events</option>
-                                <option value="newsUpdate">News and Updates</option>
-                                <option value="volunteerDrive">Volunteer Drives</option>
+                                <option value="Upcoming Event">Upcoming Events</option>
+                                <option value="News and Update">News and Updates</option>
+                                <option value="Barangay Volunteer Drive">Volunteer Drives</option>
                             </select>
                         </div>
-                    
+
                         <div id="announcementList" class="px-3">
                             <!-- Announcement cards will appear here dynamically -->
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -203,6 +411,7 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/modal_announcement-script.js"></script>
+  
 </body>
 
 </html>
