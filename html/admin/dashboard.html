@@ -12,10 +12,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <!-- Bootstrap Icons -->
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="../../css/dashboard-style.css">
+    <link rel="stylesheet" href="../../css/sidebar-style.css">
 </head>
 
 <body>
@@ -23,7 +24,7 @@
         <div class="row ">
             <!-- Sidebar -->
             <div class="sidebar min-vh-100 bg-dark text-white p-3">
-                <div class="logo pt-4 pb-1  mb-auto text-center">
+                <div class="logo pt-4 pb-1 mb-auto text-center">
                     <a href="#" class="text-white text-decoration-none">
                         <img src="../../asset/img/brgy logo.png" alt="">
                         <span class="fs-4 d-none d-sm-inline">Brgy Ligaya</span>
@@ -32,66 +33,89 @@
                 <hr class="text-white">
                 <ul class="nav nav-pills flex-column mb-auto">
                     <!-- Dashboard -->
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a href="dashboard.html" class="nav-link active text-white">
                             <i class="bi bi-grid me-2"></i>
-                            <span class="d-none  d-sm-inline">Dashboard</span>
+                            <span class="d-none d-sm-inline">Dashboard</span>
                         </a>
                     </li>
+
                     <!-- Manage Residents -->
-                    <li class="nav-item ">
-                        <a href="manage_residents/resident-info.html" class="nav-link text-white">
+                    <li class="nav-item">
+                        <a href="manage_residents/resident-info.html" class="nav-link text-white ">
                             <i class="bi bi-people me-2"></i>
                             <span class="d-none d-sm-inline">Manage Residents</span>
                         </a>
                     </li>
 
-                    <!-- Brgy Service-->
+                    <!-- Brgy Service -->
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse"
-                            data-bs-target="#servicesDropdown">
-                            <i class="bi bi-people me-2"></i>
-                            <span class="d-none d-sm-inline">Brangay Services</span>
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Barangay Services"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="barangay_services/document-request-list.html" class="nav-link text-white">Document Request</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
                         </a>
-                        <ul class="collapse list-unstyled ps-4" id="servicesDropdown">
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Barangay Services</span>
+                        </a>
+                        <ul class="collapse list-unstyled " id="servicesDropdown">
                             <li><a href="barangay_services/document-request-list.html"
-                                    class="nav-link text-white">Document Request</a></li>
+                                    class="nav-link list text-white">Document
+                                    Request</a></li>
                         </ul>
                     </li>
 
                     <!-- Announcement -->
-                    <li class="nav-item ">
+                    <li class="nav-item">
                         <a href="announcement_admin.html" class="nav-link text-white">
                             <i class="bi bi-megaphone me-2"></i>
                             <span class="d-none d-sm-inline">Announcement</span>
                         </a>
                     </li>
 
-                    <!-- Community-->
-
-
-                    <!-- Manage Leaderboards-->
+                    <!-- Manage Leaderboards -->
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link  text-white dropdown-toggle" data-bs-toggle="collapse"
-                            data-bs-target="#manageLB_Dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Leaderboards"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View Leaderboard</a></li>
+                                    <li><a href="manage_leaderboards/assign-exp-pts.html" class="nav-link text-white">Assign Exp Points</a></li>
+                                    <li><a href="manage_leaderboards/achievement&badges.html" class="nav-link text-white">Achievements & Badges</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#manageLB_Dropdown">
                             <i class="bi bi-people me-2"></i>
                             <span class="d-none d-sm-inline">Manage Leaderboards</span>
                         </a>
-                        <ul class="collapse active-submenu list-unstyled ps-4" id="manageLB_Dropdown">
-                            <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View
+                        <ul class="collapse list-unstyled  " id="manageLB_Dropdown">
+                            <li><a href="manage_leaderboards/view-leaderboard.html"
+                                    class="nav-link list text-white">View
                                     Leaderboard</a></li>
                             <li><a href="manage_leaderboards/assign-exp-pts.html"
-                                    class="nav-link active-nav-link text-white">Assign Exp Points</a></li>
+                                    class="nav-link list text-white">Assign Exp
+                                    Points</a></li>
                             <li><a href="manage_leaderboards/achievement&badges.html"
-                                    class="nav-link text-white">Achievements & Badges </a></li>
+                                    class="nav-link list text-white">Achievements &
+                                    Badges</a></li>
                         </ul>
                     </li>
-
-
                 </ul>
+
                 <!-- Settings -->
                 <hr class="text-white">
-                <div class="pt-4 pb-1  mb-auto">
+                <div class="pt-4 pb-1 mb-auto">
                     <a href="#" class="nav-link text-white">
                         <i class="bi bi-gear me-2"></i>
                         <span class="d-none d-sm-inline">Settings</span>
@@ -110,7 +134,7 @@
 
                     <!-- Dashboard Content -->
                     <div class="container-fluid dashboard-content">
-                     
+
                         <!-- Stats Cards -->
                         <div class="row mt-4">
                             <div class="col-md-3 mb-4">
@@ -143,20 +167,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-3 mb-4">
-                                <div class="card stats-card bg-warning text-white">
-                                    <div class="card-body">
-                                        <div class="d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <h6 class="card-title">Pending Cases</h6>
-                                                <h3 class="card-text">12</h3>
-                                            </div>
-                                            <i class="fas fa-exclamation-triangle fa-2x"></i>
-                                        </div>
-                                        <p class="mt-2 mb-0 small">3 new this week</p>
-                                    </div>
-                                </div>
-                            </div>
+                           
 
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-info text-white">
@@ -283,100 +294,6 @@
                             </div>
                         </div>
 
-                        <!-- Recent Certificate Requests Table -->
-                        <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <div class="card">
-                                    <div class="card-header d-flex justify-content-between align-items-center">
-                                        <div>Recent Certificate Requests</div>
-                                        <button class="btn btn-sm btn-outline-primary">View All</button>
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table class="table table-hover">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Request ID</th>
-                                                        <th>Resident Name</th>
-                                                        <th>Certificate Type</th>
-                                                        <th>Date Requested</th>
-                                                        <th>Status</th>
-                                                        <th>Action</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <tr>
-                                                        <td>CRT-2023-089</td>
-                                                        <td>Pedro Penduko</td>
-                                                        <td>Barangay Clearance</td>
-                                                        <td>Apr 7, 2023</td>
-                                                        <td><span class="badge bg-warning">Pending</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary" title="View Details"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn btn-sm btn-success" title="Approve Request"><i
-                                                                    class="fas fa-check"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CRT-2023-088</td>
-                                                        <td>Maria Santos</td>
-                                                        <td>Certificate of Residency</td>
-                                                        <td>Apr 7, 2023</td>
-                                                        <td><span class="badge bg-warning">Pending</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary" title="View Details"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn btn-sm btn-success" title="Approve Request"><i
-                                                                    class="fas fa-check"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CRT-2023-087</td>
-                                                        <td>Juan Dela Cruz</td>
-                                                        <td>Certificate of Indigency</td>
-                                                        <td>Apr 6, 2023</td>
-                                                        <td><span class="badge bg-success">Issued</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary" title="View Details"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn btn-sm btn-secondary" title="Print"><i
-                                                                    class="fas fa-print"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CRT-2023-086</td>
-                                                        <td>Rosario Gonzales</td>
-                                                        <td>Barangay ID</td>
-                                                        <td>Apr 6, 2023</td>
-                                                        <td><span class="badge bg-success">Issued</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary" title="View Details"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn btn-sm btn-secondary" title="Print"><i
-                                                                    class="fas fa-print"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>CRT-2023-085</td>
-                                                        <td>Miguel Ramos</td>
-                                                        <td>Business Clearance</td>
-                                                        <td>Apr 5, 2023</td>
-                                                        <td><span class="badge bg-danger">Rejected</span></td>
-                                                        <td>
-                                                            <button class="btn btn-sm btn-primary" title="View Details"><i
-                                                                    class="fas fa-eye"></i></button>
-                                                            <button class="btn btn-sm btn-info" title="Comment"><i
-                                                                    class="fas fa-comment"></i></button>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <!-- End Dashboard Content -->
                 </div>
@@ -389,6 +306,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <script src="../../js/sidebar-script.js"></script>
 </body>
 
 </html>

@@ -942,3 +942,34 @@ document.addEventListener('click', function (e) {
 
 // Initialize with all
 renderAnnouncements();
+
+function resetAnnouncementModal() {
+    // Reset select dropdowns
+    document.getElementById('announcementCategory').selectedIndex = 0;
+
+    // Hide all specific announcement forms
+    document.querySelectorAll('.announcementFields').forEach(form => {
+        form.style.display = 'none';
+    });
+
+    // Clear all inputs and textareas inside the modal
+    document.querySelectorAll('#announcementModal input, #announcementModal textarea, #announcementModal select').forEach(field => {
+        if (field.type === 'checkbox' || field.type === 'radio') {
+            field.checked = false;
+        } else {
+            field.value = '';
+        }
+    });
+
+    // Hide optional fields
+    document.getElementById('otherEligibilityInputWrapper')?.classList.add('d-none');
+
+    // Reset display text
+    const selectedList = document.getElementById('selectedList');
+    if (selectedList) selectedList.textContent = 'None';
+}
+
+// Run reset when modal is hidden (either close button or clicking outside)
+document.getElementById('announcementModal').addEventListener('hidden.bs.modal', function () {
+    resetAnnouncementModal();
+});

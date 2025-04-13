@@ -1,28 +1,4 @@
-/* sidebar */
-.sidebar{
-    width: 300px;
-}
 
-.row {
-    flex-wrap: nowrap; 
-}
-
-.col-auto {
-    min-width: 250px; /* minimum width for the sidebar */
-}
-
-.col {
-    flex-grow: 1; 
-}
-
-.collapse{
-    background: #023047;
-}
-.logo img {
-    width: 50px;
-    height: 50px;
-}
-/* end sidebar */
 
 /* content */
 .content-header {

@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="../../css/announcement_admin-style.css">
+    <link rel="stylesheet" href="../../css/sidebar-style.css">
 </head>
 
 <body>
@@ -45,14 +46,24 @@
                     </li>
                     <!-- Brgy Service-->
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link text-white dropdown-toggle" data-bs-toggle="collapse"
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Barangay Services"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="barangay_services/document-request-list.html" class="nav-link text-white">Document Request</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
+        
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
                             data-bs-target="#servicesDropdown">
                             <i class="bi bi-people me-2"></i>
-                            <span class="d-none d-sm-inline">Brangay Services</span>
+                            <span class="d-none d-sm-inline">Barangay Services</span>
                         </a>
-                        <ul class="collapse list-unstyled ps-4" id="servicesDropdown">
-                            <li><a href="barangay_services/document-request-list.html"
-                                    class="nav-link text-white">Document Request</a></li>
+                        <ul class="collapse list-unstyled " id="servicesDropdown">
+                            <li><a href="barangay_services/document-request-list.html" class="nav-link list text-white">Document
+                                    Request</a></li>
                         </ul>
                     </li>
 
@@ -70,18 +81,30 @@
 
                     <!-- Manage Leaderboards-->
                     <li class="nav-item dropdown">
-                        <a href="#" class="nav-link  text-white dropdown-toggle" data-bs-toggle="collapse"
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Leaderboards"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View Leaderboard</a></li>
+                                    <li><a href="manage_leaderboards/assign-exp-pts.html" class="nav-link text-white">Assign Exp Points</a></li>
+                                    <li><a href="manage_leaderboards/achievement&badges.html" class="nav-link text-white">Achievements & Badges</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
+        
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex" data-bs-toggle="collapse"
                             data-bs-target="#manageLB_Dropdown">
                             <i class="bi bi-people me-2"></i>
                             <span class="d-none d-sm-inline">Manage Leaderboards</span>
                         </a>
-                        <ul class="collapse active-submenu list-unstyled ps-4" id="manageLB_Dropdown">
-                            <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View
+                        <ul class="collapse list-unstyled  " id="manageLB_Dropdown">
+                            <li><a href="manage_leaderboards/view-leaderboard.html" class="nav-link list text-white">View
                                     Leaderboard</a></li>
-                            <li><a href="manage_leaderboards/assign-exp-pts.html"
-                                    class="nav-link active-nav-link text-white">Assign Exp Points</a></li>
-                            <li><a href="manage_leaderboards/achievement&badges.html"
-                                    class="nav-link text-white">Achievements & Badges </a></li>
+                            <li><a href="manage_leaderboards/assign-exp-pts.html" class="nav-link list text-white">Assign Exp
+                                    Points</a></li>
+                            <li><a href="manage_leaderboards/achievement&badges.html" class="nav-link list text-white">Achievements &
+                                    Badges</a></li>
                         </ul>
                     </li>
 
@@ -252,7 +275,7 @@
                                                 <h5 class="text-center mb-3">Select Who's Eligible to Volunteer</h5>
                                                 <div class="mb-3">
                                                     <!-- Dropdown -->
-                                                    <div class="dropdown mb-2" required>
+                                                    <div class="dropdown mb-2 text-center" required>
                                                         <button class="btn btn-primary dropdown-toggle" type="button"
                                                             id="eligibilityDropdown" data-bs-toggle="dropdown"
                                                             aria-expanded="false">
@@ -411,7 +434,7 @@
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../../js/modal_announcement-script.js"></script>
-  
+    <script src="../../js/sidebar-script.js"></script>
 </body>
 
 </html>

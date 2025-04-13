@@ -1,127 +1,172 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add Resident</title>
+    <title>Resident Information</title>
 
     <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
     <link rel="stylesheet" href="../../../css/add-resident-style.css">
-    
-    
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="../../../css/sidebar-style.css">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 </head>
 
 <body>
-    <script src=" "></script>
-    <div class="modal">
-        <div class="modal-content">
-            <h2>Create Resident Data</h2>
+    <div class="container-fluid">
+        <div class="row ">
+            <!-- Sidebar -->
+            <div class="sidebar min-vh-100 bg-dark text-white p-3">
+                <div class="logo pt-4 pb-1  mb-auto text-center">
+                    <a href="#" class="text-white text-decoration-none">
+                        <img src="../../../asset/img/brgy logo.png" alt="">
+                        <span class="fs-4 d-none d-sm-inline">Brgy Ligaya</span>
+                    </a>
+                </div>
+                <hr class="text-white">
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item ">
+                        <a href="../dashboard.html" class="nav-link text-white">
+                            <i class="bi bi-grid me-2"></i>
+                            <span class="d-none d-sm-inline">Dashboard</span>
+                        </a>
+                    </li>
 
-            <div class = "data container">
-                <form id="residentForm">
-                    
-                    <fieldset>
-                        <legend>Personal Information</legend>
-                        <div class = "personalInfo-container"></div>
-                            <div class = "personalInfo-data">
-                                <label>Last Name: <input type="text"  id="last_name" required></label>
-                                <label>First Name: <input type="text"  id="first_name" required ></label>
-                                <label>Middle Name: <input type="text"  id="middle_name"></label>
-                                <label>Suffix: <input type="text" id="suffix"></label>
-                        
-                                <label>Birthdate: <input type="date" id="birthdate" required></label>
-                                <label>Age: <input type="number" id="age" required></label>
-                                <label>Place of Birth: <input type="text" id="place_of_birth"required ></label>
-                                <label>Gender: 
-                                <select id="gender" required>
-                                    <option value="male">Male</option>
-                                    <option value="female">Female</option>
-                                    <option value="preferNotToSay">Prefer not to say</option>
-                                </select>
-                                </label>
-                                <label>Civil Status: 
-                                    <select id="civil_status" required >
-                                        <option value="single">Single</option>
-                                        <option value="married">Married</option>
-                                        <option value="widowed">Widowed</option>
-                                        <option value="divorced">Divorced</option>
-                                        <option value="separated">Separated</option>
-                                    </select>
-                                </label>
-                                
-                                <label>Nationality: <input type="text" id="nationality" required></label>
-                                <label>Religion: <input type="text" id="religion" required></label>
-                            </div>
-                        </div> 
-                    </fieldset>
-                    
-    
-                    <fieldset>
-                        <legend>Address Information</legend>
-                        <div class = "addressInfo-container">
-                            <div class="addressInfo-data">
-                                <label>House/Lot Number: <input type="text" id="house_lot_no" ></label>
-                                <label>Purok: <input type="text" id="purok" required></label>
-                                <label>Street: <input type="text" id="street"required ></label>
-                                <label>Subdivision: <input type="text" id="subdivision"></label>
-                                <label>Barangay: <input type="text" id="barangay" required></label>
-                                <label>City/Municipality: <input type="text" id="city_municipality"required ></label>
-                                <label>Province: <input type="text" id="province" required></label>
-                                <label>Region: <input type="text" id="region" required></label>
-                            </div>
-                        </div>
-                    </fieldset>
-                    
-                    <fieldset>
-                        <legend>Contact Information</legend>
-                        <div class = "contactInfo-container">
-                            <div class="contactInfo-data">
-                                <label>Mobile No.: <input type="text" id="mobile_no" required></label>
-                                <label>Email Address: <input type="email" id="email_address" required></label>
-                            </div>
-                        </div>
-                    </fieldset>
-    
-                    <fieldset>
-                        <legend>Emergency Contact</legend>
-                        <div class = "emergencyInfo-container">
-                            <div class="emergencyInfo-data">
-                                <label>Name: <input type="text" id="emergency_name" ></label>
-                                <label>Contact Number: <input type="text" id="emergency_contact_num" ></label>
-                                <label>Relationship: 
-                                    <select id="emergency_relationship">
-                                        <option value="parent">Parent</option>
-                                        <option value="spouse">Spouse</option>
-                                        <option value="sibling">Sibling</option>
-                                        <option value="relative">Relative</option>
-                                        <option value="friend">Friend</option>
-                                    </select>
-                                </label>
-                            </div>
-                        </div>
-                    </fieldset>
-    
-                    <div class="form-buttons">
-                        <button type="submit" id="btn_submit">Submit</button>
-                        <button type="button" class="close-btn" onclick="history.back();">Cancel</button>
-                    </div>
+                    <!-- Manage Residents -->
+                    <li class="nav-item dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Residents"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="resident-info.html" class="nav-link text-white">Household Profile</a></li>
+                                    <li><a href="add-resident.html" class="nav-link nav-link-active text-white">Add Resident</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
 
-                    
-                    
-                </form>
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#residentDropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Residents</span>
+                        </a>
+                        <ul class="collapse list-unstyled" id="residentDropdown">
+                            <li><a href="resident-info.html" class="nav-link   text-white">Household Profile</a></li>
+                            <li><a href="add-resident.html" class="nav-link nav-link-active text-white">Add Resident</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <!-- Brgy Service-->
+                    <li class="nav-item dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Barangay Services"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="../barangay_services/document-request-list.html" class="nav-link text-white">Document Request</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Barangay Services</span>
+                        </a>
+                        <ul class="collapse list-unstyled" id="servicesDropdown">
+                            <li><a href="../barangay_services/document-request-list.html"
+                                    class="nav-link list text-white">Document
+                                    Request</a></li>
+                        </ul>
+                    </li>
+
+
+                    <!-- Announcement -->
+                    <li class="nav-item ">
+                        <a href="../announcement_admin.html" class="nav-link text-white">
+                            <i class="bi bi-megaphone me-2"></i>
+                            <span class="d-none d-sm-inline">Announcement</span>
+                        </a>
+                    </li>
+
+                    <!-- Manage Leaderboards-->
+                    <li class="nav-item dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Leaderboards"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="../manage_leaderboards/view-leaderboard.html" class="nav-link text-white">View Leaderboard</a></li>
+                                    <li><a href="../manage_leaderboards/assign-exp-pts.html" class="nav-link text-white">Assign Exp Points</a></li>
+                                    <li><a href="../manage_leaderboards/achievement&badges.html" class="nav-link text-white">Achievements & Badges</a></li>
+                                </ul>'>
+                            <i class="bi bi-people"></i>
+                        </a>
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#manageLB_Dropdown">
+                            <i class="bi bi-people me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Leaderboards</span>
+                        </a>
+                        <ul class="collapse list-unstyled" id="manageLB_Dropdown">
+                            <li><a href="../manage_leaderboards/view-leaderboard.html"
+                                    class="nav-link list text-white">View
+                                    Leaderboard</a></li>
+                            <li><a href="../manage_leaderboards/assign-exp-pts.html"
+                                    class="nav-link list text-white">Assign Exp
+                                    Points</a></li>
+                            <li><a href="../manage_leaderboards/achievement&badges.html"
+                                    class="nav-link list text-white">Achievements &
+                                    Badges</a></li>
+                        </ul>
+                    </li>
+
+                </ul>
+                <!-- Settings -->
+                <hr class="text-white">
+                <div class="pt-4 pb-1  mb-auto">
+                    <a href="#" class="nav-link text-white">
+                        <i class="bi bi-gear me-2"></i>
+                        <span class="d-none d-sm-inline">Settings</span>
+                    </a>
+                </div>
             </div>
-            
+
+            <!-- Main Content -->
+            <div class="main-content col min-vh-100">
+                <div class="container content-header">
+                    <!-- Content Header Title -->
+                    <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
+                        <h4 class="mb-0"> Manage Residents</h4>
+                    </div>
+                    <!-- End Content Header Title -->
+
+                </div>
+
+                <!--  Content -->
+                
+                
+            </div>
         </div>
+    </div>
     </div>
 
 
-
     <!-- Bootstrap Bundle with Popper -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="../../../js/sidebar-script.js"></script>
+    <script src="../../../js/memberTableRow-script.js"></script>
+    <script src="../../../js/add_resident-script.js"></script>
 </body>
+
 </html>

@@ -59,23 +59,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Change Password</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="../css/login-style.css">
 </head>
 <body>
 
-    <h2>Change Your Password</h2>
-    <form id="changePasswordForm" method="POST" action="">
-        <label for="current_password">Current Password:</label>
-        <input type="password" name="current_password" required><br><br>
+    <div class="container">
+        <form id="changePasswordForm" method="POST" action="">
+            <div class=" bg p-4">
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"
+                    onclick="history.back();"></button>
 
-        <label for="new_password">New Password:</label>
-        <input type="password" name="new_password" required><br><br>
-
-        <label for="confirm_password">Confirm Password:</label>
-        <input type="password" name="confirm_password" required><br><br>
-
-        <button type="submit">Change Password</button>
-    </form>
-
+                <h2 class="text-center mb-3">Change Password</h2>
+                <div class="form-floating mb-3 ">
+                    <input type="password" class="form-control" id="current_password" placeholder="Enter Current Password"
+                         name="current_password" required>
+                    <label for="current_password">Current Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="new_password" placeholder="Enter New Password" name="new_password" required >
+                    <label for="new_password">New Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input type="password" class="form-control" id="confirm_password" placeholder="Confirm New Password" name="confirm_password" required >
+                    <label for="confirm_password">Confirm New Password</label>
+                </div>
+                
+                <button class="btn btn-login" type="submit">Change Password</button>
+                
+            </div>
+        </form>
+    </div>
     <?php
     if (isset($_SESSION['error'])) {
         echo "<p style='color:red'>" . $_SESSION['error'] . "</p>";
