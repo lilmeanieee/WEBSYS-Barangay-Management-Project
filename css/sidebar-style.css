@@ -137,3 +137,16 @@
         display: none !important;
     }
 }
+
+/* content */
+.content-header {
+    padding: 0;
+    width: 100%;
+}
+.main-content {
+    padding: 0;
+}
+.container-fluid {
+    padding: 0;
+    margin: 0;
+}
