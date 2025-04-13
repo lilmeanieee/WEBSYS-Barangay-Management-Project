@@ -1,5 +1,6 @@
 <?php
 require 'connect.php';
+include_once(__DIR__ . '/auto-archive-announcement.php'); 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['type'])) {

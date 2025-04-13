@@ -223,21 +223,11 @@ document.getElementById('postAnnouncementBtn').addEventListener('click', functio
         formData.append('exp_points', document.getElementById('experiencePts').value);
         formData.append('redeem_points', document.getElementById('redeemablePts').value);
 
-        document.querySelector('form').addEventListener('submit', function(e) {
-            const locationCategory = document.getElementById('volunteerLocationCategory').value;
-            const locationInput = document.getElementById('volunteerLocationInputOption').value;
-            
-            if (locationCategory === 'other' && !locationInput.trim()) {
-                e.preventDefault(); // Prevent form submission
-                alert('Please specify a location when selecting "Other".');
-                document.getElementById('volunteerLocationInputOption').focus();
-            }
-        });
-    
-        fetch('../../php-handlers/insert-volunteer-drive-announcement.php',{
+        fetch('/WEBSYS-Barangay-Management-Project/php-handlers/insert-volunteer-drive-announcement.php', {
             method: 'POST',
             body: formData
         })
+        
         .then(res => res.text())
         .then(response => {
             alert('Volunteer Drive successfully submitted!');

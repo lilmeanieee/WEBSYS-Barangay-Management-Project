@@ -14,6 +14,7 @@ try {
             ue.upEvent_title AS title,
             ue.upEvent_details AS details,
             ue.event_date AS date,
+            ue.created_at AS date_posted,
             c.category_name
         FROM tbl_upcoming_event_announcement ue
         JOIN tbl_announcement_category c ON ue.category_id = c.category_id
@@ -34,6 +35,7 @@ try {
             n.news_update_announcement_id AS id,
             n.news_update_title AS title,
             n.news_update_details AS details,
+            n.created_at ,
             c.category_name
         FROM tbl_news_update_announcement n
         JOIN tbl_announcement_category c ON n.category_id = c.category_id
@@ -50,12 +52,13 @@ try {
     }
 
     // Volunteer Drives - Add WHERE status = 'active'
-    $stmt = $pdo->query("
+    $stmt = $pdo->query("   
         SELECT 
             v.volunteer_announcement_id AS id,
             v.volunteer_announcement_title AS title,
             v.details,
             v.date,
+            v.created_at AS date_posted,
             c.category_name
         FROM tbl_volunteer_drive_announcement v
         JOIN tbl_announcement_category c ON v.category_id = c.category_id

@@ -1,12 +1,3 @@
 Array
 (
-    [announcementCategory] => Upcoming Event
-    [target_audience] => Youth
-    [upEvent_title] => 121212
-    [upEvent_details] => 12121
-    [upEventLocationCategory] => Barangay Hall
-    [upEventLocationInputOption] => 
-    [date] => 2025-04-10
-    [time_start] => 02:37
-    [time_end] => 
 )

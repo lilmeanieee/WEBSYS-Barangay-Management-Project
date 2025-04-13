@@ -1,56 +1,99 @@
 <?php
-require_once 'connection.php';
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+
+function getOrInsertAnnouncementCategory($pdo, $category) {
+    $stmt = $pdo->prepare("SELECT category_id FROM tbl_announcement_category WHERE category_name = ?");
+    $stmt->execute([$category]);
+    $result = $stmt->fetch(PDO::FETCH_ASSOC);
+    if ($result) return $result['category_id'];
+
+    $stmt = $pdo->prepare("INSERT INTO tbl_announcement_category (category_name) VALUES (?)");
+    $stmt->execute([$category]);
+    return $pdo->lastInsertId();
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['volunteer_announcement_id'];
-    $title = $_POST['title'];
-    $details = $_POST['details'];
-    $locationCategory = $_POST['volunteerLocationCategory'];
-    $locationInput = $_POST['volunteerLocationInputOption'];
-    $date = $_POST['date'];
-    $deadline = $_POST['deadline'];
-    $timeStart = $_POST['time_start'];
-    $timeEnd = $_POST['time_end'];
-    $expPoints = $_POST['exp_points'];
-    $redeemPoints = $_POST['redeem_points'];
-    $updatedAt = date('Y-m-d H:i:s');
+    $title = $_POST['title'] ?? '';
+    $details = $_POST['details'] ?? '';
+    $date = $_POST['date'] ?? '';
+    $deadline = $_POST['deadline'] ?? '';
+    $time_start = $_POST['time_start'] ?? '';
+    $time_end = $_POST['time_end'] ?? '';
+    $exp_points = $_POST['exp_points'] ?? 0;
+    $redeem_points = $_POST['redeem_points'] ?? 0;
+    $eligibility = $_POST['eligibility'] ?? '';
+    $category = $_POST['announcementCategory'] ?? '';
 
-    // Handle eligibility input
-    $eligibility = $_POST['eligibility']; // This should be a string of selected options including "Other" if provided
+    // Handle location
+    $location = $_POST['volunteerLocationCategory'] === 'other'
+        ? ($_POST['volunteerLocationInputOption'] ?? '')
+        : ($_POST['volunteerLocationCategory'] ?? '');
 
-    // Handle file upload if a new file is provided
-    $fileName = null;
-    if (isset($_FILES['file']) && $_FILES['file']['error'] === UPLOAD_ERR_OK) {
-        $fileTmpPath = $_FILES['file']['tmp_name'];
-        $fileName = $_FILES['file']['name'];
-        $destination = '../../uploads/' . $fileName;
+    // Handle file upload
+    $file = $_FILES['file'] ?? null;
+    $fileName = '';
+    $fileType = '';
 
-        if (!move_uploaded_file($fileTmpPath, $destination)) {
-            die('File upload failed.');
+    if ($file && $file['error'] === UPLOAD_ERR_OK) {
+        $uploadDir = __DIR__ . '/../uploads/volunteer_drive/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, true);
         }
+
+        $fileName = time() . '_' . basename($file['name']);
+        $targetPath = $uploadDir . $fileName;
+
+        if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
+            http_response_code(500);
+            echo 'File upload failed.';
+            exit;
+        }
+
+        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
     }
 
-    $sql = "UPDATE tbl_volunteer_drive_announcement 
-            SET title = ?, details = ?, eligible_volunteer = ?, 
-                volunteerLocationCategory = ?, volunteerLocationInputOption = ?, 
-                date = ?, deadline = ?, time_start = ?, time_end = ?, 
-                exp_points = ?, redeem_points = ?, updated_at = ?";
+    try {
+        $pdo = new PDO('mysql:host=localhost;dbname=bms_database', 'root', '');
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        $pdo->beginTransaction();
 
-    $params = [$title, $details, $eligibility, $locationCategory, $locationInput, $date, $deadline, $timeStart, $timeEnd, $expPoints, $redeemPoints, $updatedAt];
+        $categoryId = getOrInsertAnnouncementCategory($pdo, $category);
 
-    if ($fileName) {
-        $sql .= ", file = ?";
-        $params[] = $fileName;
+        $stmt = $pdo->prepare("INSERT INTO tbl_volunteer_drive_announcement (
+            category_id, volunteer_announcement_title, details, date, application_deadline,
+            time_start, time_end, location, eligible_volunteers, experience_points,
+            redeemable_points, file_name, file_type, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+
+        $stmt->execute([
+            $categoryId,
+            $title,
+            $details,
+            $date,
+            $deadline,
+            $time_start,
+            $time_end,
+            $location,
+            $eligibility,
+            $exp_points,
+            $redeem_points,
+            $fileName,
+            $fileType,
+            'active'
+        ]);
+
+        $pdo->commit();
+        echo 'Success';
+    } catch (PDOException $e) {
+        if ($pdo->inTransaction()) {
+            $pdo->rollBack();
+        }
+        http_response_code(500);
+        echo 'Database error: ' . $e->getMessage();
     }
-
-    $sql .= " WHERE volunteer_announcement_id = ?";
-    $params[] = $id;
-
-    $stmt = $pdo->prepare($sql);
-    if ($stmt->execute($params)) {
-        echo "success";
-    } else {
-        echo "error";
-    }
+} else {
+    http_response_code(405);
+    echo 'Invalid request method';
 }
-?>
