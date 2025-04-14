@@ -1,35 +1,30 @@
 // scripts.js
 document.addEventListener('DOMContentLoaded', function() {
     // Sample document types data (this would typically come from a database)
-    let documentTypes = [
-        {
-            id: 1,
-            name: "Barangay Clearance",
-            description: "General certification of good moral character for residents",
-            fee: 50,
-            requiredFields: ["Full Name", "Address", "Birthdate", "Purpose", "Civil Status"],
-            template: "This is to certify that {{fullName}}, of legal age, {{civilStatus}}, and a resident of {{address}} is a person of good moral character and has no derogatory record in this barangay."
-        },
-        {
-            id: 2,
-            name: "Indigency Certificate",
-            description: "Certificate proving that the resident belongs to the low-income bracket",
-            fee: 0,
-            requiredFields: ["Full Name", "Address", "Birthdate", "Monthly Income", "Family Size"],
-            template: "This is to certify that {{fullName}}, {{age}} years old, residing at {{address}} belongs to the indigent families in this barangay with a monthly income of Php {{monthlyIncome}} supporting a family of {{familySize}} members."
-        },
-        {
-            id: 3,
-            name: "Residency Certificate",
-            description: "Certificate confirming that the person is a resident of the barangay",
-            fee: 50,
-            requiredFields: ["Full Name", "Address", "Birthdate", "Years of Residency"],
-            template: "This is to certify that {{fullName}}, {{age}} years old, is a bonafide resident of {{address}} for {{yearsOfResidency}} years."
-        }
-    ];
+
+    let documentTypes = [];
+
+    function fetchDocumentTemplates() {
+        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-templates.php')
+            .then(res => res.json())
+            .then(data => {
+                if (Array.isArray(data)) {
+                    documentTypes = data;
+                    populateTable();
+                } else {
+                    showAlert('danger', 'Failed to load templates from server.');
+                    console.error("Server response error:", data);
+                }
+            })
+            .catch(err => {
+                console.error('Fetch error:', err);
+                showAlert('danger', 'Failed to fetch templates.');
+            });
+    }
+    
 
     // Initialize the table
-    populateTable();
+    fetchDocumentTemplates();   
 
     // Add Document Type Event Listeners
     document.getElementById('addFieldBtn').addEventListener('click', addCustomField);
@@ -124,51 +119,73 @@ document.addEventListener('DOMContentLoaded', function() {
         const description = document.getElementById('documentDescription').value.trim();
         const fee = parseFloat(document.getElementById('documentFee').value);
         const template = document.getElementById('documentTemplate').value.trim();
-        
-        // Validate inputs
+    
         if (!name) {
             alert('Document name is required');
             return;
         }
-        
-        // Get custom fields
+    
+        // Build custom fields array
         const customFields = [];
         document.querySelectorAll('#additionalFields .custom-field').forEach(field => {
-            const fieldName = field.querySelector('input[type="text"]').value.trim();
-            if (fieldName) {
-                customFields.push(fieldName);
+            const labelInput = field.querySelector('input[type="text"]');
+            const requiredSwitch = field.querySelector('input[type="checkbox"]');
+            const label = labelInput.value.trim();
+    
+            if (label) {
+                const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+                customFields.push({
+                    field_key: field_key,
+                    label: label,
+                    is_required: requiredSwitch.checked
+                });
             }
         });
-        
-        // Create required fields array (default + custom fields)
-        const requiredFields = ['Full Name', 'Address', 'Birthdate', ...customFields];
-        
-        // Create new document type
-        const newDocType = {
-            id: documentTypes.length > 0 ? Math.max(...documentTypes.map(doc => doc.id)) + 1 : 1,
-            name,
-            description,
-            fee,
-            requiredFields,
-            template
+    
+        // Prepare JSON payload
+        const payload = {
+            name: name,
+            description: description,
+            fee: fee,
+            template_text: template,
+            fields: customFields
         };
-        
-        // Add to array
-        documentTypes.push(newDocType);
-        
-        // Refresh table
-        populateTable();
-        
-        // Close modal and reset form
-        const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
-        modal.hide();
-        document.getElementById('addDocumentForm').reset();
-        document.getElementById('additionalFields').innerHTML = '';
-        
-        // Show success message
-        showAlert('success', `Document type "${name}" has been added successfully.`);
-    }
 
+        console.log("Payload to send:", payload);
+
+    
+        // Send data to backend
+        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/add-template.php', {
+
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        })
+        .then(res => {
+            console.log("Raw response:", res);
+            return res.json();
+        })
+        .then(response => {
+            console.log("Parsed JSON response:", response);
+            if (response.success) {
+                showAlert('success', `Document type "${name}" has been saved successfully.`);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
+                modal.hide();
+                document.getElementById('addDocumentForm').reset();
+                document.getElementById('additionalFields').innerHTML = '';
+            } else {
+                console.warn("Backend responded with error:", response);
+                showAlert('danger', response.error || 'Something went wrong.');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            showAlert('danger', 'Failed to communicate with the server.');
+        });
+    }
+    
     // Open edit modal and populate with document data
     function openEditModal(docId) {
         const doc = documentTypes.find(d => d.id === docId);
