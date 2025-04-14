@@ -1,46 +1,69 @@
 <?php
 session_start();
-include 'connect.php';
+require_once 'connect.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]);
+header('Content-Type: application/json');
 
-    if (empty($email) || empty($password)) {
-        $_SESSION['error'] = "Both fields are required.";
-        header("Location: ../html/login.html");
-        exit();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
+$email = $_POST['email'] ?? '';
+$password = $_POST['password'] ?? '';
+
+// Step 1: Find the user
+$stmt = $pdo->prepare("SELECT * FROM tbl_users WHERE email = ? AND status = 'Active'");
+$stmt->execute([$email]);
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($user && password_verify($password, $user['password'])) {
+    $userId = $user['user_id'];
+    $role = $user['role'];
+    $firstLogin = $user['first_login'];
+
+    // Get name and points from tbl_residents
+    $stmt = $pdo->prepare("SELECT resident_id, first_name, middle_name, last_name, experience_points, redeemable_points FROM tbl_residents WHERE user_id = ?");
+    $stmt->execute([$userId]);
+    $resident = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    $fullName = trim(($resident['first_name'] ?? '') . ' ' . ($resident['middle_name'] ?? '') . ' ' . ($resident['last_name'] ?? ''));
+    $xp = $resident['experience_points'] ?? 0;
+    $points = $resident['redeemable_points'] ?? 0;
+    $residentId = $resident['resident_id'] ?? null;
+
+    $userData = [
+        'resident_id' => $residentId,
+        'name' => $fullName,
+        'xp' => $xp,
+        'points' => $points,
+        'role' => $role
+    ];
+
+    // Store session values
+    $_SESSION['user_id'] = $userId;
+    $_SESSION['role'] = $role;
+    $_SESSION['name'] = $fullName;
+    $_SESSION['xp'] = $xp;
+    $_SESSION['points'] = $points;
+
+    // First login → redirect to change password (but still send user data)
+    if ($firstLogin == 1) {
+        echo json_encode([
+            'redirect' => '../html/change_pass.html',
+            'user' => $userData
+        ]);
+        exit;
     }
 
-    $stmt = $conn->prepare("SELECT user_id, password, role, first_login FROM tbl_users WHERE email = ? AND status = 'Active'");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $stmt->store_result();
+    // Normal login → send role-based redirect
+    $redirect = ($role === 'Resident')
+        ? '../html/home.html'
+        : '../html/admin/dashboard.html';
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $hashed_password, $role, $first_login);
-        $stmt->fetch();
-
-        if (password_verify($password, $hashed_password)) {
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['role'] = $role;
-
-            if ($first_login == 1 && ($role == "Admin" || $role == "Sub-Admin" || $role == "Resident")) {
-                header("Location: ../html/change-password.php");
-            } else if ($first_login == 0 && $role == "Resident") {
-                header("Location: ../html/home.html");
-            } else if ($first_login == 0 && ($role == "Admin" || $role == "Sub-Admin")) {
-                header("Location: ../html/admin/dashboard.html");
-            } else {
-                $_SESSION['error'] = "Invalid role.";
-                header("Location: ../html/login.html");
-            }
-            exit();
-        }
-    }
-
-    $_SESSION['error'] = "Invalid credentials or inactive account.";
-    header("Location: ../html/login.html");
-    exit();
+    echo json_encode([
+        'status' => 'success',
+        'user' => $userData,
+        'redirect' => $redirect
+    ]);
+} else {
+    echo json_encode(['status' => 'error', 'message' => 'Invalid email or password.']);
 }
-?>

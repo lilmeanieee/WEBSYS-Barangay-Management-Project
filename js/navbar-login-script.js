@@ -1,42 +1,53 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Check if user is logged in
-    // This is a simplified example - you would typically check session/local storage or make an API call
+document.addEventListener("DOMContentLoaded", function () {
     function checkLoginStatus() {
-        // Example: Check if user data exists in localStorage
         const userData = localStorage.getItem('userData');
-        
+    
         if (userData) {
-            // User is logged in
             const user = JSON.parse(userData);
             document.getElementById('loginButton').style.display = 'none';
             document.getElementById('userDropdown').style.display = 'block';
-            document.getElementById('userName').textContent = user.name || 'User';
+    
+            // ✅ Update user info with labels
+            document.getElementById('userName').innerHTML =
+                `Resident ID: <strong>${user.resident_id}</strong><br>
+                 Name: <strong>${user.name}</strong><br>
+                 Experience Pts: <strong>${user.xp}</strong><br>
+                 Redeemable Pts: <strong>${user.points}</strong>`;
+    
+            const xpElement = document.getElementById('xpPoints');
+            const redeemElement = document.getElementById('redeemablePoints');
+    
+            if (user.role === "Resident") {
+                if (xpElement) xpElement.textContent = user.xp ?? 0;
+                if (redeemElement) redeemElement.textContent = user.points ?? 0;
+    
+                const idElement = document.getElementById('residentId');
+                if (idElement) idElement.textContent = user.resident_id ?? '';
+            }
         } else {
-            // User is not logged in
             document.getElementById('loginButton').style.display = 'block';
             document.getElementById('userDropdown').style.display = 'none';
         }
     }
     
-    // Handle logout
-    document.getElementById('logoutButton').addEventListener('click', function(e) {
+
+    // ✅ Logout button
+    document.getElementById('logoutButton').addEventListener('click', function (e) {
         e.preventDefault();
-        // Clear user data
         localStorage.removeItem('userData');
-        // Redirect to home or login page
         window.location.href = '../html/home.html';
     });
-    
-    // Check login status when page loads
+
     checkLoginStatus();
 });
 
-// For demo purposes only - simulate login (remove in production)
+// ✅ For testing only
 function simulateLogin() {
     const demoUser = {
-        id: 1,
         name: 'Juan Dela Cruz',
-        email: 'juan@example.com'
+        xp: 120,
+        points: 20,
+        role: 'Resident'
     };
     localStorage.setItem('userData', JSON.stringify(demoUser));
     location.reload();

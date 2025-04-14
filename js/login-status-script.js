@@ -8,9 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (userData) {
             // User is logged in
             const user = JSON.parse(userData);
-            document.getElementById('loginButton').style.display = 'none';
-            document.getElementById('userDropdown').style.display = 'block';
-            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('residentId').textContent = user.resident_id;
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('xpPoints').textContent = user.xp;
+            document.getElementById('redeemablePoints').textContent = user.points;
         } else {
             // User is not logged in
             document.getElementById('loginButton').style.display = 'block';
