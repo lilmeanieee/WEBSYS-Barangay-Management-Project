@@ -25,7 +25,7 @@
                 <img src="../asset/img/brgy_official_seal.png" alt="Barangay Ligaya official seal">
                 <a class="me-auto navbar-brand " href="../html/home.html">Ligaya</a>
             </div>
-    
+
             <!-- Offcanvas Menu -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
@@ -33,7 +33,7 @@
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Logo</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                 </div>
-    
+
                 <div class="offcanvas-body">
                     <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                         <!-- nav home -->
@@ -44,7 +44,7 @@
                         <li class="nav-item">
                             <a class="mx-md-2 nav-link" href="../html/about.html">About</a>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a class="mx-md-2 nav-link dropdown-toggle" href="../html/service.html" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -59,7 +59,7 @@
                                 <li><a class="dropdown-item" href="#">Submit Complaints</a></li>
                             </ul>
                         </li>
-                        
+
                         <!-- nav announcement -->
                         <li class="nav-item dropdown">
                             <a class="mx-md-2 nav-link dropdown-toggle" href="announcement-section" role="button"
@@ -69,17 +69,9 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="announcement.html#news-updates">News &
                                         Updates</a></li>
-                                <li><a class="dropdown-item" href="/html/announcement.html#upcoming-events">Upcomming
+                                <li><a class="dropdown-item" href="announcement.html#upcoming-events">Upcomming
                                         Events</a></li>
-                                <li><a class="dropdown-item"
-                                        href="announcement.html#special-announcements">Special Announcements</a>
-                                </li>
-                                <li><a class="dropdown-item" href="/html/announcement.html#job-opportunities ">Job
-                                        Oppurtunity</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="/html/announcement.html#others">Others</a></li>
+                                <li><a class="dropdown-item" href="announcement.html#special-announcements">Barangay Volunteer Drive</a></li>
                             </ul>
                         </li>
                         <!-- nav community -->
@@ -89,20 +81,20 @@
                                 Community
                             </a>
                             <ul class="dropdown-menu">
-                                 
+
                                 <li><a class="dropdown-item" href="leaderboard.html">Leaderboard</a></li>
-                                <li><a class="dropdown-item" href="">Suggestion Box</a></li>
+
                             </ul>
                         </li>
                     </ul>
                 </div>
             </div>
-            
+
             <!-- Login & Menu Button Group -->
             <div class="d-flex align-items-center">
                 <!-- Login button (shown when user is not logged in) -->
                 <a href="../html/login.html" class="btn login-button" id="loginButton">Login</a>
-                
+
                 <!-- User icon with dropdown (shown when user is logged in) -->
                 <div id="userDropdown" style="display: none;">
                     <span id="residentId">Resident ID:</span>
@@ -111,7 +103,7 @@
                     <span id="redeemablePoints">Redeemable Points</span>
                     <button id="logoutButton">Logout</button>
                 </div>
-    
+
                 <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -337,62 +329,64 @@
         </section>
         <!--anouncement section end-->
 
-         <!-- Events Calendar Section -->
-    <section id="events" class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h2 class="section-title">Upcoming Events & Activities</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-description">Stay up-to-date with community events such as clean-up drives, job fairs, workshops, and local festivals.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 mb-4">
-                    <div class="upcoming-events">
-                        <h4>Upcoming Events</h4>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">25</span>
-                                <span class="event-month">MAR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location </p>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">2</span>
-                                <span class="event-month">APR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 10:00 AM - 3:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">10</span>
-                                <span class="event-month">APR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 6:30 PM - 8:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                            </div>
-                        </div>
-                        <a href="/html/announcement.html#upcoming-events" class="btn btn-outline-primary mt-3 w-100">View All Events</a>
+        <!-- Events Calendar Section -->
+        <section id="events" class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-4">
+                        <h2 class="section-title">Upcoming Events & Activities</h2>
+                        <div class="section-divider"></div>
+                        <p class="section-description">Stay up-to-date with community events such as clean-up drives,
+                            job fairs, workshops, and local festivals.</p>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div id="calendar"></div>
+                <div class="row">
+                    <div class="col-lg-3 mb-4">
+                        <div class="upcoming-events">
+                            <h4>Upcoming Events</h4>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">25</span>
+                                    <span class="event-month">MAR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location </p>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">2</span>
+                                    <span class="event-month">APR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 10:00 AM - 3:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">10</span>
+                                    <span class="event-month">APR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 6:30 PM - 8:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
+                                </div>
+                            </div>
+                            <a href="/html/announcement.html#upcoming-events"
+                                class="btn btn-outline-primary mt-3 w-100">View All Events</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div id="calendar"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
     </div>
@@ -406,7 +400,7 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <a href="#" class="text-white me-2">Privacy Policy</a> |
-                    <a href="#" class="text-white me-2">Terms of Service</a> 
+                    <a href="#" class="text-white me-2">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -418,6 +412,7 @@
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
     <script src="../js/navbar-login-script.js"></script>
     <script src="../js/login-status-script.js"></script>
+    <script src="../js/logout-script.js"></script>
 
 </body>
 
