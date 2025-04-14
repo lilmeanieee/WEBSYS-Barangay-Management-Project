@@ -69,10 +69,10 @@
                             <!-- Trial only must have not been reverted if still here. Pls revert the link to document_request/document-request-list. -->
                             <li><a href="document_request/document-request.html"
                                     class="nav-link list text-white">Document Request</a></li>
-                            <li><a href="document_request/document-template.html"
-                                    class="nav-link list text-white">Add Document Template</a></li>
-                            <li><a href="document_request/document-report.html"
-                                    class="nav-link list text-white">Report (Recent Requests)</a></li>
+                            <li><a href="document_request/document-template.html" class="nav-link list text-white">Add
+                                    Document Template</a></li>
+                            <li><a href="document_request/document-report.html" class="nav-link list text-white">Report
+                                    (Recent Requests)</a></li>
                         </ul>
                     </li>
 
@@ -115,7 +115,39 @@
                                     Badges</a></li>
                         </ul>
                     </li>
+
+                    <!-- Reward Management -->
+                    <li class="nav-item dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Rewards"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
+                        <ul class="list-unstyled mb-0">
+                            <li><a href="reward_management/redemption-request.html" class="nav-link  text-white">Redemption Request</a></li>
+                            <li><a href="reward_management/rewards-incentives.html" class="nav-link text-white">Incentives</a></li>
+                            <li><a href="reward_management/redemption-history.html" class="nav-link text-white">Redemption History</a></li>
+                        </ul>'>
+                            <i class="bi bi-trophy"></i>
+                        </a>
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-sm-flex"
+                            data-bs-toggle="collapse" data-bs-target="#reward_Dropdown">
+                            <i class="bi bi-trophy me-2"></i>
+                            <span class="d-none d-sm-inline">Manage Rewards</span>
+                        </a>
+                        <ul class="collapse list-unstyled" id="reward_Dropdown">
+                            <li><a href="reward_management/redemption-request.html"
+                                    class="nav-link  text-white">Redemption Request</a></li>
+                            <li><a href="reward_management/rewards-incentives.html"
+                                    class="nav-link text-white">Incentives</a></li>
+                            <li><a href="reward_management/redemption-history.html"
+                                    class="nav-link text-white">Redemption History</a></li>
+
+                        </ul>
+                    </li>
+
                 </ul>
+
 
                 <!-- Settings -->
                 <hr class="text-white">
@@ -171,7 +203,7 @@
                                 </div>
                             </div>
 
-                           
+
 
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-info text-white">

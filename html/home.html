@@ -13,6 +13,7 @@
 
     <title>Home</title>
 
+    <link rel="stylesheet" href="../css/public_navbar.css">
     <link rel="stylesheet" href="../css/home.css">
 </head>
 
@@ -43,7 +44,7 @@
                         <li class="nav-item">
                             <a class="mx-md-2 nav-link" href="../html/about.html">About</a>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a class="mx-md-2 nav-link dropdown-toggle" href="../html/service.html" role="button"
                                 data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +59,6 @@
                                 <li><a class="dropdown-item" href="#">Submit Complaints</a></li>
                             </ul>
                         </li>
-                        
 
                         <!-- nav announcement -->
                         <li class="nav-item dropdown">
@@ -67,12 +67,11 @@
                                 Announcement
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="/html/announcement.html#news-updates">News &
+                                <li><a class="dropdown-item" href="announcement.html#news-updates">News &
                                         Updates</a></li>
                                 <li><a class="dropdown-item" href="/html/announcement.html#upcoming-events">Upcomming
                                         Events</a></li>
-                                <li><a class="dropdown-item"
-                                        href="/html/announcement.html#special-announcements">Special Announcements</a>
+                                <li><a class="dropdown-item" href="announcement.html#special-announcements">Volunteer Drive
                                 </li>
                                 <li><a class="dropdown-item" href="/html/announcement.html#job-opportunities ">Job
                                         Oppurtunity</a></li>
@@ -82,41 +81,46 @@
                                 <li><a class="dropdown-item" href="/html/announcement.html#others">Others</a></li>
                             </ul>
                         </li>
-                            <!-- nav community -->
+                        <!-- nav community -->
                         <li class="nav-item dropdown">
                             <a class="mx-md-2 nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
                                 aria-expanded="false">
                                 Community
                             </a>
                             <ul class="dropdown-menu">
-                                 
+
                                 <li><a class="dropdown-item" href="leaderboard.html">Leaderboard</a></li>
-                                <li><a class="dropdown-item" href="">Suggestion Box</a></li>
+                               
                             </ul>
                         </li>
-                        <!-- nav more 
-                        <li class="nav-item dropdown">
-                            <a class="mx-md-2 nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                More
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                                <li><a class="dropdown-item" href="#">Something else here</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Separated link</a></li>
-                            </ul>
-                        </li>
-                        -->
                     </ul>
                 </div>
             </div>
+
             <!-- Login & Menu Button Group -->
             <div class="d-flex align-items-center">
-                <a href="../html/login.html" class="btn login-button">Login</a>
+                <!-- Login button (shown when user is not logged in) -->
+                <a href="../html/login.html" class="btn login-button" id="loginButton">Login</a>
+
+                <!-- User icon with dropdown (shown when user is logged in) -->
+                <div class="dropdown user-dropdown hidden" id="userDropdown">
+                    <button class="btn dropdown-toggle user-icon-button" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="../asset/img/user-icon.png" alt="User" class="user-icon">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <h6 class="dropdown-header user-name" id="userName">User Name</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="residents/profile.html">View Profile</a></li>
+                        <li><a class="dropdown-item" href="residents/my-requests.html">My Requests</a></li>
+                        <li><a class="dropdown-item" href="residents/request-document.html">Request Document</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="home.html" id="logoutButton">Logout</a></li>
+                    </ul>
+                </div>
 
                 <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
@@ -343,62 +347,64 @@
         </section>
         <!--anouncement section end-->
 
-         <!-- Events Calendar Section -->
-    <section id="events" class="py-5">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center mb-4">
-                    <h2 class="section-title">Upcoming Events & Activities</h2>
-                    <div class="section-divider"></div>
-                    <p class="section-description">Stay up-to-date with community events such as clean-up drives, job fairs, workshops, and local festivals.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-3 mb-4">
-                    <div class="upcoming-events">
-                        <h4>Upcoming Events</h4>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">25</span>
-                                <span class="event-month">MAR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location </p>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">2</span>
-                                <span class="event-month">APR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 10:00 AM - 3:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                            </div>
-                        </div>
-                        <div class="event-item">
-                            <div class="event-date">
-                                <span class="event-day">10</span>
-                                <span class="event-month">APR</span>
-                            </div>
-                            <div class="event-details">
-                                <h5>Event Title</h5>
-                                <p><i class="far fa-clock"></i> 6:30 PM - 8:00 PM</p>
-                                <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                            </div>
-                        </div>
-                        <a href="/html/announcement.html#upcoming-events" class="btn btn-outline-primary mt-3 w-100">View All Events</a>
+        <!-- Events Calendar Section -->
+        <section id="events" class="py-5">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12 text-center mb-4">
+                        <h2 class="section-title">Upcoming Events & Activities</h2>
+                        <div class="section-divider"></div>
+                        <p class="section-description">Stay up-to-date with community events such as clean-up drives,
+                            job fairs, workshops, and local festivals.</p>
                     </div>
                 </div>
-                <div class="col-lg-9">
-                    <div id="calendar"></div>
+                <div class="row">
+                    <div class="col-lg-3 mb-4">
+                        <div class="upcoming-events">
+                            <h4>Upcoming Events</h4>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">25</span>
+                                    <span class="event-month">MAR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location </p>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">2</span>
+                                    <span class="event-month">APR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 10:00 AM - 3:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div class="event-date">
+                                    <span class="event-day">10</span>
+                                    <span class="event-month">APR</span>
+                                </div>
+                                <div class="event-details">
+                                    <h5>Event Title</h5>
+                                    <p><i class="far fa-clock"></i> 6:30 PM - 8:00 PM</p>
+                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
+                                </div>
+                            </div>
+                            <a href="/html/announcement.html#upcoming-events"
+                                class="btn btn-outline-primary mt-3 w-100">View All Events</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div id="calendar"></div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </section>
+        </section>
 
 
     </div>
@@ -412,7 +418,7 @@
                 </div>
                 <div class="col-md-6 text-center text-md-end">
                     <a href="#" class="text-white me-2">Privacy Policy</a> |
-                    <a href="#" class="text-white me-2">Terms of Service</a> 
+                    <a href="#" class="text-white me-2">Terms of Service</a>
                 </div>
             </div>
         </div>
@@ -422,7 +428,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
-
+    <script src="../js/navbar-login-script.js"></script>
+    <script src="../js/login-status-script.js"></script>
+    <script src="../js/logout-script.js"></script>
 
 </body>
 
