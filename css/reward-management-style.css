@@ -66,18 +66,6 @@
     border-top: 1px solid #dee2e6;
 }
 
-/* Responsive adjustments */
-@media (max-width: 767.98px) {
-    .sidebar {
-        position: static;
-        height: auto;
-        padding-top: 0;
-    }
-    
-    main {
-        padding-top: 0.5rem;
-    }
-}
 
 /* Catalog grid item */
 .catalog-item {
