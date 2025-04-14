@@ -50,9 +50,8 @@
                     <!-- Document Issuance -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link  text-white d-sm-none mobile-popover"
-                            title="Document Issuance" data-bs-toggle="popover" data-bs-html="true"
-                            data-bs-placement="right" data-bs-content='
+                        <a href="#" class="nav-link  text-white d-sm-none mobile-popover" title="Document Issuance"
+                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="document-request-list.html" class="nav-link text-white">Document Requests</a></li>
                                     <li><a href="document-issuance.html" class="nav-link  text-white">Document Issuance</a></li>
@@ -71,8 +70,7 @@
                         <ul class="collapse list-unstyled " id="servicesDropdown">
                             <li><a href="document-request-list.html" class="nav-link list  text-white">Document
                                     Requests</a></li>
-                            <li><a href="document-issuance.html"
-                                    class="nav-link list  text-white ">Document
+                            <li><a href="document-issuance.html" class="nav-link list  text-white ">Document
                                     Issuance</a></li>
                             <li><a href="document-template.html" class="nav-link list text-white">Add Document
                                     Template</a></li>
@@ -90,7 +88,7 @@
                         </a>
                     </li>
 
-                    
+
 
                     <!-- Manage Leaderboards-->
                     <li class="nav-item dropdown">
@@ -123,11 +121,11 @@
                                     Badges</a></li>
                         </ul>
                     </li>
-                    
+
                     <!-- Reward Management -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-sm-none mobile-popover" title="Manage Rewards"
+                        <a href="#" class="nav-link text-white d-sm-none mobile-popover" title="Manage Rewards"
                             data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="redemption-request.html" class="nav-link  nav-link-active text-white">Redemption Request</a></li>
@@ -182,10 +180,37 @@
                         <h4 class="mb-0">Reward Management</h4>
                     </div>
                     <!-- End Content Header Title -->
-                    <h4 class="mb-3 p-3">Pending Redemption Requests</h4>
 
-                    
-                    
+                    <!-- Main -->
+                    <main class="col-md-9 col-lg-10 px-md-4 pt-3">
+                        <h3 class="mb-3">Complete Rewards Catalog</h3>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <input type="text" class="form-control" placeholder="Search rewards..."
+                                    id="catalogSearch">
+                            </div>
+                            <div class="col-md-3">
+                                <label for="catalogFilter" class="form-label">Filter Rewards</label>
+                                <select class="form-select" id="catalogFilter">
+                                    <option value="all">All Rewards</option>
+                                    <option value="available">Available Only</option>
+                                    <option value="expired">Expired Only</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="catalogSort" class="form-label">Sort Rewards</label>
+                                <select class="form-select" id="catalogSort">
+                                    <option value="name">Sort by Name</option>
+                                    <option value="points">Sort by Points</option>
+                                    <option value="popularity">Sort by Popularity</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row" id="rewardsCatalogGrid">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </main>
+
                 </div>
             </div>
         </div>
@@ -200,6 +225,7 @@
     <script src="../../../js/sidebar-script.js"></script>
     <script src="../../../js/logout-script.js"></script>
     <script src="../../../js/reward-management-script.js"></script>
+    <script src="../../../js/reward-management-SAMPLE-script.js"></script>
 </body>
 
 </html>
