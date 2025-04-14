@@ -894,6 +894,7 @@ document.addEventListener('click', function (e) {
             })
             .then(res => res.json())
             .then(response => {
+                console.log('Archive response:', response);
                 if (response.status === 'success') {
                     alert(response.message || 'Announcement archived.');
             

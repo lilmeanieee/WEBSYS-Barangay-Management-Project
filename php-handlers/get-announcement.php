@@ -59,6 +59,8 @@ try {
             v.details,
             v.date,
             v.created_at AS date_posted,
+            v.experience_points  AS experience_points,      
+            v.redeemable_points AS redeemable_points, 
             c.category_name
         FROM tbl_volunteer_drive_announcement v
         JOIN tbl_announcement_category c ON v.category_id = c.category_id

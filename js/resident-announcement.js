@@ -74,7 +74,28 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 </div>
             </div>
         `;
+        const volunteerCard = document.createElement('div');
+                volunteerCard.className = 'col-md-12 mb-4';
 
+                volunteerCard.innerHTML = `
+                <div class="card shadow-sm">
+                    <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
+                        <div style="flex: 1 1 auto; min-width: 70%;">
+                            <h5 class="card-title mb-2">${announcement.title}</h5>
+                            <p class="card-text">${announcement.details}</p>
+                            <small class="text-muted">🎖️ EXP: ${announcement.experience_points} | 🎁 Redeem: ${announcement.redeemable_points}</small>
+                            ${announcement.time_start && announcement.time_end
+                                ? `<p class="card-text text-muted mb-0"><small>${announcement.time_start} - ${announcement.time_end}</small></p>` : ''}
+                        </div>
+                        <div class="text-end" style="min-width: 150px;">
+                            <span class="badge bg-success mb-2">${formatDate(announcement.date)}</span><br>
+                            <button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${announcement.volunteer_announcement_id}">Join</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            console.log(announcement);
         switch (announcement.type) {
             case 'News and Update':
                 newsContainer.appendChild(card);
@@ -83,29 +104,7 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 eventsContainer.appendChild(card);
                 break;
             case 'Barangay Volunteer Drive':
-                const volunteerCard = document.createElement('div');
-                volunteerCard.className = 'col-md-12 mb-4';
-
-                volunteerCard.innerHTML = `
-                    <div class="card shadow-sm">
-                        <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
-                            <div style="flex: 1 1 auto; min-width: 70%;">
-                                <h5 class="card-title mb-2">${announcement.title}</h5>
-                                <p class="card-text">${announcement.details}</p>
-                                ${announcement.time_start && announcement.time_end
-                                    ? `<p class="card-text text-muted mb-0"><small>${announcement.time_start} - ${announcement.time_end}</small></p>` : ''}
-                            </div>
-                            <div class="text-end" style="min-width: 150px;">
-                                <span class="badge bg-success mb-2">${new Date(announcement.date).toLocaleDateString('en-US', {
-                                    year: 'numeric',
-                                    month: 'long',
-                                    day: 'numeric'
-                                })}</span><br>
-                                <button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${announcement.volunteer_announcement_id}">Join</button>
-                            </div>
-                        </div>
-                    </div>
-                `;
+                
                 volunteerContainer.appendChild(volunteerCard);
                 break;
             default:
@@ -184,3 +183,8 @@ document.getElementById('searchBtn').addEventListener('click', function () {
     const searchQuery = document.getElementById('searchInput').value;
     renderAnnouncements(selectedCategory, searchQuery);
 });
+
+function formatDate(dateString) {
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString('en-US', options);
+}

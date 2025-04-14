@@ -96,13 +96,35 @@
                 <a href="../html/login.html" class="btn login-button" id="loginButton">Login</a>
 
                 <!-- User icon with dropdown (shown when user is logged in) -->
-                <div id="userDropdown" style="display: none;">
-                    <span id="residentId">Resident ID:</span>
-                    <span id="userName">Name:</span>
-                    <span id="xpPoints">Experience Points</span>
-                    <span id="redeemablePoints">Redeemable Points</span>
-                    <button id="logoutButton">Logout</button>
+                <!-- Login & Menu Button Group -->
+            <div class="d-flex align-items-center">
+               
+
+                <!-- User icon with dropdown (shown when user is logged in) -->
+                <div class="dropdown user-dropdown hidden" id="userDropdown">
+                    <button class="btn dropdown-toggle user-icon-button" type="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        <img src="../asset/img/user-icon.png" alt="User" class="user-icon">
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                        <li>
+                            <h6 class="dropdown-header user-name" id="userName">User Name</h6>
+                        </li>
+                        <li><a class="dropdown-item" href="residents/profile.html">View Profile</a></li>
+                        <li><a class="dropdown-item" href="residents/my-requests.html">My Requests</a></li>
+                        <li><a class="dropdown-item" href="residents/request-document.html">Request Document</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="home.html" id="logoutButton">Logout</a></li>
+                    </ul>
                 </div>
+
+                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
 
                 <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
