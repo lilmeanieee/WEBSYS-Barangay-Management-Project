@@ -36,6 +36,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     document.getElementById('updateDocumentBtn').addEventListener('click', updateDocumentType);
 
+
     // Delete Document Type Event Listeners
     document.getElementById('confirmDeleteBtn').addEventListener('click', deleteDocumentType);
 
@@ -241,49 +242,68 @@ document.addEventListener('DOMContentLoaded', function() {
         const description = document.getElementById('editDocumentDescription').value.trim();
         const fee = parseFloat(document.getElementById('editDocumentFee').value);
         const template = document.getElementById('editDocumentTemplate').value.trim();
-        
-        // Validate inputs
+      
         if (!name) {
-            alert('Document name is required');
-            return;
+          alert('Document name is required');
+          return;
         }
-        
-        // Get custom fields
-        const customFields = [];
+      
+        // Build updated fields array
+        const updatedFields = [];
         document.querySelectorAll('#editAdditionalFields .custom-field').forEach(field => {
-            const fieldName = field.querySelector('input[type="text"]').value.trim();
-            if (fieldName) {
-                customFields.push(fieldName);
-            }
+          const labelInput = field.querySelector('input[type="text"]');
+          const requiredSwitch = field.querySelector('input[type="checkbox"]');
+          const label = labelInput.value.trim();
+      
+          if (label) {
+            const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+            updatedFields.push({
+              field_key: field_key,
+              label: label,
+              is_required: requiredSwitch.checked
+            });
+          }
         });
-        
-        // Create required fields array (default + custom fields)
-        const requiredFields = ['Full Name', 'Address', 'Birthdate', ...customFields];
-        
-        // Find document index
-        const docIndex = documentTypes.findIndex(d => d.id === id);
-        if (docIndex === -1) return;
-        
-        // Update document
-        documentTypes[docIndex] = {
-            id,
-            name,
-            description,
-            fee,
-            requiredFields,
-            template
+      
+        const payload = {
+          id,
+          name,
+          description,
+          fee,
+          template_text: template,
+          fields: updatedFields
         };
-        
-        // Refresh table
-        populateTable();
-        
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('editDocumentModal'));
-        modal.hide();
-        
-        // Show success message
-        showAlert('success', `Document type "${name}" has been updated successfully.`);
-    }
+      
+        console.log("Updating template:", payload); // Optional debug
+      
+        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        })
+          .then(res => res.json())
+          .then(response => {
+            if (response.success) {
+              showAlert('success', `Document type "${name}" has been updated successfully.`);
+      
+              // Refresh table (refetch from DB)
+              fetchDocumentTemplates();
+      
+              // Close modal
+              const modal = bootstrap.Modal.getInstance(document.getElementById('editDocumentModal'));
+              modal.hide();
+            } else {
+              showAlert('danger', response.error || 'Update failed.');
+            }
+          })
+          .catch(err => {
+            console.error('Update error:', err);
+            showAlert('danger', 'Failed to update template.');
+          });
+      }
+      
 
     // Open delete confirmation modal
     function openDeleteModal(docId) {

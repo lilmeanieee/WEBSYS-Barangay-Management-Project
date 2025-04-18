@@ -39,12 +39,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Inject template into editable content area
   function loadCertificate(html, title = "") {
-    templateContent.innerHTML = `
-      <div class="p-4 border rounded bg-white" contenteditable="true" style="min-height: 300px;">
-        <h3 class="text-center">${title}</h3>
-        ${html}
-      </div>
-    `;
-  }
+  templateContent.innerHTML = `
+    <h3 class="text-center mb-4">${title}</h3>
+    ${html}
+  `;
+}
+
   
 });
