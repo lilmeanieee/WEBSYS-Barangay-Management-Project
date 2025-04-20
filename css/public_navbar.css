@@ -11,6 +11,7 @@
     padding: 1rem;
     border-radius: 16px;
     margin: 10px 15px;
+    box-shadow: 12px 12px 24px #a6a6a6, -12px -12px 24px #ffffff;
 }
 
 .navbar-brand{

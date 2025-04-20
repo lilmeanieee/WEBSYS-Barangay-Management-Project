@@ -14,91 +14,6 @@ body {
     padding: 20px;
     margin-top: 100px;  
 }
-/* navbar */
-.navbar{
-    background-color: white;
-    height: 80px;
-    padding: 1rem;
-    border-radius: 16px;
-    margin: 10px 15px;
-}
-.navbar-brand{
-    color: #ffd803;
-    font-size: 24px;
-    font-weight: 500;
-    transition: 0.3s color;
-}
-.navbar-logo{
-    display: flex;
-}
-.navbar-logo img{
-    width: 50px;
-    height: 50px;
-    margin-inline-end: 8px;
-}
-.navbar-brand:hover{
-    color: #fb8500;
-}
-.login-button{
-    color: #272343;
-    background-color: #ffd803;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 8px 20px;
-    text-decoration: none;
-    transition:  0.3s background-color;
-}
-.login-button:hover{
-    background-color: #E6C200;
-    color: #272343;
-}
-
-.navbar-toggler{
-    border: none;
-    font-size: 1.25rem;
-}
-.navbar-toggler:focus, .btn-close:focus{
-    box-shadow: none;
-    outline: none;
-}
-.navbar-toggler{
-    border: none;
-    font-size: 1.25rem;
-}
-.navbar-toggler:focus, .btn-close:focus{
-    box-shadow: none;
-    outline: none;
-}
-.nav-link{
-    color: #404258;
-    font-weight: 500;
-    position: relative;
-}
-.nav-link:hover, .nav-link.active{
-    color: #fb8500;;
-}
-@media (min-width: 768px){
-    .nav-link::before{
-        content: "";
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 100%;
-        height: 2px;
-        background-color: #219ebc;
-        visibility: hidden;
-        transition: 0.3s ease-in-out;
-    }
-
-    .nav-link:hover::before, .nav-link.active::before{
-        Width:100%;
-        Visibility:visible;
-    }  
-}
-
-/* navbar end */
-
 /* leaderbord */
 .leaderboard-title {
     color: var(--dark-blue);
@@ -121,10 +36,12 @@ body {
     padding: 25px;
     padding-inline: 60px;
     display: flex;
-    justify-content: center;
-    align-items: flex-end;
+    justify-content: space-evenly;
+    align-items: center;
     margin-bottom: 20px;
     gap: 20px;
+    flex-direction: row;
+    flex-wrap: wrap;
 }
 
 .podium-place {
