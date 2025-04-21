@@ -1,11 +1,29 @@
 <?php
 include 'connect.php';
 
+//04/21/2025 debugging start
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL); 
+//04/21/2025 debugging end
 
 $data = json_decode(file_get_contents("php://input"), true);
+
+if (isset($data['is_archived']) && $data['is_archived']) {
+    $id = intval($data['id']);
+    $archiveQuery = "UPDATE tbl_document_templates SET is_archived = 1 WHERE id = ?";
+    $stmt = $conn->prepare($archiveQuery);
+    $stmt->bind_param("i", $id);
+    if ($stmt->execute()) {
+        echo json_encode(["success" => true]);
+    } else {
+        http_response_code(500);
+        echo json_encode(["error" => "Failed to archive template."]);
+    }
+    $stmt->close();
+    $conn->close();
+    exit; // Stops script here so it doesn't continue to edit logic
+}
 
 if (!$data || !isset($data['id'], $data['name'], $data['description'], $data['fee'], $data['template_text'])) {
     http_response_code(400);

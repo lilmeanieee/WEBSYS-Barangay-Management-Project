@@ -63,8 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
-                    // 🔽 Add this line to filter out archived templates
-                    documentTypes = data.filter(template => !template.is_archived);
+                    documentTypes = data.filter(template => !template.is_archived).map(d => ({ ...d, id: parseInt(d.id) }));;
                     populateTable();
                 } else {
                     showAlert('danger', 'Failed to load templates from server.');
@@ -368,35 +367,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // Delete document type
     function deleteDocumentType() {
         const docId = parseInt(this.dataset.id);
-        const docIndex = documentTypes.findIndex(d => parseInt(d.id) === docId);
-        
-        if (docIndex === -1) return;
-        
-        // Store name for success message
-        const docName = documentTypes[docIndex].name;
-        
-        // Remove document from array
-        documentTypes.splice(docIndex, 1);
-        
-        // Refresh table
-        populateTable();
-        
-        // Close modal
-        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
-        modal.hide();
-        
-        //04/21/2025 debugging start
-        document.addEventListener('click', function (e) {
-            const deleteBtn = e.target.closest('.delete-btn');
-            if (deleteBtn) {
-                const docId = parseInt(deleteBtn.dataset.id);
-                console.log("Delete clicked for ID:", docId);
-                openDeleteModal(docId); 
+        const doc = documentTypes.find(d => d.id === docId);
+        if (!doc) return;
+    
+        // Send archive request
+        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ id: docId, is_archived: true })
+        })
+        .then(res => res.json())
+        .then(response => {
+            if (response.success) {
+                showAlert('danger', `Document type "${doc.name}" has been archived.`);
+                fetchDocumentTemplates(); // ✅ Refresh table
+                bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal')).hide();
+            } else {
+                showAlert('danger', response.error || 'Failed to archive document.');
             }
-        }); //04/21/2025 debugging end
-
-        // Show success message
-        showAlert('danger', `Document type "${docName}" has been deleted.`);
+        })
+        .catch(error => {
+            console.error('Archive error:', error);
+            showAlert('danger', 'Failed to contact server.');
+        });
     }
 
     // Show alert message
