@@ -116,7 +116,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }).join('');
 
             row.innerHTML = `
-                <td>${doc.id}</td>
                 <td><strong>${doc.name}</strong></td>
                 <td>${doc.description}</td>
                 <td>${doc.fee === 0 ? '<span class="text-success">Free</span>' : '₱' + doc.fee.toFixed(2)}</td>
@@ -150,6 +149,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.delete-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const docId = parseInt(this.dataset.id);
+                console.log("Delete clicked for:", docId);
                 openDeleteModal(docId);
             });
         });
@@ -297,6 +297,7 @@ document.addEventListener('DOMContentLoaded', function() {
       
         console.log("Updating template:", payload); // Optional debug
       
+        /*
         fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
           method: 'POST',
           headers: {
@@ -322,22 +323,44 @@ document.addEventListener('DOMContentLoaded', function() {
           .catch(err => {
             console.error('Update error:', err);
             showAlert('danger', 'Failed to update template.');
+          });*/
+     
+
+          fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          })
+          .then(res => res.text()) // <- get raw response first
+          .then(text => {
+            console.log("Raw response from PHP:", text);
+            const json = JSON.parse(text); // manually parse
+            if (json.success) {
+              showAlert('success', 'Updated successfully!');
+              fetchDocumentTemplates();
+              bootstrap.Modal.getInstance(document.getElementById('editDocumentModal')).hide();
+            } else {
+              showAlert('danger', json.error || 'Something went wrong.');
+            }
+          })
+          .catch(err => {
+            console.error("Update error:", err);
+            showAlert('danger', 'Failed to update template.');
           });
-      }
+     }       
       
 
     // Open delete confirmation modal
     function openDeleteModal(docId) {
         const doc = documentTypes.find(d => d.id === docId);
         if (!doc) return;
-        
-        // Set document name in modal
+
+        console.log("Opening delete modal for:", doc.name);
+        console.log("Modal element found:", document.getElementById('deleteConfirmModal'));
+
         document.getElementById('deleteDocumentName').textContent = doc.name;
-        
-        // Store document ID for deletion
         document.getElementById('confirmDeleteBtn').dataset.id = docId;
-        
-        // Show modal
+
         const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
         modal.show();
     }
@@ -345,7 +368,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Delete document type
     function deleteDocumentType() {
         const docId = parseInt(this.dataset.id);
-        const docIndex = documentTypes.findIndex(d => d.id === docId);
+        const docIndex = documentTypes.findIndex(d => parseInt(d.id) === docId);
         
         if (docIndex === -1) return;
         
@@ -362,6 +385,16 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
         modal.hide();
         
+        //04/21/2025 debugging start
+        document.addEventListener('click', function (e) {
+            const deleteBtn = e.target.closest('.delete-btn');
+            if (deleteBtn) {
+                const docId = parseInt(deleteBtn.dataset.id);
+                console.log("Delete clicked for ID:", docId);
+                openDeleteModal(docId); 
+            }
+        }); //04/21/2025 debugging end
+
         // Show success message
         showAlert('danger', `Document type "${docName}" has been deleted.`);
     }

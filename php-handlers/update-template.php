@@ -1,6 +1,10 @@
 <?php
 include 'connect.php';
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL); 
+
 $data = json_decode(file_get_contents("php://input"), true);
 
 if (!$data || !isset($data['id'], $data['name'], $data['description'], $data['fee'], $data['template_text'])) {
@@ -10,7 +14,7 @@ if (!$data || !isset($data['id'], $data['name'], $data['description'], $data['fe
 }
 
 $oldId = intval($data['id']);
-$name = $data['name'];
+$name = trim(strtolower($data['name']));
 $description = $data['description'];
 $fee = floatval($data['fee']);
 $templateText = $data['template_text'];
@@ -20,11 +24,12 @@ mysqli_begin_transaction($conn);
 
 try {
     // Archive the old template
-    $archiveQuery = "UPDATE tbl_document_templates SET is_archived = 1 WHERE id = ?";
-    $stmt = mysqli_prepare($conn, $archiveQuery);
-    mysqli_stmt_bind_param($stmt, "i", $oldId);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_close($stmt);
+    $archiveQuery = "UPDATE tbl_document_templates 
+                 SET is_archived = 1 
+                 WHERE LOWER(name) = LOWER(?) AND id != ?";
+    $stmt = $conn->prepare($archiveQuery);
+    $stmt->bind_param("si", $data['name'], $oldId); // original name for LOWER(?) to work
+    $stmt->execute();
 
     //Insert the new template
     $insertQuery = "INSERT INTO tbl_document_templates (name, description, fee, template_text, is_archived) VALUES (?, ?, ?, ?, 0)";
