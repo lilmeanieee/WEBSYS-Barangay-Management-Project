@@ -16,7 +16,6 @@
 }
 .document-preview {
     min-height: 600px;
-    border: 1px solid #dee2e6;
     padding: 20px;
     background-color: white;
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
@@ -30,7 +29,6 @@
     height: 80px;
     margin: 0 auto;
     background-color: #f8f9fa;
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -44,13 +42,17 @@
     min-height: 1100px; /* 11in */
     padding: 2rem;
     margin: 1rem auto;
-    border: 1px solid #ccc;
-    border-radius: 4px;
     box-shadow: 0 0 5px rgba(0,0,0,0.1);
   }
 
   .editable {
     outline: none;
+  }
+
+  .editable:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    border: none !important;
   }
 
   @media print {

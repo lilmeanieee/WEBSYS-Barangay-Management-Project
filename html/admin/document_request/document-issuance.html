@@ -220,16 +220,14 @@
                                 <div class="row mb-3">
                                     <div class="col-md-6">
                                         <label for="certificateType" class="form-label">Select Certificate Type</label>
-                                        <select class="form-select" id="certificateType" onchange="loadCertificate()">
-                                            <option value="residency">Certificate of Residency</option>
-                                            <option value="indigency">Certificate of Indigency</option>
-                                            <option value="clearance">Barangay Clearance</option>
-                                        </select>
+                                        <select id="certificateType" class="form-select mb-3">
+  <option disabled selected>Select Certificate Type</option>
+</select>
                                     </div>
                                     <div class="col-md-6 d-flex align-items-end justify-content-end">
                                         <button class="btn btn-success" onclick="printCertificate()">🖨 Print
                                             Document</button>
-                                    </div>
+                                    </div>  
                                 </div>
                             </div>
                         </div>
@@ -237,13 +235,14 @@
 
                     <div class="container-fluid">
                         <div class="row justify-content-center">
-                            <div class="col-12 px-3 px-md-4">
-                                <div id="certificate-content" class="word-page editable" contenteditable="true">
-                                    <!-- Certificate content will load here -->
-                                </div>
+                          <div class="col-12 px-3 px-md-4">
+                            <div id="certificate-content" class="word-page editable" contenteditable="true">
+                              <!-- Certificate content will load here -->
                             </div>
+                          </div>
                         </div>
-                    </div>
+                      </div>
+                      
 
                 </div>
             </div>
