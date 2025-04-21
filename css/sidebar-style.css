@@ -56,6 +56,11 @@
         text-align: center;
     }
 
+    .logo img {
+        width: 40px;
+        height: 40px;
+    }
+
     .sidebar .logo span,
     .sidebar .nav-link span,
     .sidebar hr,

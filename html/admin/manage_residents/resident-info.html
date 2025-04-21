@@ -9,6 +9,7 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
@@ -114,6 +115,33 @@
                             <li><a href="../manage_leaderboards/achievement&badges.html"
                                     class="nav-link list text-white">Achievements &
                                     Badges</a></li>
+                        </ul>
+                    </li>
+
+                    <!-- Credit & Redeemable Points Conversion -->
+                    <li class="nav-item dropdown">
+                        <!-- Popover for Mobile -->
+                        <a href="#" class="nav-link active text-white d-lg-none mobile-popover"
+                            title="Credit Points Conversion" data-bs-toggle="popover" data-bs-html="true"
+                            data-bs-placement="right" data-bs-content='
+                                <ul class="list-unstyled mb-0">
+                                    <li><a href="../credit_and_redeemable_point_system/conversion-settings.html" class="nav-link nav-link-active text-white">Conversion Settings</a></li>
+                                    <li><a href="../credit_and_redeemable_point_system/conversion-history.html" class="nav-link text-white">Conversion History</a></li>
+                                </ul>'>
+                            <i class="bi bi-wallet"></i>
+                        </a>
+
+                        <!-- Normal dropdown for larger screens -->
+                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-lg-flex"
+                            data-bs-toggle="collapse" data-bs-target="#ptsConversion_Dropdown">
+                            <i class="bi bi-wallet me-2"></i>
+                            <span class="d-none d-lg-inline">Credit Points Conversion</span>
+                        </a>
+                        <ul class="collapse list-unstyled" id="ptsConversion_Dropdown">
+                            <li><a href="../credit_and_redeemable_point_system/conversion-settings.html"
+                                    class="nav-link list nav-link-active text-white">Conversion Settings</a></li>
+                            <li><a href="../credit_and_redeemable_point_system/conversion-history.html"
+                                    class="nav-link list text-white">Conversion History</a></li>
                         </ul>
                     </li>
 
