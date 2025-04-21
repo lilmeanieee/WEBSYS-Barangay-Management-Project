@@ -27,7 +27,7 @@ try {
     mysqli_stmt_close($stmt);
 
     // Insert each field
-    $stmtField = mysqli_prepare($conn, "INSERT INTO tbl_template_fields (template_id, field_key, label, is_required) VALUES (?, ?, ?, ?)");
+    $stmtField = mysqli_prepare($conn, "INSERT INTO tbl_document_template_custom_fields (template_id, field_key, label, is_required) VALUES (?, ?, ?, ?)");
     foreach ($fields as $field) {
         $fieldKey = $field['field_key'];
         $label = $field['label'];

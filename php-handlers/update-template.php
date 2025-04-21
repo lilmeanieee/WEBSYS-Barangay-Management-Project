@@ -1,59 +1,57 @@
 <?php
 include 'connect.php';
-header('Content-Type: application/json');
 
-$input = file_get_contents("php://input");
-file_put_contents('debug_update_template.log', "RAW INPUT: $input\n", FILE_APPEND); // log input
+$data = json_decode(file_get_contents("php://input"), true);
 
-$data = json_decode($input, true);
-if (!$data || !isset($data['id'])) {
-    file_put_contents('debug_update_template.log', "ERROR: Invalid or missing data\n", FILE_APPEND);
-    echo json_encode(["error" => "Invalid or missing data"]);
+if (!$data || !isset($data['id'], $data['name'], $data['description'], $data['fee'], $data['template_text'])) {
+    http_response_code(400);
+    echo json_encode(["error" => "Invalid input"]);
     exit;
 }
 
-$id = $data['id'];
+$oldId = intval($data['id']);
 $name = $data['name'];
 $description = $data['description'];
-$fee = $data['fee'];
+$fee = floatval($data['fee']);
 $templateText = $data['template_text'];
 $fields = $data['fields'];
 
 mysqli_begin_transaction($conn);
 
 try {
-    // Update template
-    $stmt = mysqli_prepare($conn, "UPDATE tbl_document_templates SET name = ?, description = ?, fee = ?, template_text = ? WHERE id = ?");
-    if (!$stmt) throw new Exception("Prepare failed: " . mysqli_error($conn));
-    mysqli_stmt_bind_param($stmt, "ssdsi", $name, $description, $fee, $templateText, $id);
+    // Archive the old template
+    $archiveQuery = "UPDATE tbl_document_templates SET is_archived = 1 WHERE id = ?";
+    $stmt = mysqli_prepare($conn, $archiveQuery);
+    mysqli_stmt_bind_param($stmt, "i", $oldId);
     mysqli_stmt_execute($stmt);
     mysqli_stmt_close($stmt);
 
-    // Delete old fields
-    $stmtDel = mysqli_prepare($conn, "DELETE FROM tbl_template_fields WHERE template_id = ?");
-    if (!$stmtDel) throw new Exception("Delete prepare failed: " . mysqli_error($conn));
-    mysqli_stmt_bind_param($stmtDel, "i", $id);
-    mysqli_stmt_execute($stmtDel);
-    mysqli_stmt_close($stmtDel);
+    //Insert the new template
+    $insertQuery = "INSERT INTO tbl_document_templates (name, description, fee, template_text, is_archived) VALUES (?, ?, ?, ?, 0)";
+    $stmt = mysqli_prepare($conn, $insertQuery);
+    mysqli_stmt_bind_param($stmt, "ssds", $name, $description, $fee, $templateText);
+    mysqli_stmt_execute($stmt);
+    $newTemplateId = mysqli_insert_id($conn);
+    mysqli_stmt_close($stmt);
 
-    // Insert new fields
-    $stmtField = mysqli_prepare($conn, "INSERT INTO tbl_template_fields (template_id, field_key, label, is_required) VALUES (?, ?, ?, ?)");
-    if (!$stmtField) throw new Exception("Field insert prepare failed: " . mysqli_error($conn));
-
+    //Insert new field definitions
+    $stmtField = mysqli_prepare($conn, "INSERT INTO tbl_document_template_custom_fields (template_id, field_key, label, is_required) VALUES (?, ?, ?, ?)");
     foreach ($fields as $field) {
         $fieldKey = $field['field_key'];
         $label = $field['label'];
         $isRequired = $field['is_required'] ? 1 : 0;
-        mysqli_stmt_bind_param($stmtField, "issi", $id, $fieldKey, $label, $isRequired);
+
+        mysqli_stmt_bind_param($stmtField, "issi", $newTemplateId, $fieldKey, $label, $isRequired);
         mysqli_stmt_execute($stmtField);
     }
     mysqli_stmt_close($stmtField);
 
     mysqli_commit($conn);
-    echo json_encode(["success" => true]);
+    echo json_encode(["success" => true, "new_template_id" => $newTemplateId]);
 
 } catch (Exception $e) {
     mysqli_rollback($conn);
-    file_put_contents('debug_update_template.log', "ERROR: " . $e->getMessage() . "\n", FILE_APPEND);
-    echo json_encode(["error" => "Update failed: " . $e->getMessage()]);
+    http_response_code(500);
+    echo json_encode(["error" => $e->getMessage()]);
 }
+?>

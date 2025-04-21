@@ -1,15 +1,121 @@
 // scripts.js
+
+let documentTypes = [];
+
+/*
+function openEditModal(docId) {
+    const doc = documentTypes.find(d => d.id === docId);
+    if (!doc) return;
+    
+    // Set form values
+    document.getElementById('editDocumentId').value = doc.id;
+    document.getElementById('editDocumentName').value = doc.name;
+    document.getElementById('editDocumentDescription').value = doc.description;
+    document.getElementById('editDocumentFee').value = doc.fee;
+    document.getElementById('editDocumentTemplate').value = doc.template;
+    
+    // Clear and populate custom fields
+    const customFieldsContainer = document.getElementById('editAdditionalFields');
+    customFieldsContainer.innerHTML = '';
+    
+    // Add custom fields (exclude default fields)
+    const defaultFields = ['Full Name', 'Address', 'Birthdate'];
+    const customFields = doc.requiredFields.filter(field => !defaultFields.includes(field));
+    
+    customFields.forEach(field => {
+        const fieldDiv = document.createElement('div');
+        fieldDiv.className = 'custom-field';
+        
+        fieldDiv.innerHTML = `
+            <input type="text" class="form-control me-2" placeholder="Field Name" value="${field}" required>
+            <div class="form-check form-switch me-2">
+                <input class="form-check-input" type="checkbox" role="switch" checked>
+                <label class="form-check-label">Required</label>
+            </div>
+            <button type="button" class="btn btn-outline-danger btn-sm remove-field">
+                <i class="bi bi-x"></i>
+            </button>
+        `;
+
+       
+        
+        customFieldsContainer.appendChild(fieldDiv);
+        
+        // Add event listener to remove button
+        fieldDiv.querySelector('.remove-field').addEventListener('click', function() {
+            customFieldsContainer.removeChild(fieldDiv);
+        });
+    });
+    
+    // Show modal
+    const modal = new bootstrap.Modal(document.getElementById('editDocumentModal'));
+    modal.show();
+}
+ */
+// Open edit modal and populate with document data --moved outside the function 04/19/2024 to debug
+window.openEditModal = function (docId) {
+    console.log("Opening modal for doc ID:", docId);
+
+    const doc = documentTypes.find(d => parseInt(d.id) === parseInt(docId));
+    console.log("Document found:", doc);
+    console.log("Trying to find doc with ID:", docId);
+    console.log("Current documentTypes array:", documentTypes);
+
+    if (!doc) {
+        console.warn("No document found with ID:", docId);
+        return;
+    }
+
+    document.getElementById('editDocumentId').value = doc.id;
+    document.getElementById('editDocumentName').value = doc.name;
+    document.getElementById('editDocumentDescription').value = doc.description;
+    document.getElementById('editDocumentFee').value = doc.fee;
+    document.getElementById('editDocumentTemplate').value = doc.template_text || doc.template; // fallback support
+
+    const customFieldsContainer = document.getElementById('editAdditionalFields');
+    customFieldsContainer.innerHTML = '';
+
+    const defaultFields = ['Full Name', 'Address', 'Birthdate'];
+    const customFields = (doc.customFields || []).filter(field => !defaultFields.includes(field.label));
+
+    customFields.forEach(field => {
+        const fieldDiv = document.createElement('div');
+        fieldDiv.className = 'custom-field';
+        fieldDiv.innerHTML = `
+            <input type="text" class="form-control me-2" placeholder="Field Name" value="${field.label}" required>
+            <div class="form-check form-switch me-2">
+                <input class="form-check-input" type="checkbox" role="switch" ${field.is_required ? 'checked' : ''}>
+                <label class="form-check-label">Required</label>
+            </div>
+            <button type="button" class="btn btn-outline-danger btn-sm remove-field">
+                <i class="bi bi-x"></i>
+            </button>
+        `;
+        customFieldsContainer.appendChild(fieldDiv);
+
+        // Add remove button functionality
+        fieldDiv.querySelector('.remove-field').addEventListener('click', function () {
+            customFieldsContainer.removeChild(fieldDiv);
+        });
+    });
+
+    const modalEl = document.getElementById('editDocumentModal');
+    const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+    modal.show();
+};
+
+
 document.addEventListener('DOMContentLoaded', function() {
+   //I removed the documentTypes array to the global scope to avoid re-declaring it in the fetch function
+
     // Sample document types data (this would typically come from a database)
-
-    let documentTypes = [];
-
     function fetchDocumentTemplates() {
         fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-templates.php')
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
-                    documentTypes = data;
+                    // 🔽 Add this line to filter out archived templates
+                    documentTypes = data.filter(template => !template.is_archived);
                     populateTable();
                 } else {
                     showAlert('danger', 'Failed to load templates from server.');
@@ -34,6 +140,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('editAddFieldBtn').addEventListener('click', function() {
         addCustomField('edit');
     });
+
     document.getElementById('updateDocumentBtn').addEventListener('click', updateDocumentType);
 
 
@@ -45,11 +152,15 @@ document.addEventListener('DOMContentLoaded', function() {
         const tableBody = document.querySelector('#documentTypesTable tbody');
         tableBody.innerHTML = '';
 
+        //04/19/2024 debugging start
+        console.log("Document types now:", documentTypes);
+        //04/19/2024 debugging end
+
         documentTypes.forEach(doc => {
             const row = document.createElement('tr');
             
             // Create required fields badges
-            const fieldBadges = doc.requiredFields.map(field => {
+            const fieldBadges = (doc.customFields || []).map(field => {
                 return `<span class="badge bg-light text-dark me-1">${field}</span>`;
             }).join('');
 
@@ -77,6 +188,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.edit-btn').forEach(btn => {
             btn.addEventListener('click', function() {
                 const docId = parseInt(this.dataset.id);
+                console.log("Edit clicked for ID:", docId); // <--- Add this                
+                //04/19/2024 debugging
+                console.log("openEditModal is:", typeof openEditModal);
+                const doc = documentTypes.find(d => d.id === docId);
                 openEditModal(docId);
             });
         });
@@ -187,53 +302,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Open edit modal and populate with document data
-    function openEditModal(docId) {
-        const doc = documentTypes.find(d => d.id === docId);
-        if (!doc) return;
-        
-        // Set form values
-        document.getElementById('editDocumentId').value = doc.id;
-        document.getElementById('editDocumentName').value = doc.name;
-        document.getElementById('editDocumentDescription').value = doc.description;
-        document.getElementById('editDocumentFee').value = doc.fee;
-        document.getElementById('editDocumentTemplate').value = doc.template;
-        
-        // Clear and populate custom fields
-        const customFieldsContainer = document.getElementById('editAdditionalFields');
-        customFieldsContainer.innerHTML = '';
-        
-        // Add custom fields (exclude default fields)
-        const defaultFields = ['Full Name', 'Address', 'Birthdate'];
-        const customFields = doc.requiredFields.filter(field => !defaultFields.includes(field));
-        
-        customFields.forEach(field => {
-            const fieldDiv = document.createElement('div');
-            fieldDiv.className = 'custom-field';
-            
-            fieldDiv.innerHTML = `
-                <input type="text" class="form-control me-2" placeholder="Field Name" value="${field}" required>
-                <div class="form-check form-switch me-2">
-                    <input class="form-check-input" type="checkbox" role="switch" checked>
-                    <label class="form-check-label">Required</label>
-                </div>
-                <button type="button" class="btn btn-outline-danger btn-sm remove-field">
-                    <i class="bi bi-x"></i>
-                </button>
-            `;
-            
-            customFieldsContainer.appendChild(fieldDiv);
-            
-            // Add event listener to remove button
-            fieldDiv.querySelector('.remove-field').addEventListener('click', function() {
-                customFieldsContainer.removeChild(fieldDiv);
-            });
-        });
-        
-        // Show modal
-        const modal = new bootstrap.Modal(document.getElementById('editDocumentModal'));
-        modal.show();
-    }
+    
+    
 
     // Update document type
     function updateDocumentType() {
