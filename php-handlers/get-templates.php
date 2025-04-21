@@ -7,7 +7,7 @@ $templates = [];
 
 $query = "SELECT t.id, t.name, t.description, t.fee, t.template_text, f.field_key, f.label, f.is_required
           FROM tbl_document_templates t
-          LEFT JOIN tbl_template_fields f ON t.id = f.template_id
+          LEFT JOIN tbl_document_template_custom_fields f ON t.id = f.template_id
           ORDER BY t.id, f.id";
 
 $result = mysqli_query($conn, $query);
@@ -26,13 +26,17 @@ while ($row = mysqli_fetch_assoc($result)) {
             "name" => $row['name'],
             "description" => $row['description'],
             "fee" => (float)$row['fee'],
-            "template" => $row['template_text'],
-            "requiredFields" => []
+            "template_text" => $row['template_text'],
+            "customFields" => []
         ];
     }
 
-    if ($row['label']) {
-        $templates[$id]["requiredFields"][] = $row['label'];
+    if (!empty($row['label'])) {
+        $templates[$id]["customFields"][] = [
+            "field_key" => $row['field_key'],
+            "label" => $row['label'],
+            "is_required" => (bool)$row['is_required']
+        ];
     }
 }
 

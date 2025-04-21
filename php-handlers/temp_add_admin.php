@@ -2,9 +2,9 @@
 include 'connect.php'; // Database connection file
 
 // Define admin account details
-$email = "admin@gmail.com";
-$password = "Admin123"; // Change this to a secure password
-$role = "Admin";
+$email = "resident@gmail.com";
+$password = "Resident123"; // Change this to a secure password
+$role = "Resident";
 $status = "Active";
 
 // Hash the password

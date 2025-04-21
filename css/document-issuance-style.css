@@ -36,14 +36,17 @@
 
 
 .word-page {
-    background: white;
-    width: 100%;
-    max-width: 850px; /* 8.5in = 850px roughly */
-    min-height: 1100px; /* 11in */
-    padding: 2rem;
-    margin: 1rem auto;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
-  }
+  background: white;
+  width: 100%;
+  max-width: 850px;       /* ~21cm */
+  min-height: 1100px;     /* ~29.7cm */
+  aspect-ratio: 1 / 1.414; /* optional: helps enforce tall shape */
+  padding: 2rem;  
+  margin: 1rem auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  border: none;
+  border-radius: 4px;
+}
 
   .editable {
     outline: none;
@@ -61,12 +64,5 @@
     }
     .no-print {
       display: none !important;
-    }
-    .word-page {
-      margin: 0;
-      box-shadow: none;
-      border: none;
-      width: 100%;
-      padding: 0.5in;
     }
   }
