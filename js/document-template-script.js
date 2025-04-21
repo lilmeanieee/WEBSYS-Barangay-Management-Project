@@ -161,7 +161,9 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Create required fields badges
             const fieldBadges = (doc.customFields || []).map(field => {
-                return `<span class="badge bg-light text-dark me-1">${field}</span>`;
+                return `<span class="badge me-1 ${field.is_required ? 'bg-primary' : 'bg-secondary'}">
+                            ${field.label} <small>(${field.is_required ? 'Required' : 'Optional'})</small>
+                        </span>`;
             }).join('');
 
             row.innerHTML = `
