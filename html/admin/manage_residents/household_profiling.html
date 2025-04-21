@@ -18,13 +18,13 @@
         <!-- Household Information -->
         <div class="section-title">Household Information</div>
         <div class="row g-3">
-            <div class="col-md-3"><input class="form-control" placeholder="Purok" /></div>
-            <div class="col-md-3"><input class="form-control" placeholder="Barangay" value="Ligaya" /></div>
-            <div class="col-md-3"><input class="form-control" placeholder="Household No." value="" /></div>
-            <div class="col-md-3"><input class="form-control" placeholder="City/District"
+            <div class="col-md-3"><input class="form-control" id="purok" placeholder="Purok" /></div>
+            <div class="col-md-3"><input class="form-control" id="barangay" placeholder="Barangay" value="Ligaya" /></div>
+            <div class="col-md-3"><input class="form-control" id="householdNo" placeholder="Household No." value="" /></div>
+            <div class="col-md-3"><input class="form-control" id="city/district" placeholder="City/District"
                     value="General Santos City" />
             </div>
-            <div class="col-md-3"><input class="form-control" placeholder="Province"
+            <div class="col-md-3"><input class="form-control" id="province" placeholder="Province"
                     value="South Cotobato" /></div>
         </div>
 
@@ -105,13 +105,13 @@
                 <select class="form-select" id="toiletFacility">
                     <option value="" disabled selected>Select</option>
                     <option value="A">A - Pour/flush type connected to septic tank</option>
-                    <option value=" ">B - Pour/flush toilet connected to septic and to sewerage system
+                    <option value="B">B - Pour/flush toilet connected to septic and to sewerage system
                     </option>
-                    <option value=" ">C - Ventilated pit (VIP) latrine </option>
-                    <option value=" ">D - Water-sealed toilet </option>
-                    <option value=" ">E - Overhung latrine </option>
-                    <option value=" ">F - Open pit latrine </option>
-                    <option value=" ">G - Without toilet </option>
+                    <option value="C">C - Ventilated pit (VIP) latrine </option>
+                    <option value="D">D - Water-sealed toilet </option>
+                    <option value="E">E - Overhung latrine </option>
+                    <option value="F">F - Open pit latrine </option>
+                    <option value="G">G - Without toilet </option>
                 </select>
             </div>
 
@@ -182,17 +182,107 @@
     </div>
 
     <div class="form-buttons"> 
-        <button type="submit" id="btn_submit">Submit</button>
+        <button id="btn_submit" type="button" class="btn btn-primary">Submit</button>
         <button type="button" class="close-btn" onclick="history.back();">Cancel</button>
     </div>
+    
 
     </div>
+
+        <!-- Account Info Modal -->
+    <div class="modal fade" id="accountInfoModal" tabindex="-1" aria-labelledby="accountInfoModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+            <h5 class="modal-title" id="accountInfoModalLabel">✅ Household Members Successfully Added!</h5>
+            <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <div id="accountInfoContent"></div>
+            </div>
+            <div class="modal-footer">
+            <button class="btn btn-secondary" data-bs-dismiss="modal" id="closeModalBtn">Close</button>
+            <button class="btn btn-primary" onclick="printAccountInfo()">Print</button>
+            </div>
+        </div>
+        </div>
+    </div>
     
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <!-- Confirm Reset Modal -->
+        <div class="modal fade" id="confirmResetModal" tabindex="-1" aria-labelledby="confirmResetModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-warning">
+                <div class="modal-header bg-warning text-dark">
+                <h5 class="modal-title" id="confirmResetModalLabel">⚠️ Confirm Before Clearing</h5>
+                <button type="button" class="btn-close" aria-label="Close"></button>
+                </div>
+                <div class="modal-body fs-6">
+                <p>
+                    Have you already <strong>printed</strong> or <strong>informed the resident</strong> of their generated email and password?
+                </p>
+                <p class="text-danger mb-0"><strong>This action will clear all data and cannot be undone.</strong></p>
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Not Yet</button>
+                <button id="confirmResetBtn" type="button" class="btn btn-danger">Yes, I Have</button>
+                
+            </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="modal fade" id="householdExistsModal" tabindex="-1" aria-labelledby="householdExistsModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title" id="householdExistsModalLabel">Household Already Exists</h5>
+                <button type="button" class="btn-close btn-close-white" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                <div id="householdExistsModalContent">This household already exists in the database.</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" id="btnCancelAdd">Cancel Submission</button>
+                    <button type="button" class="btn btn-primary" id="btnAddMemberOnly">Add New Household Member</button>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <!-- Household Exists Modal -->
+     
+               
+          <div class="modal fade" id="memberExistsModal" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                  <h5 class="modal-title">🚫 Duplicate Household Member</h5>
+                </div>
+                <div class="modal-body">
+                  One or more household members already exist in the database.<br>
+                  Please recheck and add again.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" id="memberExistsOkayBtn">OKAY</button>
+
+                </div>
+              </div>
+            </div>
+          </div>
+          
+            
+    <!-- Bootstrap JS Bundle (includes Popper) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     
     <script src="../../../js/memberTableRow-script.js"></script>
     <script src="../../../js/add_resident-script.js"></script>
+
+    <script src="../../../js/residents-info.js"></script>
+
+    
 </body>
 
 </html>

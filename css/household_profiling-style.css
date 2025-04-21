@@ -65,5 +65,37 @@ table .quarter {
 
 .header-rotate {
     writing-mode: vertical-rl;
-    transform: rotate(180deg);
+    transform: ro
+    tate(180deg);
+}
+@media print {
+    body * {
+      visibility: hidden;
+    }
+    .modal-content, .modal-content * {
+      visibility: visible;
+    }
+    .modal {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+    }
+  }
+
+  @keyframes shake {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-8px); }
+    50% { transform: translateX(8px); }
+    75% { transform: translateX(-8px); }
+    100% { transform: translateX(0); }
+  }
+  
+  .modal.shake {
+    animation: shake 0.4s;
+    border: 2px solid red;
+  }
+
+  .is-invalid {
+    border: 2px solid red !important;
 }

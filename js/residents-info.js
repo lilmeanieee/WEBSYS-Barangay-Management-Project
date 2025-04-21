@@ -84,3 +84,63 @@ function fetchResidents() {
     });
     console.log("residents-list.js loaded");
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchResidents();
+});
+
+// Dynamically add a new resident (sorted alphabetically)
+function renderResidents(residents) {
+    const tableBody = document.getElementById("residentTableBody");
+    tableBody.innerHTML = ""; // Clear table first
+
+    residents.forEach((r) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${r.residentCode || ""}</td>
+            <td>${r.lastName || ""}</td>
+            <td>${r.firstName || ""}</td>
+            <td>${r.middleName || ""}</td>
+            <td>${r.sex || ""}</td>
+            <td>${r.address || ""}</td>
+            <td>${r.status || "Active"}</td>
+            <td>
+                <button class="btn btn-sm btn-info">View</button>
+                <button class="btn btn-sm btn-primary">Edit</button>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+// Fetch and refresh the full list of residents
+function fetchResidents() {
+    $.ajax({
+        url: "http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-residents.php",
+        method: "GET",
+        dataType: "json",
+        success: function (data) {
+            const table = document.getElementById("residentTableBody");
+            table.innerHTML = ""; // clear
+
+            const residents = data.residents || [];
+
+            residents.sort((a, b) => {
+                const compare = (x, y) => x.toLowerCase().localeCompare(y.toLowerCase());
+                return compare(a.lastName, b.lastName); // or a.residentCode, depending on your default sort
+            });
+            
+            // Then use residents variable for rendering
+            renderResidents(residents);
+            data.forEach(addNewResident);
+        },
+        error: function (xhr) {
+            console.error("❌ Fetch error:", xhr.responseText);
+        }
+    });
+}
+
+// Global function to allow refreshing manually
+window.refreshResidents = fetchResidents;

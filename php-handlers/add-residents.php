@@ -1,162 +1,116 @@
 <?php
-include 'connect.php';
+ob_start();
+include 'connect.php'; 
+header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
 
-header("Access-Control-Allow-Origin: *");
-header("Content-Type: application/json; charset=UTF-8");
-header("Access-Control-Allow-Methods: POST");
-header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_GET['action']) && $_GET['action'] == "addResident") {
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $data = json_decode(file_get_contents("php://input"), true);
 
-    file_put_contents("debug_log.txt", print_r($data, true)); // Logs to a file instead of the console
-
     if (!$data) {
-        http_response_code(400);
-        echo json_encode(["error" => "Invalid input data"]);
+        echo json_encode(["success" => false, "error" => "Invalid JSON input."]);
         exit;
     }
 
-    $confirm = isset($data["confirm"]) ? $data["confirm"] : false;
+    $household = $data['household'];
+    $members = $data['members'];
 
-    $requiredFields = ["last_name", "first_name", "birthdate", "email_address", "mobile_no", "house_lot_no", "street", "barangay", "city_municipality", "province", "region", "emergency_name", "emergency_contact_num", "emergency_relationship"];
-    foreach ($requiredFields as $field) {
-        if (empty($data[$field])) {
-            http_response_code(400);
-            echo json_encode(["error" => ucfirst(str_replace("_", " ", $field)) . " is required."]);
-            exit;
-        }
+    // Check if household exists
+    $stmt = $conn->prepare("SELECT household_id FROM tbl_households WHERE household_no = ? AND purok = ? AND barangay = ? AND city = ? AND province = ?");
+    $stmt->bind_param("sssss", $household['householdNo'], $household['purok'], $household['barangay'], $household['city'], $household['province']);
+    $stmt->execute();
+    $stmt->store_result();
+    $stmt->bind_result($householdId);
+
+    if ($stmt->num_rows > 0) {
+        $stmt->fetch(); // use existing household ID
+    } else {
+        // Insert new household
+        $stmtInsert = $conn->prepare("INSERT INTO tbl_households (household_no, purok, barangay, city, province) VALUES (?, ?, ?, ?, ?)");
+        $stmtInsert->bind_param("sssss", $household['householdNo'], $household['purok'], $household['barangay'], $household['city'], $household['province']);
+        $stmtInsert->execute();
+        $householdId = $stmtInsert->insert_id;
+
+        // Insert household metadata
+        $stmt = $conn->prepare("INSERT INTO tbl_ethnicities (household_id, ethnicity_type, tribe) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $householdId, $household['ethnicity'], $household['tribe']);
+        $stmt->execute();
+
+        $stmt = $conn->prepare("INSERT INTO tbl_socioeconomic_status (household_id, status, nhts_no) VALUES (?, ?, ?)");
+        $stmt->bind_param("iss", $householdId, $household['socioStatus'], $household['nhtsNo']);
+        $stmt->execute();
+
+        $stmt = $conn->prepare("INSERT INTO tbl_environmental_health (household_id, water_source, other_water_source, toilet_facility) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("isss", $householdId, $household['waterSource'], $household['otherWater'], $household['toilet']);
+        $stmt->execute();
     }
 
-    try {
-        $conn->begin_transaction();
+    // ✅ Insert members
+    $accounts = [];
 
-        // Check if resident exists
-        $stmt = $conn->prepare("SELECT resident_id FROM tbl_residents WHERE LOWER(first_name) = LOWER(?) AND LOWER(last_name) = LOWER(?) AND birthdate = ?");
-        $stmt->bind_param("sss", $data["first_name"], $data["last_name"], $data["birthdate"]);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0 && !$confirm) {
-            http_response_code(200);
-            echo json_encode(["warning" => "A resident with the same details already exists. Do you want to continue?"]);
-            $conn->rollback();
-            exit;
-        }
-
-        // Retrieve or Insert Address Components
-        function getOrInsert($conn, $table, $column, $value) {
-            $primaryKeys = [
-                "tbl_house_lot_no" => "house_lot_id",
-                "tbl_purok_subdivision" => "area_id",
-                "tbl_street" => "street_id",
-                "tbl_barangay" => "barangay_id",
-                "tbl_city_municipality" => "city_id",
-                "tbl_province" => "province_id",
-                "tbl_region" => "region_id"
-            ];
-
-            // Check if the table exists in our mapping
-            if (!isset($primaryKeys[$table])) {
-                throw new Exception("Table '$table' not found in mapping.");
-            }
-
-            $primaryKey = $primaryKeys[$table];
-
-            // Check if value exists
-            $stmt = $conn->prepare("SELECT $primaryKey FROM $table WHERE $column = ?");
-            $stmt->bind_param("s", $value);
-            $stmt->execute();
-            $result = $stmt->get_result();
-
-            if ($result->num_rows > 0) {
-                $row = $result->fetch_assoc();
-                return $row[$primaryKey];
-            }
-
-            // Insert new value if not found
-            $stmt = $conn->prepare("INSERT INTO $table ($column) VALUES (?)");
-            $stmt->bind_param("s", $value);
-            $stmt->execute();
-            return $conn->insert_id;
-        }
-
-        // Get or Insert Address Components
-        $house_lot_id = getOrInsert($conn, "tbl_house_lot_no", "house_lot_name", $data["house_lot_no"]);
-        $area_id = getOrInsert($conn, "tbl_purok_subdivision", "area_name", $data["purok"]);
-        $street_id = getOrInsert($conn, "tbl_street", "street_name", $data["street"]);
-        $barangay_id = getOrInsert($conn, "tbl_barangay", "barangay_name", $data["barangay"]);
-        $city_id = getOrInsert($conn, "tbl_city_municipality", "city_name", $data["city_municipality"]);
-        $province_id = getOrInsert($conn, "tbl_province", "province_name", $data["province"]);
-        $region_id = getOrInsert($conn, "tbl_region", "region_number", $data["region"]);
-
-        // Check if Address Exists
-        $stmt = $conn->prepare("SELECT address_id FROM tbl_address WHERE house_lot_id = ? AND area_id = ? AND street_id = ? AND barangay_id = ? AND city_id = ? AND province_id = ? AND region_id = ?");
-        $stmt->bind_param("iiiiiii", $house_lot_id, $area_id, $street_id, $barangay_id, $city_id, $province_id, $region_id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $address_id = $row["address_id"];
-        } else {
-            $stmt = $conn->prepare("INSERT INTO tbl_address (house_lot_id, area_id, street_id, barangay_id, city_id, province_id, region_id) VALUES (?, ?, ?, ?, ?, ?, ?)");
-            $stmt->bind_param("iiiiiii", $house_lot_id, $area_id, $street_id, $barangay_id, $city_id, $province_id, $region_id);
-            $stmt->execute();
-            $address_id = $conn->insert_id;
-        }
-
-        // Generate Default Password
-        $birthdate = date("mdy", strtotime($data["birthdate"]));
-        $default_password = $data["last_name"] . "." . $birthdate;
-        $hashed_password = password_hash($default_password, PASSWORD_BCRYPT);
-
-        // Insert User Account
-        $stmt = $conn->prepare("INSERT INTO tbl_users (email, password, role) VALUES (?, ?, 'Resident')");
-        $stmt->bind_param("ss", $data["email_address"], $hashed_password);
-        $stmt->execute();
-        $user_id = $conn->insert_id;
-
-        // Insert Emergency Contact
-        $stmt = $conn->prepare("INSERT INTO tbl_emergency_contacts (name, contact_number, relationship) VALUES (?, ?, ?)");
-        $stmt->bind_param("sss", $data["emergency_name"], $data["emergency_contact_num"], $data["emergency_relationship"]);
-        $stmt->execute();
-        $emergency_id = $conn->insert_id;  // Get the emergency_id of the newly inserted contact
-
-        // Insert Resident with emergency_id
-        $stmt = $conn->prepare("INSERT INTO tbl_residents 
-        (user_id, last_name, first_name, middle_name, suffix, birthdate, age, gender, civil_status, religion, address_id, mobile_no, email_address, emergency_id, birthplace, age_months) 
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        $stmt->bind_param("isssssissssssisi", 
-        $user_id, 
-        $data["last_name"], 
-        $data["first_name"], 
-        $data["middle_name"],  
-        $data["suffix"],       
-        $data["birthdate"], 
-        $data["age"],         
-        $data["gender"], 
-        $data["civil_status"], 
-        $data["religion"], 
-        $address_id, 
-        $data["mobile_no"], 
-        $data["email_address"], 
-        $emergency_id,
-        $data["nationality"], 
-        $data["age_months"]
+    foreach ($members as $member) {
+        $stmt = $conn->prepare("INSERT INTO tbl_household_members (
+            household_id, last_name, first_name, middle_name, suffix, relationship, sex, birthdate, civil_status,
+            education, religion, remarks
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("isssssssssss",
+            $householdId,
+            $member['lastName'],
+            $member['firstName'],
+            $member['middleName'],
+            $member['suffix'],
+            $member['relationship'],
+            $member['sex'],
+            $member['birthdate'],
+            $member['civilStatus'],
+            $member['education'],
+            $member['religion'],
+            $member['remarks']
         );
-
         $stmt->execute();
-        $resident_id = $conn->insert_id; // Get the resident_id of the inserted record
+        $residentId = $stmt->insert_id;
 
-        $conn->commit();
-        http_response_code(200);
-        echo json_encode(["success" => true, "message" => "Resident Successfully Added", "clearForm" => true]);
-    } catch (Exception $e) {
-        $conn->rollback();
-        http_response_code(500);
-        echo json_encode(["error" => "Database error: " . $e->getMessage()]);
+        $codeOnly = str_pad($residentId, 7, '0', STR_PAD_LEFT);
+        $residentCode = "RES-$codeOnly";
+        $conn->query("UPDATE tbl_household_members SET resident_code = '$residentCode' WHERE resident_id = $residentId");
+
+        $conn->query("INSERT INTO tbl_member_health_info (resident_id, philhealth_id, membership, category, medical_history)
+                      VALUES ($residentId, '{$member['philhealthId']}', '{$member['membership']}', '{$member['category']}', '{$member['medicalHistory']}')");
+
+        $usingFp = $member['usingFp'] === 'Y' ? 1 : 0;
+        $fpMethod = implode(", ", $member['fpMethods']);
+        $conn->query("INSERT INTO tbl_member_wra_info (resident_id, using_fp, fp_method, fp_status)
+                      VALUES ($residentId, $usingFp, '$fpMethod', '{$member['fpStatus']}')");
+
+        foreach ($member['quarters'] as $i => $q) {
+            $quarter = $i + 1;
+            $conn->query("INSERT INTO tbl_age_health_risk_quarterly (resident_id, quarter, age, classification)
+                          VALUES ($residentId, $quarter, '{$q['age']}', '{$q['class']}')");
+        }
+
+        $email = strtolower("{$member['lastName']}.$codeOnly@ligaya.gov.ph");
+        $birth = explode("-", $member['birthdate']);
+        $rawPass = "$codeOnly.{$member['lastName']}." . implode("/", array_reverse($birth));
+        $hashedPassword = password_hash($rawPass, PASSWORD_DEFAULT);
+
+        $conn->query("INSERT INTO tbl_users (email, password, role) VALUES ('$email', '$hashedPassword', 'resident')");
+
+        $accounts[] = [
+            "residentCode" => $residentCode,
+            "fullName" => "{$member['firstName']} {$member['lastName']}",
+            "email" => $email,
+            "password" => $rawPass
+        ];
     }
+
+    echo json_encode(["success" => true, "accounts" => $accounts]);
+    ob_end_flush();
+    exit;
+} else {
+    echo json_encode(["success" => false, "error" => "Invalid request method"]);
+    ob_end_flush();
+    exit;
 }
-?>
