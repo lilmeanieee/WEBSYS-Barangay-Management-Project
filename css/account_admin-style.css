@@ -1,0 +1,24 @@
+.hidden {
+    display: none;
+}
+.filters-row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.min-width-200 {
+    min-width: 200px;
+}
+
+hr.line-color{
+    border-top: 2px solid #ffd803;
+    opacity: 1;
+}
+
+.profile-preview {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 3px solid #000000;
+    border-radius: 50%;
+}

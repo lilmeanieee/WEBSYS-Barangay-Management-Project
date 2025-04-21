@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="../../../css/sidebar-style.css">
 </head>
 
-<body>                          
+<body>
     <div class="container-fluid">
         <div class="d-flex ">
             <!-- Sidebar -->
@@ -62,18 +62,21 @@
                         </a>
 
                         <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-sm-flex"
+                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-lg-flex"
                             data-bs-toggle="collapse" data-bs-target="#servicesDropdown">
                             <i class="bi bi-file-earmark-text me-2"></i>
                             <span class="d-none d-lg-inline">Document Issuance</span>
                         </a>
                         <ul class="collapse list-unstyled " id="servicesDropdown">
-                            <li><a href="document-request-list.html" class="nav-link list  text-white">Document Requests</a></li>
-                            <li><a href="document-issuance.html"
-                                    class="nav-link list  text-white ">Document Issuance</a></li>
-                            <li><a href="document-template.html" class="nav-link list nav-link-active text-white">Add Document
+                            <li><a href="document-request-list.html" class="nav-link list  text-white">Document
+                                    Requests</a></li>
+                            <li><a href="document-issuance.html" class="nav-link list  text-white ">Document
+                                    Issuance</a></li>
+                            <li><a href="document-template.html" class="nav-link list nav-link-active text-white">Add
+                                    Document
                                     Template</a></li>
-                            <li><a href="document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
+                            <li><a href="document-report.html" class="nav-link list text-white">Report (Recent
+                                    Requests)</a></li>
 
                         </ul>
                     </li>
@@ -175,12 +178,13 @@
                             <li><a href="../volunteer_drive/attendance-evaluation.html"
                                     class="nav-link list text-white">Attendance
                                     Evaluation</a></li>
-                            <li><a href="../volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report
+                            <li><a href="../volunteer_drive/volunteer-report.html"
+                                    class="nav-link list text-white">Report
                                     Log</a></li>
                         </ul>
                     </li>
-                    
-                    
+
+
                 </ul>
                 <!-- Settings -->
                 <hr class="text-white">
@@ -216,11 +220,11 @@
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <h2>Document Template Management</h2>
                             <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addDocumentModal">
-                                <i class="bi bi-plus-circle"></i> Add New Document Type
+                                <i class="bi bi-plus-circle"></i> Add New Document
                             </button>
                         </div>
-                
-                        <div class="card shadow-sm">
+
+                        <div class="card shadow-lg">
                             <div class="card-body">
                                 <div class="table-responsive">
                                     <table class="table table-hover" id="documentTypesTable">
@@ -230,7 +234,6 @@
                                                 <th scope="col">Document Type</th>
                                                 <th scope="col">Description</th>
                                                 <th scope="col">Fee (₱)</th>
-                                                <th scope="col">Required Fields</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                         </thead>
@@ -242,14 +245,15 @@
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- Add Document Modal -->
                     <div class="modal fade" id="addDocumentModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header bg-success text-white">
                                     <h5 class="modal-title">Add New Document Type</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="addDocumentForm">
@@ -263,52 +267,34 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="documentFee" class="form-label">Processing Fee (₱)</label>
-                                            <input type="number" class="form-control" id="documentFee" min="0" step="1" required>
+                                            <input type="number" class="form-control" id="documentFee" min="0" step="1"
+                                                required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Required Fields</label>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="form-check me-3">
-                                                    <input class="form-check-input" type="checkbox" id="fullNameField" checked disabled>
-                                                    <label class="form-check-label" for="fullNameField">Full Name</label>
-                                                </div>
-                                                <div class="form-check me-3">
-                                                    <input class="form-check-input" type="checkbox" id="addressField" checked disabled>
-                                                    <label class="form-check-label" for="addressField">Address</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="birthdateField" checked disabled>
-                                                    <label class="form-check-label" for="birthdateField">Birthdate</label>
-                                                </div>
-                                            </div>
-                                            <div id="additionalFields">
-                                                <!-- Additional fields will be added here -->
-                                            </div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="addFieldBtn">
-                                                <i class="bi bi-plus"></i> Add Custom Field
-                                            </button>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="documentTemplate" class="form-label">Document Template</label>
-                                            <textarea class="form-control" id="documentTemplate" rows="5" placeholder="Enter the document template with placeholders like {{fullName}}, {{address}}, etc."></textarea>
+                                            <label class="form-label">Upload Template (.doc/.docx)</label>
+                                            <input type="file" class="form-control" id="templateFile"
+                                                accept=".doc,.docx" required>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-success" id="saveDocumentBtn">Save Document Type</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-success" id="saveDocumentBtn">Save Document
+                                        Type</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- Edit Document Modal -->
                     <div class="modal fade" id="editDocumentModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog modal-lg">
                             <div class="modal-content">
                                 <div class="modal-header bg-primary text-white">
                                     <h5 class="modal-title">Edit Document Type</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
                                     <form id="editDocumentForm">
@@ -319,63 +305,48 @@
                                         </div>
                                         <div class="mb-3">
                                             <label for="editDocumentDescription" class="form-label">Description</label>
-                                            <textarea class="form-control" id="editDocumentDescription" rows="3"></textarea>
+                                            <textarea class="form-control" id="editDocumentDescription"
+                                                rows="3"></textarea>
                                         </div>
                                         <div class="mb-3">
                                             <label for="editDocumentFee" class="form-label">Processing Fee (₱)</label>
-                                            <input type="number" class="form-control" id="editDocumentFee" min="0" step="1" required>
+                                            <input type="number" class="form-control" id="editDocumentFee" min="0"
+                                                step="1" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label class="form-label">Required Fields</label>
-                                            <div class="d-flex align-items-center mb-2">
-                                                <div class="form-check me-3">
-                                                    <input class="form-check-input" type="checkbox" id="editFullNameField" checked disabled>
-                                                    <label class="form-check-label" for="editFullNameField">Full Name</label>
-                                                </div>
-                                                <div class="form-check me-3">
-                                                    <input class="form-check-input" type="checkbox" id="editAddressField" checked disabled>
-                                                    <label class="form-check-label" for="editAddressField">Address</label>
-                                                </div>
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox" id="editBirthdateField" checked disabled>
-                                                    <label class="form-check-label" for="editBirthdateField">Birthdate</label>
-                                                </div>
-                                            </div>
-                                            <div id="editAdditionalFields">
-                                                <!-- Additional fields will be populated here -->
-                                            </div>
-                                            <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="editAddFieldBtn">
-                                                <i class="bi bi-plus"></i> Add Custom Field
-                                            </button>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="editDocumentTemplate" class="form-label">Document Template</label>
-                                            <textarea class="form-control" id="editDocumentTemplate" rows="5" placeholder="Enter the document template with placeholders like {{fullName}}, {{address}}, etc."></textarea>
+                                            <label class="form-label">Upload Template (.doc/.docx)</label>
+                                            <input type="file" class="form-control" id="templateFile"
+                                                accept=".doc,.docx" required>
                                         </div>
                                     </form>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-primary" id="updateDocumentBtn">Update Document Type</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-primary" id="updateDocumentBtn">Update Document
+                                        Type</button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                
+
                     <!-- Delete Confirmation Modal -->
                     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header bg-danger text-white">
                                     <h5 class="modal-title">Confirm Deletion</h5>
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <p>Are you sure you want to delete the document type "<span id="deleteDocumentName"></span>"?</p>
+                                    <p>Are you sure you want to delete the document type "<span
+                                            id="deleteDocumentName"></span>"?</p>
                                     <p class="text-danger"><strong>Warning:</strong> This action cannot be undone.</p>
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cancel</button>
                                     <button type="button" class="btn btn-danger" id="confirmDeleteBtn">Delete</button>
                                 </div>
                             </div>
@@ -395,7 +366,7 @@
     <script src="../../../js/sidebar-script.js"></script>
     <script src="../../../js/logout-script.js"></script>
     <script src="../../../js/document-template-script.js"></script>
-    
+
 </body>
 
 </html>
