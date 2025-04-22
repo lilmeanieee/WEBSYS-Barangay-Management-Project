@@ -184,20 +184,20 @@ document.addEventListener('DOMContentLoaded', function () {
         const name = document.getElementById('documentName').value.trim();
         const description = document.getElementById('documentDescription').value.trim();
         const fee = parseFloat(document.getElementById('documentFee').value);
-        const template = document.getElementById('documentTemplate').value.trim();
-
+        const fileInput = document.getElementById('addTemplateFile');
+    
         if (!name) {
             alert('Document name is required');
             return;
         }
-
+    
         // Build custom fields array
         const customFields = [];
         document.querySelectorAll('#additionalFields .custom-field').forEach(field => {
             const labelInput = field.querySelector('input[type="text"]');
             const requiredSwitch = field.querySelector('input[type="checkbox"]');
             const label = labelInput.value.trim();
-
+    
             if (label) {
                 const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
                 customFields.push({
@@ -207,49 +207,38 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
-
-        // Prepare JSON payload
-        const payload = {
-            name: name,
-            description: description,
-            fee: fee,
-            template_text: template,
-            fields: customFields
-        };
-
-        console.log("Payload to send:", payload);
-
-
-        // Send data to backend
+    
+        // Prepare FormData
+        const formData = new FormData();
+        formData.append("name", name);
+        formData.append("description", description);
+        formData.append("fee", fee);
+        formData.append("fields", JSON.stringify(customFields));
+        if (fileInput.files[0]) {
+            formData.append("template_file", fileInput.files[0]);
+        }
+    
         fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/add-template.php', {
-
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
+            body: formData
         })
-            .then(res => {
-                console.log("Raw response:", res);
-                return res.json();
-            })
-            .then(response => {
-                console.log("Parsed JSON response:", response);
-                if (response.success) {
-                    showAlert('success', `Document type "${name}" has been saved successfully.`);
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
-                    modal.hide();
-                    document.getElementById('addDocumentForm').reset();
-                    document.getElementById('additionalFields').innerHTML = '';
-                } else {
-                    console.warn("Backend responded with error:", response);
-                    showAlert('danger', response.error || 'Something went wrong.');
-                }
-            })
-            .catch(error => {
-                console.error('Fetch error:', error);
-                showAlert('danger', 'Failed to communicate with the server.');
-            });
+        .then(res => res.json())
+        .then(response => {
+            if (response.success) {
+                showAlert('success', `Document type "${name}" has been saved successfully.`);
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
+                modal.hide();
+                document.getElementById('addDocumentForm').reset();
+                document.getElementById('additionalFields').innerHTML = '';
+                fetchDocumentTemplates(); // Refresh table
+            } else {
+                showAlert('danger', response.error || 'Something went wrong.');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch error:', error);
+            showAlert('danger', 'Failed to communicate with the server.');
+        });
     }
 
 
