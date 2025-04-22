@@ -20,7 +20,7 @@
 
 <body>
     <div class="container-fluid">
-        <div class="row ">
+        <div class="d-flex ">
             <!-- Sidebar -->
             <div class="sidebar colmin-vh-100 bg-dark text-white p-3">
                 <div class="logo pt-4 pb-1  mb-auto text-center">
@@ -36,6 +36,13 @@
                         <a href="../dashboard.html" class="nav-link text-white">
                             <i class="bi bi-grid me-2"></i>
                             <span class="d-none d-lg-inline">Dashboard</span>
+                        </a>
+                    </li>
+                    <!-- Account -->
+                    <li class="nav-item ">
+                        <a href="../account.html" class="nav-link text-white">
+                            <i class="bi bi-person-vcard-fill me-2"></i>
+                            <span class="d-none d-lg-inline">Account</span>
                         </a>
                     </li>
                     <!-- Manage Residents -->
@@ -118,6 +125,14 @@
                         </ul>
                     </li>
 
+                    <!-- Credit & Redeemable Points Conversion -->
+                    <li class="nav-item">
+                        <a href="../credit_and_redeemable_point_system/conversion-settings.html" class="nav-link text-white ">
+                            <i class="bi bi-wallet me-2"></i>
+                            <span class="d-none d-lg-inline">Credit Points Conversion</span>
+                        </a>
+                    </li>
+
                     <!-- Reward Management -->
                     <li class="nav-item dropdown">
                         <!-- Popover for Mobile -->
@@ -126,7 +141,6 @@
                             <ul class="list-unstyled mb-0">
                                 <li><a href="../reward_management/redemption-request.html" class="nav-link list  text-white">Redemption Request</a></li>
                                 <li><a href="../reward_management/rewards-incentives.html" class="nav-link list text-white">Incentives</a></li>
-                                <li><a href="../reward_management/redemption-history.html" class="nav-link list text-white">Redemption History</a></li>
                             </ul>'>
                             <i class="bi bi-gift"></i>
                         </a>
@@ -142,67 +156,19 @@
                                     class="nav-link list text-white">Redemption Request</a></li>
                             <li><a href="../reward_management/rewards-incentives.html"
                                     class="nav-link list text-white">Incentives</a></li>
-                            <li><a href="../reward_management/redemption-history.html"
-                                    class="nav-link list text-white">Redemption History</a></li>
 
                         </ul>
                     </li>
 
-                    <!-- Credit & Redeemable Points Conversion -->
-                    <li class="nav-item dropdown">
-                        <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-lg-none mobile-popover"
-                            title="Credit Points Conversion" data-bs-toggle="popover" data-bs-html="true"
-                            data-bs-placement="right" data-bs-content='
-                                <ul class="list-unstyled mb-0">
-                                    <li><a href="../credit_and_redeemable_point_system/conversion-settings.html" class="nav-link nav-link-active text-white">Conversion Settings</a></li>
-                                    <li><a href="../credit_and_redeemable_point_system/conversion-history.html" class="nav-link text-white">Conversion History</a></li>
-                                </ul>'>
-                            <i class="bi bi-arrow-repeat"></i>
-                        </a>
-
-                        <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-lg-flex"
-                            data-bs-toggle="collapse" data-bs-target="#ptsConversion_Dropdown">
-                            <i class="bi bi-arrow-repeat me-2"></i>
-                            <span class="d-none d-lg-inline">Credit Points Conversion</span>
-                        </a>
-                        <ul class="collapse list-unstyled" id="ptsConversion_Dropdown">
-                            <li><a href="../credit_and_redeemable_point_system/conversion-settings.html"
-                                    class="nav-link list nav-link-active text-white">Conversion Settings</a></li>
-                            <li><a href="../credit_and_redeemable_point_system/conversion-history.html"
-                                    class="nav-link list text-white">Conversion History</a></li>
-                        </ul>
-                    </li>
+                    
 
                     <!-- Volunteer Drive -->
-                    <li class="nav-item dropdown">
-                        <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link active text-white d-lg-none mobile-popover" title="Volunteer Drive "
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
-                            <ul class="list-unstyled mb-0">
-                                 <li><a href="attendance-evaluation.html" class="nav-link list nav-link-active text-white">Attendance
-                                        Evaluation</a></li>
-                                <li><a href="volunteer-report.html" class="nav-link list text-white">Report Log</a></li>
-                            </ul>'>
-                            <i class="bi bi-balloon-heart"></i>
-                        </a>
-
-                        <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link active text-white dropdown-toggle d-none d-lg-flex"
-                            data-bs-toggle="collapse" data-bs-target="#volunteer_Dropdown">
+                    <li class="nav-item ">
+                        <a href="attendance-evaluation.html" class="nav-link active text-white">
                             <i class="bi bi-balloon-heart me-2"></i>
-                            <span class="d-none d-lg-inline">Volunteer Drive </span>
+                            <span class="d-none d-lg-inline">Volunteer Drive</span>
                         </a>
-                        <ul class="collapse list-unstyled" id="volunteer_Dropdown">
-                            <li><a href="attendance-evaluation.html"
-                                    class="nav-link list nav-link-active text-white">Attendance
-                                    Evaluation</a></li>
-                            <li><a href="volunteer-report.html" class="nav-link list text-white">Report Log</a></li>
-
-                        </ul>
                     </li>
-
 
                 </ul>
                 <!-- Settings -->

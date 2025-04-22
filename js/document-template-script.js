@@ -54,8 +54,8 @@ window.openEditModal = function (docId) {
 };
 
 
-document.addEventListener('DOMContentLoaded', function() {
-   //I removed the documentTypes array to the global scope to avoid re-declaring it in the fetch function
+document.addEventListener('DOMContentLoaded', function () {
+    //I removed the documentTypes array to the global scope to avoid re-declaring it in the fetch function
 
     // Sample document types data (this would typically come from a database)
     function fetchDocumentTemplates() {
@@ -75,17 +75,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 showAlert('danger', 'Failed to fetch templates.');
             });
     }
-    
+
 
     // Initialize the table
-    fetchDocumentTemplates();   
+    fetchDocumentTemplates();
 
     // Add Document Type Event Listeners
     document.getElementById('addFieldBtn').addEventListener('click', addCustomField);
     document.getElementById('saveDocumentBtn').addEventListener('click', saveDocumentType);
 
     // Edit Document Type Event Listeners
-    document.getElementById('editAddFieldBtn').addEventListener('click', function() {
+    document.getElementById('editAddFieldBtn').addEventListener('click', function () {
         addCustomField('edit');
     });
 
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         documentTypes.forEach(doc => {
             const row = document.createElement('tr');
-            
+
             // Create required fields badges
             const fieldBadges = (doc.customFields || []).map(field => {
                 return `<span class="badge me-1 ${field.is_required ? 'bg-primary' : 'bg-secondary'}">
@@ -135,7 +135,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Add event listeners to edit and delete buttons
         document.querySelectorAll('.edit-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const docId = parseInt(this.dataset.id);
                 console.log("Edit clicked for ID:", docId); // <--- Add this                
                 //04/19/2024 debugging
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         document.querySelectorAll('.delete-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.addEventListener('click', function () {
                 const docId = parseInt(this.dataset.id);
                 console.log("Delete clicked for:", docId);
                 openDeleteModal(docId);
@@ -159,7 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const container = mode === 'edit' ? document.getElementById('editAdditionalFields') : document.getElementById('additionalFields');
         const fieldDiv = document.createElement('div');
         fieldDiv.className = 'custom-field';
-        
+
         fieldDiv.innerHTML = `
             <input type="text" class="form-control me-2" placeholder="Field Name" required>
             <div class="form-check form-switch me-2">
@@ -170,11 +170,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 <i class="bi bi-x"></i>
             </button>
         `;
-        
+
         container.appendChild(fieldDiv);
-        
+
         // Add event listener to remove button
-        fieldDiv.querySelector('.remove-field').addEventListener('click', function() {
+        fieldDiv.querySelector('.remove-field').addEventListener('click', function () {
             container.removeChild(fieldDiv);
         });
     }
@@ -185,19 +185,19 @@ document.addEventListener('DOMContentLoaded', function() {
         const description = document.getElementById('documentDescription').value.trim();
         const fee = parseFloat(document.getElementById('documentFee').value);
         const template = document.getElementById('documentTemplate').value.trim();
-    
+
         if (!name) {
             alert('Document name is required');
             return;
         }
-    
+
         // Build custom fields array
         const customFields = [];
         document.querySelectorAll('#additionalFields .custom-field').forEach(field => {
             const labelInput = field.querySelector('input[type="text"]');
             const requiredSwitch = field.querySelector('input[type="checkbox"]');
             const label = labelInput.value.trim();
-    
+
             if (label) {
                 const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
                 customFields.push({
@@ -207,7 +207,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         });
-    
+
         // Prepare JSON payload
         const payload = {
             name: name,
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         console.log("Payload to send:", payload);
 
-    
+
         // Send data to backend
         fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/add-template.php', {
 
@@ -229,31 +229,31 @@ document.addEventListener('DOMContentLoaded', function() {
             },
             body: JSON.stringify(payload)
         })
-        .then(res => {
-            console.log("Raw response:", res);
-            return res.json();
-        })
-        .then(response => {
-            console.log("Parsed JSON response:", response);
-            if (response.success) {
-                showAlert('success', `Document type "${name}" has been saved successfully.`);
-                const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
-                modal.hide();
-                document.getElementById('addDocumentForm').reset();
-                document.getElementById('additionalFields').innerHTML = '';
-            } else {
-                console.warn("Backend responded with error:", response);
-                showAlert('danger', response.error || 'Something went wrong.');
-            }
-        })
-        .catch(error => {
-            console.error('Fetch error:', error);
-            showAlert('danger', 'Failed to communicate with the server.');
-        });
+            .then(res => {
+                console.log("Raw response:", res);
+                return res.json();
+            })
+            .then(response => {
+                console.log("Parsed JSON response:", response);
+                if (response.success) {
+                    showAlert('success', `Document type "${name}" has been saved successfully.`);
+                    const modal = bootstrap.Modal.getInstance(document.getElementById('addDocumentModal'));
+                    modal.hide();
+                    document.getElementById('addDocumentForm').reset();
+                    document.getElementById('additionalFields').innerHTML = '';
+                } else {
+                    console.warn("Backend responded with error:", response);
+                    showAlert('danger', response.error || 'Something went wrong.');
+                }
+            })
+            .catch(error => {
+                console.error('Fetch error:', error);
+                showAlert('danger', 'Failed to communicate with the server.');
+            });
     }
-    
-    
-    
+
+
+
 
     // Update document type
     function updateDocumentType() {
@@ -262,36 +262,36 @@ document.addEventListener('DOMContentLoaded', function() {
         const description = document.getElementById('editDocumentDescription').value.trim();
         const fee = parseFloat(document.getElementById('editDocumentFee').value);
         const template = document.getElementById('editDocumentTemplate').value.trim();
-      
+
         if (!name) {
-          alert('Document name is required');
-          return;
+            alert('Document name is required');
+            return;
         }
-      
+
         // Build updated fields array
         const updatedFields = [];
         document.querySelectorAll('#editAdditionalFields .custom-field').forEach(field => {
-          const labelInput = field.querySelector('input[type="text"]');
-          const requiredSwitch = field.querySelector('input[type="checkbox"]');
-          const label = labelInput.value.trim();
-      
-          if (label) {
-            const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
-            updatedFields.push({
-              field_key: field_key,
-              label: label,
-              is_required: requiredSwitch.checked
-            });
-          }
+            const labelInput = field.querySelector('input[type="text"]');
+            const requiredSwitch = field.querySelector('input[type="checkbox"]');
+            const label = labelInput.value.trim();
+
+            if (label) {
+                const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
+                updatedFields.push({
+                    field_key: field_key,
+                    label: label,
+                    is_required: requiredSwitch.checked
+                });
+            }
         });
-      
+
         const payload = {
-          id,
-          name,
-          description,
-          fee,
-          template_text: template,
-          fields: updatedFields
+            id,
+            name,
+            description,
+            fee,
+            template_text: template,
+            fields: updatedFields
         };
          
 
@@ -316,19 +316,25 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error("Update error:", err);
             showAlert('danger', 'Failed to update template.');
           });
-     }       
-      
+     }     
+
 
     // Open delete confirmation modal
     function openDeleteModal(docId) {
         const doc = documentTypes.find(d => d.id === docId);
         if (!doc) return;
 
+        // Set document name in modal
+
         console.log("Opening delete modal for:", doc.name);
         console.log("Modal element found:", document.getElementById('deleteConfirmModal'));
 
         document.getElementById('deleteDocumentName').textContent = doc.name;
+
+        // Store document ID for deletion
         document.getElementById('confirmDeleteBtn').dataset.id = docId;
+
+        // Show modal
 
         const modal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
         modal.show();
@@ -337,6 +343,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Delete document type
     function deleteDocumentType() {
         const docId = parseInt(this.dataset.id);
+        const docIndex = documentTypes.findIndex(d => d.id === docId);
+
+        if (docIndex === -1) return;
+
+        // Store name for success message
+        const docName = documentTypes[docIndex].name;
+
+        // Remove document from array
+        documentTypes.splice(docIndex, 1);
+
+        // Refresh table
+        populateTable();
+
+        // Close modal
+        const modal = bootstrap.Modal.getInstance(document.getElementById('deleteConfirmModal'));
+        modal.hide();
+
+        // Show success message
+        showAlert('danger', `Document type "${docName}" has been deleted.`);
         const doc = documentTypes.find(d => d.id === docId);
         if (!doc) return;
     
@@ -369,20 +394,41 @@ document.addEventListener('DOMContentLoaded', function() {
         const alertDiv = document.createElement('div');
         alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
         alertDiv.setAttribute('role', 'alert');
-        
+
         alertDiv.innerHTML = `
             ${message}
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         `;
-        
+
         // Insert at the top of the container
         const container = document.querySelector('.container');
         container.insertBefore(alertDiv, container.firstChild);
-        
+
         // Auto-dismiss after 3 seconds
         setTimeout(() => {
             const bsAlert = new bootstrap.Alert(alertDiv);
             bsAlert.close();
         }, 3000);
     }
+});
+
+///resets add modal
+document.querySelector('#addDocumentModal .btn-secondary').addEventListener('click', function () {
+    const form = document.getElementById('addDocumentForm');
+    form.reset(); // Reset all form fields
+
+    // Hide and clear preview
+    const preview = document.getElementById('filePreview');
+    const viewer = document.getElementById('fileViewer');
+
+    if (preview) {
+        preview.classList.add('d-none');
+    }
+
+    if (viewer) {
+        viewer.innerHTML = '<em>No preview available.</em>';
+    }
+
+    // Optional: clear file input manually if needed
+    document.getElementById('addTemplateFile').value = '';
 });
