@@ -293,40 +293,9 @@ document.addEventListener('DOMContentLoaded', function () {
             template_text: template,
             fields: updatedFields
         };
+         
 
-        console.log("Updating template:", payload); // Optional debug
-
-      
-        /*
-        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload)
-        })
-            .then(res => res.json())
-            .then(response => {
-                if (response.success) {
-                    showAlert('success', `Document type "${name}" has been updated successfully.`);
-
-                    // Refresh table (refetch from DB)
-                    fetchDocumentTemplates();
-
-                    // Close modal
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('editDocumentModal'));
-                    modal.hide();
-                } else {
-                    showAlert('danger', response.error || 'Update failed.');
-                }
-            })
-            .catch(err => {
-                console.error('Update error:', err);
-                showAlert('danger', 'Failed to update template.');
-            });*/
-     
-
-          fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+    fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)

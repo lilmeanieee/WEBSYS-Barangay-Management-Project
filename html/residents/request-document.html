@@ -6,14 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Request a Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="res-request-document-styles.css" />
+    <!--This file doesn't exist as of April 20, 2025, 12pm
+       <link rel="stylesheet" href="res-request-document-styles.css" /> 
+    -->
 </head>
 
 <body>
     <div class="container py-5">
         <h2 class="mb-4 text-center"> Request a Barangay Document</h2>
 
-        <form id="documentRequestForm" class="card p-4 shadow-sm">
+        <form id="documentRequestForm" method="POST" enctype="multipart/form-data" class="card p-4 shadow-sm">
             <div class="row mb-3">
                 <div class="col-md-6">
                     <label for="fullName" class="form-label">Full Name</label>
@@ -25,17 +27,11 @@
                 <label for="documentType" class="form-label">Select Document</label>
                 <select class="form-select" id="documentType" required>
                     <option value="" disabled selected>Choose a document type</option>
-                    <option value="Barangay Clearance">Barangay Clearance</option>
-                    <option value="Certificate of Indigency">Certificate of Indigency</option>
-                    <option value="Certificate of Residency">Certificate of Residency</option>
-                    <!-- Add more types as needed -->
+                    <!-- Will be populated dynamically-->
                 </select>
             </div>
 
-            <div class="mb-3">
-                <label for="purpose" class="form-label">Purpose of Request</label>
-                <input type="text" class="form-control" id="purpose" required />
-            </div>
+            <div id="templateFields" class="mb-3"></div>
 
             <div class="mb-3">
                 <label for="supportingDocs" class="form-label">Upload Supporting Documents (if needed)</label>
@@ -51,7 +47,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="../js/res-request-document.js"></script>
+    <script src="../../js/res-request-document.js"></script>
 </body>
 
 </html>
