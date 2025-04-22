@@ -1,35 +1,50 @@
-document.getElementById("documentRequestForm").addEventListener("submit", function (e) {
-  e.preventDefault();
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.getElementById("documentRequestForm");
+  const select = document.getElementById("documentType");
+  const container = document.getElementById("templateFields");
 
-  const form = e.target;
-  const formData = new FormData(form);
-
-  // Collect dynamically added custom fields
-  const customFields = {};
-  document.querySelectorAll('.custom-field input').forEach(input => {
-    const key = input.dataset.key;
-    if (key) customFields[key] = input.value;
-  });
-  formData.append("custom_fields", JSON.stringify(customFields));
-
-  fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/submit-document-request.php", {
-    method: "POST",
-    body: formData,
-  })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        alert("Request submitted successfully ✅");
-        form.reset();
-        document.getElementById("customFieldsContainer").innerHTML = "";
-      } else {
-        alert("Error: " + (data.error || "Something went wrong."));
-      }
+  // 1. Load templates and populate dropdown
+  fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-templates.php")
+    .then((res) => res.json())
+    .then((templates) => {
+      templates
+        .filter(t => !t.is_archived)
+        .forEach((template) => {
+          const option = document.createElement("option");
+          option.value = template.id;
+          option.textContent = template.name;
+          option.dataset.fields = JSON.stringify(template.customFields || []);
+          select.appendChild(option);
+        });
     })
-    .catch(err => {
-      console.error("Submission error:", err);
-      alert("Failed to submit request.");
+    .catch((err) => {
+      console.error("Failed to load templates:", err);
     });
+
+  // 2. Generate custom fields when a document is selected
+  select.addEventListener("change", function () {
+    const selectedOption = this.selectedOptions[0];
+    const fields = JSON.parse(selectedOption.dataset.fields || "[]");
+    container.innerHTML = "";
+
+    fields.forEach((field) => {
+      const inputGroup = document.createElement("div");
+      inputGroup.className = "mb-3 custom-field";
+      inputGroup.innerHTML = `
+        <label class="form-label">${field.label}${field.is_required ? " *" : ""}</label>
+        <input type="text" name="${field.field_key}" data-key="${field.field_key}" class="form-control" ${field.is_required ? "required" : ""}>
+      `;
+      container.appendChild(inputGroup);
+    });
+  });
+
+  // 3. Handle form submission (currently just alerts and resets)
+  form.addEventListener("submit", function (e) {
+    e.preventDefault();
+    alert("Your request has been submitted! ✅");
+    form.reset();
+    container.innerHTML = ""; // Clear dynamic fields
+  });
 });
 
 document.addEventListener("DOMContentLoaded", () => {

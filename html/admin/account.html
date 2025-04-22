@@ -155,32 +155,11 @@
                     </li>
 
                     <!-- Volunteer Drive -->
-                    <li class="nav-item dropdown">
-                        <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link text-white d-lg-none mobile-popover" title="Volunteer Drive "
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="volunteer_drive/attendance-evaluation.html" class="nav-link list text-white">Attendance
-                                        Evaluation</a></li>
-                                <li><a href="volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report Log</a></li>
-                            </ul>'>
-                            <i class="bi bi-balloon-heart"></i>
-                        </a>
-
-                        <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-lg-flex"
-                            data-bs-toggle="collapse" data-bs-target="#volunteer_Dropdown">
+                    <li class="nav-item ">
+                        <a href="volunteer_drive/attendance-evaluation.html" class="nav-link text-white">
                             <i class="bi bi-balloon-heart me-2"></i>
-                            <span class="d-none d-lg-inline">Volunteer Drive </span>
+                            <span class="d-none d-lg-inline">Volunteer Drive</span>
                         </a>
-                        <ul class="collapse list-unstyled" id="volunteer_Dropdown">
-                            <li><a href="volunteer_drive/attendance-evaluation.html"
-                                    class="nav-link list text-white">Attendance
-                                    Evaluation</a></li>
-                            <li><a href="volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report
-                                    Log</a></li>
-
-                        </ul>
                     </li>
 
 
@@ -205,8 +184,8 @@
                     <!-- End Content Header Title -->
 
                     <!--  Content  -->
-                    <div class="container mb-5">
-                        <div class="container mb-5" id="account-container">
+                    <div class="container ">
+                        <div class="container " id="account-container">
                             <div
                                 class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                                 <h3 class=" ">List of Accounts</h3>
@@ -224,7 +203,7 @@
                             <!-- Filters Row -->
                             <div class="d-flex flex-column flex-md-row gap-2 mb-4 filters-row">
                                 <!-- Search Bar -->
-                                <div class="flex-fill">
+                                <div class="flex-grow-1 search-bar">
                                     <div class="input-group">
                                         <span class="input-group-text"><i class="bi bi-search"></i></span>
                                         <input type="text" class="form-control" id="nameSearch"
@@ -233,7 +212,7 @@
                                 </div>
 
                                 <!-- Sort Dropdown -->
-                                <div class="min-width-200">
+                                <div class="sort-dropdown">
                                     <select class="form-select" id="sortOption" title="Sort by roles">
                                         <option selected disabled>Sort by Roles</option>
                                         <option value="rank">Sort by Residents</option>
@@ -249,7 +228,7 @@
                             <!-- list of accounts Table -->
                             <div class="table-responsive">
                                 <table class="table table-bordered table-striped table-hover table-lg align-middle">
-                                    <thead>
+                                    <thead class="table-dark">
                                         <tr>
                                             <th scope="col">Fullname</th>
                                             <th scope="col">Username</th>

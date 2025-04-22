@@ -9,7 +9,18 @@
     padding: 0;
 }
 
-/* end content */
+.view-btn {
+    background-color: #3498db;
+    color: white;
+    border: none;
+}
+
+.remove-btn {
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+}
+
 
 
 
