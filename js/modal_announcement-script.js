@@ -20,49 +20,7 @@ document.getElementById('upEventLocationCategory').addEventListener('change', fu
 });
 // end of event location's script
 
-// script for the eligility of the volunteer drive
-const checkboxes = document.querySelectorAll('.eligibility-option');
-const otherCheck = document.getElementById('otherEligibilityCheck');
-const otherInputWrapper = document.getElementById('otherEligibilityInputWrapper');
-const otherInput = document.getElementById('otherEligibilityInput');
-const selectedList = document.getElementById('selectedList');
 
-function updateSelected() {
-    let selected = [];
-    checkboxes.forEach(cb => {
-        if (cb.checked) {
-            selected.push(cb.value);
-        }
-    });
-
-    if (otherCheck.checked && otherInput.value.trim() !== "") {
-        selected.push(otherInput.value.trim());
-    }
-
-    selectedList.textContent = selected.length > 0 ? selected.join(', ') : "None";
-}
-
-// Show/hide input for "Other"
-otherCheck.addEventListener('change', function () {
-    if (this.checked) {
-        otherInputWrapper.classList.remove('d-none');
-        otherInput.focus();
-    } else {
-        otherInputWrapper.classList.add('d-none');
-        otherInput.value = "";
-    }
-    updateSelected();
-});
-
-// Listen to checkbox changes
-checkboxes.forEach(cb => {
-    cb.addEventListener('change', updateSelected);
-});
-
-// Listen to input change
-otherInput.addEventListener('input', updateSelected);
-
-// end of script for the eligility of the volunteer drive
 
 document.getElementById('announcementCategory').addEventListener('change', function () {
     const selectedCategory = this.value;

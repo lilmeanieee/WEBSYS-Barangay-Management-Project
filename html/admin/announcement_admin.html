@@ -156,34 +156,12 @@
                     </li>
 
                     <!-- Volunteer Drive -->
-                    <li class="nav-item dropdown">
-                        <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link text-white d-lg-none mobile-popover" title="Volunteer Drive "
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="volunteer_drive/attendance-evaluation.html" class="nav-link list text-white">Attendance
-                                        Evaluation</a></li>
-                                <li><a href="volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report Log</a></li>
-                            </ul>'>
-                            <i class="bi bi-balloon-heart"></i>
-                        </a>
-
-                        <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-lg-flex"
-                            data-bs-toggle="collapse" data-bs-target="#volunteer_Dropdown">
+                    <li class="nav-item ">
+                        <a href="volunteer_drive/attendance-evaluation.html" class="nav-link text-white">
                             <i class="bi bi-balloon-heart me-2"></i>
-                            <span class="d-none d-lg-inline">Volunteer Drive </span>
+                            <span class="d-none d-lg-inline">Volunteer Drive</span>
                         </a>
-                        <ul class="collapse list-unstyled" id="volunteer_Dropdown">
-                            <li><a href="volunteer_drive/attendance-evaluation.html"
-                                    class="nav-link list text-white">Attendance
-                                    Evaluation</a></li>
-                            <li><a href="volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report
-                                    Log</a></li>
-
-                        </ul>
                     </li>
-
 
                 </ul>
                 <!-- Settings -->
@@ -225,7 +203,7 @@
 
 
                         <!-- Modal for creating an announcement -->
-                        <div class="modal fade announcementModal" id="announcementModal" tabindex="-1"
+                        <div class="modal fade announcementModal" id="announcementModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
                             aria-labelledby="announcementModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
@@ -367,71 +345,13 @@
                                                     <input type="file" class="form-control" id="volunteerFile">
 
                                                     <hr class="line-color">
-                                                    <!-- Event Scheduling Details -->
-                                                    <h5 class="text-center mb-3">Select Who's Eligible to Volunteer</h5>
-                                                    <div class="mb-3">
-                                                        <!-- Dropdown -->
-                                                        <div class="dropdown mb-2 text-center" required>
-                                                            <button class="btn btn-primary dropdown-toggle"
-                                                                type="button" id="eligibilityDropdown"
-                                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                                Select Eligible Volunteers
-                                                            </button>
-                                                            <ul class="dropdown-menu p-3 custom-dropdown-width"
-                                                                aria-labelledby="eligibilityDropdown">
-                                                                <li>
-                                                                    <div class="form-check">
-                                                                        <input
-                                                                            class="form-check-input eligibility-option"
-                                                                            type="checkbox" value="All Residents"
-                                                                            id="allResidents">
-                                                                        <label class="form-check-label"
-                                                                            for="seniorOnly">All Residents</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="form-check">
-                                                                        <input
-                                                                            class="form-check-input eligibility-option"
-                                                                            type="checkbox" value="Seniors Only"
-                                                                            id="seniorOnly">
-                                                                        <label class="form-check-label"
-                                                                            for="seniorOnly">Senior Citizens
-                                                                            Only</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="form-check">
-                                                                        <input
-                                                                            class="form-check-input eligibility-option"
-                                                                            type="checkbox" value="Age 20-30"
-                                                                            id="age20to30">
-                                                                        <label class="form-check-label"
-                                                                            for="age20to30">Age
-                                                                            20-30</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li>
-                                                                    <div class="form-check">
-                                                                        <input class="form-check-input" type="checkbox"
-                                                                            id="otherEligibilityCheck">
-                                                                        <label class="form-check-label"
-                                                                            for="otherEligibilityCheck">Other</label>
-                                                                    </div>
-                                                                </li>
-                                                                <li id="otherEligibilityInputWrapper" class="d-none">
-                                                                    <input type="text" class="form-control mt-2"
-                                                                        id="otherEligibilityInput"
-                                                                        placeholder="Enter other type">
-                                                                </li>
-                                                            </ul>
-                                                        </div>
-
-                                                        <!-- Display Selected (moved below dropdown) -->
-                                                        <div id="selectedEligibility">
-                                                            <strong>Selected:</strong>
-                                                            <span id="selectedList">None</span>
-                                                        </div>
+                                                    <!-- how many residents can participate -->
+                                                    <h5 class="text-center mb-3">Number of Participants</h5>
+                                                    
+                                                    <div class="">
+                                                        <label for="applicantLimit" required>Number of Participants</label>
+                                                        <input type="text" class="form-control"
+                                                            id="volunteer_TimeStart" placeholder="Enter how many residents can participate">
                                                     </div>
 
                                                     <hr class="line-color">
@@ -461,6 +381,19 @@
                                                             <input type="date" class="form-control" id="volunteerDate"
                                                                 required>
                                                     </div>
+                                                    <!-- event time-->
+                                                    <div class="row mb-2">
+                                                        <div class="col-6">
+                                                            <label for="volunteer_TimeStart" required>Event Starting Time</label>
+                                                            <input type="time" class="form-control"
+                                                                id="volunteer_TimeStart">
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <label for="volunteer_TimeEnd">Event Ending Time</label>
+                                                            <input type="time" class="form-control"
+                                                                id="volunteer_TimeEnd">
+                                                        </div>
+                                                    </div>
                                                     <!-- application date-->
                                                     <div class="row mb-2 mt-2">
                                                         <div class="col-6">
@@ -473,19 +406,7 @@
                                                             <input type="date" class="form-control" id="applicationDeadline">
                                                         </div>
                                                     </div>
-                                                    <!-- event time-->
-                                                    <div class="row mb-2">
-                                                        <div class="col-6">
-                                                            <label for="volunteer_TimeStart" required>Time Start</label>
-                                                            <input type="time" class="form-control"
-                                                                id="volunteer_TimeStart">
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label for="volunteer_TimeEnd">Time End</label>
-                                                            <input type="time" class="form-control"
-                                                                id="volunteer_TimeEnd">
-                                                        </div>
-                                                    </div>
+                                                    
 
                                                     <hr class="line-color">
                                                     <!-- Assign Points-->
