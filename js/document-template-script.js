@@ -19,7 +19,7 @@ window.openEditModal = function (docId) {
     document.getElementById('editDocumentName').value = doc.name;
     document.getElementById('editDocumentDescription').value = doc.description;
     document.getElementById('editDocumentFee').value = doc.fee;
-    document.getElementById('editDocumentTemplate').value = doc.template_text || doc.template; // fallback support
+    document.getElementById('editDocumentTemplate').textContent = doc.file_name || "No file uploaded.";support
 
     const customFieldsContainer = document.getElementById('editAdditionalFields');
     customFieldsContainer.innerHTML = '';
@@ -190,14 +190,14 @@ document.addEventListener('DOMContentLoaded', function () {
             alert('Document name is required');
             return;
         }
-    
-        // Build custom fields array
-        const customFields = [];
-        document.querySelectorAll('#additionalFields .custom-field').forEach(field => {
+            
+                // Build custom fields array
+            const customFields = [];
+            document.querySelectorAll('#editAdditionalFields .custom-field').forEach(field => {
             const labelInput = field.querySelector('input[type="text"]');
             const requiredSwitch = field.querySelector('input[type="checkbox"]');
             const label = labelInput.value.trim();
-    
+
             if (label) {
                 const field_key = label.toLowerCase().replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '');
                 customFields.push({
@@ -207,6 +207,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 });
             }
         });
+
     
         // Prepare FormData
         const formData = new FormData();
