@@ -59,10 +59,9 @@
                             title="Document Issuance" data-bs-toggle="popover" data-bs-html="true"
                             data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
-                                    <li><a href="document-request-list.html" class="nav-link text-white">Document Requests</a></li>
-                                    <li><a href="document-issuance.html" class="nav-link nav-link-active text-white">Document Issuance</a></li>
+                                    <li><a href="document-request-list.html" class="nav-link list text-white">Document Requests</a></li>
+                                    <li><a href="document-issuance.html" class="nav-link list nav-link-active text-white">Document Issuance</a></li>
                                     <li><a href="document-template.html" class="nav-link list text-white">Add Document Template</a></li>
-                                    <li><a href="document-report.html" class="nav-link list text-white">Report (Recent Requests)</a></li>
                                 </ul>'>
                             <i class="bi bi-file-earmark-text"></i>
                         </a>
@@ -80,9 +79,6 @@
                                     Issuance</a></li>
                             <li><a href="document-template.html" class="nav-link list text-white">Add Document
                                     Template</a></li>
-                            <li><a href="document-report.html" class="nav-link list text-white">Report (Recent
-                                    Requests)</a></li>
-
                         </ul>
                     </li>
 
@@ -118,16 +114,17 @@
                         <ul class="collapse list-unstyled" id="manageLB_Dropdown">
                             <li><a href="../manage_leaderboards/view-leaderboard.html"
                                     class="nav-link list text-white">View
-                                    Leaderboard</a></li> 
+                                    Leaderboard</a></li>
                             <li><a href="../manage_leaderboards/achievement&badges.html"
                                     class="nav-link list text-white">Achievements &
                                     Badges</a></li>
                         </ul>
                     </li>
 
-                     <!-- Credit & Redeemable Points Conversion -->
-                     <li class="nav-item">
-                        <a href="../credit_and_redeemable_point_system/conversion-settings.html" class="nav-link text-white ">
+                    <!-- Credit & Redeemable Points Conversion -->
+                    <li class="nav-item">
+                        <a href="../credit_and_redeemable_point_system/conversion-settings.html"
+                            class="nav-link text-white ">
                             <i class="bi bi-wallet me-2"></i>
                             <span class="d-none d-lg-inline">Credit Points Conversion</span>
                         </a>
@@ -160,39 +157,14 @@
                     </li>
 
                     <!-- Volunteer Drive -->
-                    <li class="nav-item dropdown">
-                        <!-- Popover for Mobile -->
-                        <a href="#" class="nav-link text-white d-lg-none mobile-popover" title="Volunteer Drive "
-                            data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
-                            <ul class="list-unstyled mb-0">
-                                <li><a href="../volunteer_drive/volunteer-application.html" class="nav-link list text-white">Volunteer
-                                    Applicants</a></li>
-                                <li><a href="../volunteer_drive/attendance-evaluation.html" class="nav-link list text-white">Attendance
-                                        Evaluation</a></li>
-                                <li><a href="../volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report Log</a></li>
-                            </ul>'>
-                            <i class="bi bi-balloon-heart"></i>
-                        </a>
-
-                        <!-- Normal dropdown for larger screens -->
-                        <a href="#" class="nav-link text-white dropdown-toggle d-none d-lg-flex"
-                            data-bs-toggle="collapse" data-bs-target="#volunteer_Dropdown">
+                    <li class="nav-item ">
+                        <a href="../volunteer_drive/attendance-evaluation.html" class="nav-link text-white">
                             <i class="bi bi-balloon-heart me-2"></i>
-                            <span class="d-none d-lg-inline">Volunteer Drive </span>
+                            <span class="d-none d-lg-inline">Volunteer Drive</span>
                         </a>
-                        <ul class="collapse list-unstyled" id="volunteer_Dropdown">
-                            <li><a href="../volunteer_drive/volunteer-application.html"
-                                    class="nav-link list text-white">Volunteer
-                                    Applicants</a></li>
-                            <li><a href="../volunteer_drive/attendance-evaluation.html"
-                                    class="nav-link list text-white">Attendance
-                                    Evaluation</a></li>
-                            <li><a href="../volunteer_drive/volunteer-report.html" class="nav-link list text-white">Report
-                                    Log</a></li>
-                        </ul>
                     </li>
 
-                    
+
                 </ul>
                 <!-- Settings -->
                 <hr class="text-white">
@@ -215,7 +187,7 @@
             </div>
 
             <!-- Main Content -->
-            <div class="main-content col-lg-10 content">
+            <div class="main-content col min-vh-100">
                 <div class="container content-header">
                     <!-- Content Header Title -->
                     <div class="d-flex justify-content-between align-items-center bg-dark text-white p-3">
@@ -223,112 +195,129 @@
                     </div>
                     <!-- End Content Header Title -->
 
-                    <div class="container-fluid py-4 no-print p-3">
-                        <div class="row mb-3 p-">
-                            <div class="col-md-6">
-                                <h5>Pending Document Requests</h5>
+
+                    <div class="container">
+                        <div class="container no-print ">
+                            <div
+                                class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                                <h3 class=" ">Pending Document Requests </h3>
+                                <div class="btn-toolbar mb-2 mb-md-0">
+                                    
+                                </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="d-flex justify-content-end">
-                                    <div class="input-group w-75">
-                                        <input type="text" class="form-control"
+
+                            <!-- Filters Row -->
+                            <div class="d-flex flex-column flex-md-row gap-2 mb-4 filters-row">
+                                <!-- Search Bar -->
+                                <div class="flex-grow-1 search-bar">
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                        <input type="text" class="form-control" id="search"
                                             placeholder="Search by name or document type">
-                                        <button class="btn btn-outline-secondary" type="button" title="Search"><i
-                                                class="bi bi-search"></i></button>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="status-filter btn-group mb-3">
-                            <button type="button" class="btn btn-outline-secondary active">All</button>
-                            <button type="button" class="btn btn-outline-secondary">Pending</button>
-                            <button type="button" class="btn btn-outline-secondary">Approved</button>
-                            <button type="button" class="btn btn-outline-secondary">Rejected</button>
-                        </div>
 
-                        <!-- Document Request List -->
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead class="table-dark">
-                                    <tr>
-                                        <th>Request ID</th>
-                                        <th>Resident</th>
-                                        <th>Document Type</th>
-                                        <th>Date Requested</th>
-                                        <th>Purpose</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>DOC-2025-0001</td>
-                                        <td>Juan Dela Cruz</td>
-                                        <td>Barangay Clearance</td>
-                                        <td>Apr 12, 2025</td>
-                                        <td>Job Application</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
-                                            <button class="btn btn-sm btn-success" title="Approve Request"><i class="bi bi-check-lg"></i></button>
-                                            <button class="btn btn-sm btn-danger" title="Reject Request"><i class="bi bi-x-lg"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DOC-2025-0002</td>
-                                        <td>Maria Santos</td>
-                                        <td>Certificate of Residency</td>
-                                        <td>Apr 11, 2025</td>
-                                        <td>School Requirement</td>
-                                        <td><span class="badge bg-warning">Pending</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
-                                            <button class="btn btn-sm btn-success" title="Approve Request"><i class="bi bi-check-lg"></i></button>
-                                            <button class="btn btn-sm btn-danger" title="Reject Request"><i class="bi bi-x-lg"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DOC-2025-0003</td>
-                                        <td>Pedro Reyes</td>
-                                        <td>Barangay ID</td>
-                                        <td>Apr 10, 2025</td>
-                                        <td>Personal ID</td>
-                                        <td><span class="badge bg-success">Approved</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
-                                            <button class="btn btn-sm btn-secondary" title="Print Document"><i class="bi bi-printer"></i></button>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>DOC-2025-0004</td>
-                                        <td>Anna Lim</td>
-                                        <td>Certificate of Indigency</td>
-                                        <td>Apr 9, 2025</td>
-                                        <td>Medical Assistance</td>
-                                        <td><span class="badge bg-danger">Rejected</span></td>
-                                        <td>
-                                            <button class="btn btn-sm btn-primary" title="View Details"><i class="bi bi-eye"></i></button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <div class="status-filter btn-group mb-3">
+                                <button type="button" class="btn btn-outline-secondary active">All</button>
+                                <button type="button" class="btn btn-outline-secondary">Pending</button>
+                                <button type="button" class="btn btn-outline-secondary">Approved</button>
+                                <button type="button" class="btn btn-outline-secondary">Rejected</button>
+                            </div>
 
-                        <!-- Pagination -->
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-                                </li>
-                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            </ul>
-                        </nav>
+                            <!-- Document Request List -->
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="table-dark">
+                                        <tr>
+                                            <th>Request ID</th>
+                                            <th>Resident</th>
+                                            <th>Document Type</th>
+                                            <th>Date Requested</th>
+                                            <th>Purpose</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>DOC-2025-0001</td>
+                                            <td>Juan Dela Cruz</td>
+                                            <td>Barangay Clearance</td>
+                                            <td>Apr 12, 2025</td>
+                                            <td>Job Application</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" title="View Details"><i
+                                                        class="bi bi-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approve Request"><i
+                                                        class="bi bi-check-lg"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Reject Request"><i
+                                                        class="bi bi-x-lg"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DOC-2025-0002</td>
+                                            <td>Maria Santos</td>
+                                            <td>Certificate of Residency</td>
+                                            <td>Apr 11, 2025</td>
+                                            <td>School Requirement</td>
+                                            <td><span class="badge bg-warning">Pending</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" title="View Details"><i
+                                                        class="bi bi-eye"></i></button>
+                                                <button class="btn btn-sm btn-success" title="Approve Request"><i
+                                                        class="bi bi-check-lg"></i></button>
+                                                <button class="btn btn-sm btn-danger" title="Reject Request"><i
+                                                        class="bi bi-x-lg"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DOC-2025-0003</td>
+                                            <td>Pedro Reyes</td>
+                                            <td>Barangay ID</td>
+                                            <td>Apr 10, 2025</td>
+                                            <td>Personal ID</td>
+                                            <td><span class="badge bg-success">Approved</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" title="View Details"><i
+                                                        class="bi bi-eye"></i></button>
+                                                <button class="btn btn-sm btn-secondary" title="Print Document"><i
+                                                        class="bi bi-printer"></i></button>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>DOC-2025-0004</td>
+                                            <td>Anna Lim</td>
+                                            <td>Certificate of Indigency</td>
+                                            <td>Apr 9, 2025</td>
+                                            <td>Medical Assistance</td>
+                                            <td><span class="badge bg-danger">Rejected</span></td>
+                                            <td>
+                                                <button class="btn btn-sm btn-primary" title="View Details"><i
+                                                        class="bi bi-eye"></i></button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Pagination -->
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination justify-content-center">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                    </li>
+                                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
                     </div>
                 </div>
             </div>

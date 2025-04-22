@@ -55,6 +55,7 @@
 
   .sidebar .logo {
     text-align: center;
+    padding-bottom: 0.5rem !important;
   }
 
   .logo img {
@@ -64,7 +65,6 @@
 
   .sidebar .logo span,
   .sidebar .nav-link span,
-  .sidebar hr,
   .sidebar .dropdown-toggle::after {
     display: none;
   }
@@ -135,4 +135,12 @@
 }
 .main-content {
   padding: 0;
+}
+
+.search-bar {
+  max-width: 500px;
+}
+.sort-dropdown {
+  min-width:150px;
+  max-width: 500px;
 }
