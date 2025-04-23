@@ -76,16 +76,16 @@ document.addEventListener("DOMContentLoaded", () => {
     .then(res => res.json())
     .then(data => {
       if (data.success) {
-        alert("✅ Document request submitted successfully!");
+        alert("Document request submitted successfully!");
         form.reset();
         customFieldsContainer.innerHTML = "";
       } else {
-        alert("❌ Error: " + (data.error || "Something went wrong."));
+        alert("Error: " + (data.error || "Something went wrong."));
       }
     })
     .catch(err => {
       console.error("Submission error:", err);
-      alert("❌ Failed to submit request.");
+      alert("Failed to submit request.");
     });
   });
 });
