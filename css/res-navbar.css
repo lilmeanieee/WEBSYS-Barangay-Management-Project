@@ -5,21 +5,10 @@ body {
   min-height: 100vh;
 }
 
-.section-divider {
-  height: 3px;
-  width: 60px;
-  background-color: #fb8500;
-  margin: 0 auto 30px;
-}
 /* navbar */
 .navbar {
-  height: 80px;
+  height: 70px;
   padding: 1rem;
-  border-radius: 16px;
-  margin: 10px 15px;
-  background: linear-gradient(150deg, #f3f2f2, #ffffff);
-  box-shadow:  9px 9px 18px #848484,
-             -9px -9px 18px #ffffff;
 }
 
 .navbar-logo {
@@ -40,19 +29,7 @@ body {
 .navbar-brand:hover {
   color: #fb8500;
 }
-.login-button {
-  color: #272343;
-  background-color: #ffd803;
-  font-size: 14px;
-  font-weight: 500;
-  padding: 8px 20px;
-  text-decoration: none;
-  transition: 0.3s background-color;
-}
-.login-button:hover {
-  background-color: #e6c200;
-  color: #272343;
-}
+
 
 .navbar-toggler {
   padding-left: 0;
