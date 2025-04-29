@@ -217,7 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append("template_file", fileInput.files[0]);
         }
     
-        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/add-template.php', {
+        fetch('../php-handlers/add-template.php', {
             method: 'POST',
             body: formData
         })
