@@ -134,9 +134,9 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 const volunteerCard = document.createElement('div');
                 volunteerCard.className = 'col-md-12 mb-4';
 
-                // Debug logging for volunteer announcement data
-                console.log('Volunteer announcement data:', announcement);
-                console.log('Volunteer ID from data:', announcement.id);
+    // Debug logging for volunteer announcement data
+    console.log('Volunteer announcement data:', announcement);
+    console.log('Volunteer ID from data:', announcement.id);
 
                 // Check if the user has already joined this event
                 // Convert both to strings for proper comparison
@@ -145,13 +145,13 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
 
                 console.log(`Checking if event ${volunteerId} is joined: ${hasJoined}`);
 
-                // Determine button state based on join status
-                let buttonHTML;
-                if (hasJoined) {
-                    buttonHTML = `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`;
-                } else {
-                    buttonHTML = `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
-                }
+    // Determine button state based on join status
+    let buttonHTML;
+    if (hasJoined) {
+        buttonHTML = `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`;
+    } else {
+        buttonHTML = `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
+    }
 
                 volunteerCard.innerHTML = `
                 <div class="card volunteer-card shadow-sm">

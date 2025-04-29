@@ -22,9 +22,10 @@ try {
     ");
     $upcomingEvents = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($upcomingEvents as &$event) {
+    foreach ($upcomingEvents as $event) {
         $event['type'] = 'Upcoming Event';
         $event['category'] = $event['category_name'];
+        $event['number_of_participants'] = null; // Add this to avoid missing field later
         unset($event['category_name']);
         $allAnnouncements[] = $event;
     }
@@ -35,7 +36,8 @@ try {
             n.news_update_announcement_id AS id,
             n.news_update_title AS title,
             n.news_update_details AS details,
-            n.created_at,
+            '' AS date, -- No event date
+            n.created_at AS date_posted,
             c.category_name
         FROM tbl_news_update_announcement n
         JOIN tbl_announcement_category c ON n.category_id = c.category_id
@@ -43,10 +45,10 @@ try {
     ");
     $newsUpdates = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($newsUpdates as &$news) {
+    foreach ($newsUpdates as $news) {
         $news['type'] = 'News and Update';
-        $news['date'] = ''; // no date field
         $news['category'] = $news['category_name'];
+        $news['number_of_participants'] = null; // Add this to avoid missing field later
         unset($news['category_name']);
         $allAnnouncements[] = $news;
     }
@@ -63,7 +65,9 @@ try {
             v.time_start,
             v.time_end,
             v.created_at AS date_posted,
-            v.credit_points AS credit_points,
+            v.credit_points,
+            v.number_of_participants,
+            (v.number_of_participants - v.current_participants) AS remaining_participants,
             c.category_name
         FROM tbl_volunteer_drive_announcement v
         JOIN tbl_announcement_category c ON v.category_id = c.category_id
@@ -71,7 +75,7 @@ try {
     ");
     $volunteerDrives = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    foreach ($volunteerDrives as &$drive) {
+    foreach ($volunteerDrives as $drive) {
         $drive['type'] = 'Barangay Volunteer Drive';
         $drive['category'] = $drive['category_name'];
         unset($drive['category_name']);

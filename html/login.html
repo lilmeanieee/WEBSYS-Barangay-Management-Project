@@ -57,23 +57,23 @@
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const form = document.getElementById('loginForm');
-        
+
             if (!form) {
                 console.error("Login form not found.");
                 return;
             }
-        
+
             form.addEventListener('submit', function (e) {
                 e.preventDefault();
-        
+
                 const email = document.getElementById('emailInput')?.value.trim();
                 const password = document.getElementById('passwordInput')?.value.trim();
-        
+
                 if (!email || !password) {
                     alert("Please fill out both email and password.");
                     return;
                 }
-        
+
                 fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/login.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -82,14 +82,19 @@
                 .then(res => res.json())
                 .then(data => {
                     if (data.status === 'success') {
+                        // Store in localStorage for client-side access
                         localStorage.setItem('userData', JSON.stringify(data.user));
-        
+                        
                         if (data.user.first_login == 1) {
-                            window.location.href = '../html/change-password.php';
-                        } else if (data.user.role === 'admin') {
-                            window.location.href = '../admin/dashboard.html';
-                        } else {
-                            window.location.href = '../html/home.html';
+                            // Redirect to change password page if it's the user's first login
+                            window.location.href = '../change-password.php';
+                        } else if (data.user.first_login == 0) {
+                            // Check user role for proper redirection
+                            if (data.user.role === 'Admin' || data.user.role === 'SubAdmin') {
+                                window.location.href = '../html/admin/dashboard.html';
+                            } else if (data.user.role === 'Resident') {
+                                window.location.href = '../html/home.html';
+                            }
                         }
                     } else {
                         alert(data.message || "Login failed.");

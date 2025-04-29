@@ -5,7 +5,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = $_POST['id'];
     $title = $_POST['title'];
     $details = $_POST['details'];
-    $eligibility = $_POST['eligibility'];
+    $numberOfParticipants = $_POST['numberOfParticipants'];
     $locationCategory = $_POST['volunteerLocationCategory'];
     $locationInput = $_POST['volunteerLocationInputOption'];
     $date = $_POST['date'];
@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $sql = "UPDATE tbl_volunteer_drive_announcement SET 
                 title = ?, 
                 details = ?, 
-                eligibility = ?, 
+                numberOfParticipants = ?, 
                 volunteerLocationCategory = ?, 
                 volunteerLocationInputOption = ?, 
                 date = ?, 
@@ -45,9 +45,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $stmt = $conn->prepare($sql);
     if ($fileName) {
-        $stmt->bind_param("sssssssssiisi", $title, $details, $eligibility, $locationCategory, $locationInput, $date, $deadline, $timeStart, $timeEnd, $expPoints, $redeemPoints, $fileName, $id);
+        $stmt->bind_param("ssissssssiisi", $title, $details, $numberOfParticipants, $locationCategory, $locationInput, $date, $deadline, $timeStart, $timeEnd, $expPoints, $redeemPoints, $fileName, $id);
     } else {
-        $stmt->bind_param("sssssssssiis", $title, $details, $eligibility, $locationCategory, $locationInput, $date, $deadline, $timeStart, $timeEnd, $expPoints, $redeemPoints, $id);
+        $stmt->bind_param("ssissssssiis", $title, $details, $numberOfParticipants, $locationCategory, $locationInput, $date, $deadline, $timeStart, $timeEnd, $expPoints, $redeemPoints, $id);
     }
 
     echo $stmt->execute() ? "Volunteer Drive updated successfully." : "Error updating: " . $stmt->error;

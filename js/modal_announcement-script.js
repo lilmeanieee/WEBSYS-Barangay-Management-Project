@@ -171,7 +171,7 @@ document.getElementById('postAnnouncementBtn').addEventListener('click', functio
         formData.append('title', document.getElementById('volunteerTitle').value);
         formData.append('details', document.getElementById('volunteerDetails').value);
         formData.append('file', document.getElementById('volunteerFile').files[0]);
-        formData.append('eligibility', document.getElementById('selectedList').textContent);
+        formData.append('numberOfParticipants', document.getElementById('numberOfParticipants').value);
         formData.append('volunteerLocationCategory', document.getElementById('volunteerLocationCategory').value);
         formData.append('volunteerLocationInputOption', document.getElementById('volunteerLocationInputOption').value);
         formData.append('date', document.getElementById('volunteerDate').value);
@@ -265,19 +265,23 @@ fetch('../../php-handlers/get-announcement.php')
             card.className = 'card mb-3';
     
             card.innerHTML = `
-                <div class="card-body d-flex justify-content-between align-items-start">
-                    <div>
-                        <h5 class="card-title">${announcement.title}</h5>
-                        <p class="card-text">${announcement.details}</p>
-                        ${announcement.date ? `<p class="card-text"><small class="text-muted">Event Date: ${announcement.date}</small></p>` : ''}
-                        <span class="badge bg-secondary">${formatType(announcement.type)}</span>
-                    </div>
-                    <div>
-                        <button class="btn btn-sm btn-primary me-2 edit-btn" data-id="${announcement.id}" data-type="${announcement.type}">Edit</button>
-                        <button class="btn btn-sm btn-danger archive-btn" data-id="${announcement.id}" data-type="${announcement.type}">Archive</button>
-                    </div>
+            <div class="card-body d-flex justify-content-between align-items-start">
+                <div>
+                    <h5 class="card-title">${announcement.title}</h5>
+                    <p class="card-text">${announcement.details}</p>
+                    ${announcement.date ? `<p class="card-text"><small class="text-muted">Event Date: ${announcement.date}</small></p>` : ''}
+                    ${announcement.type === 'Barangay Volunteer Drive' && announcement.remaining_participants != null ? `
+                    <p class="card-text"><small class="text-muted">Remaining Participants: ${announcement.remaining_participants}</small></p>
+                    ` : ''}
+                    <span class="badge bg-secondary">${formatType(announcement.type)}</span>
                 </div>
+                <div>
+                    <button class="btn btn-sm btn-primary me-2 edit-btn" data-id="${announcement.id}" data-type="${announcement.type}">Edit</button>
+                    <button class="btn btn-sm btn-danger archive-btn" data-id="${announcement.id}" data-type="${announcement.type}">Archive</button>
+                </div>
+            </div>
             `;
+
 
     
             container.appendChild(card);
@@ -391,7 +395,7 @@ fetch('../../php-handlers/get-announcement.php')
             } else if (announcement.type === 'Barangay Volunteer Drive') {
                 document.getElementById('volunteerTitle').value = announcement.title || '';
                 document.getElementById('volunteerDetails').value = announcement.details || '';
-                
+                document.getElementById('numberOfParticipants').value = announcement.numberOfParticipants
                 document.getElementById('volunteerLocationCategory').value = announcement.volunteerLocationCategory || '';
                 document.getElementById('volunteerLocationInputOption').value = announcement.volunteerLocationInputOption || '';
                 
@@ -399,38 +403,8 @@ fetch('../../php-handlers/get-announcement.php')
                 document.getElementById('applicationDeadline').value = announcement.deadline || '';
                 document.getElementById('volunteer_TimeStart').value = announcement.time_start || '';
                 document.getElementById('volunteer_TimeEnd').value = announcement.time_end || '';
-                document.getElementById('experiencePts').value = announcement.exp_points || '';
-                document.getElementById('redeemablePts').value = announcement.redeem_points || '';
+                document.getElementById('creditPoints').value = announcement.creditPoints || '';
             
-                // Populate eligibility list
-                if (announcement.eligible_volunteer) {
-                    const eligibilityItems = announcement.eligible_volunteer.split(',').map(item => item.trim());
-                    const selectedList = document.getElementById('selectedList');
-                    selectedList.textContent = ''; // Clear old content
-                    eligibilityItems.forEach(item => {
-                        const span = document.createElement('span');
-                        span.textContent = item;
-                        span.className = 'badge bg-primary me-1';
-                        selectedList.appendChild(span);
-                    });
-            
-                    // Also set 'Other' input field if applicable
-                    const otherInput = document.getElementById('otherEligibilityInput');
-                    const otherWrapper = document.getElementById('otherEligibilityInputWrapper');
-                    const otherValue = eligibilityItems.find(val => 
-                        !['Youth', 'Senior Citizens', 'PWDs', 'Students'].includes(val)
-                    );
-            
-                    if (otherValue) {
-                        otherWrapper.style.display = 'block';
-                        document.getElementById('otherEligibilityCheck').checked = true;
-                        otherInput.value = otherValue;
-                    } else {
-                        otherWrapper.style.display = 'none';
-                        document.getElementById('otherEligibilityCheck').checked = false;
-                        otherInput.value = '';
-                    }
-                }
             }  }, 300);
         }  // Delay to ensure the form is displayed before populating fields
             
@@ -578,6 +552,7 @@ fetch('../../php-handlers/get-announcement.php')
                     formData.append('type', 'Barangay Volunteer Drive');
                     formData.append('title', document.getElementById('volunteerTitle').value);
                     formData.append('details', document.getElementById('volunteerDetails').value);
+                    formData.append('numberOfParticipants', document.getElementById('numberOfParticipants').value);
                     formData.append('volunteerLocationCategory', document.getElementById('volunteerLocationCategory').value);
                     formData.append('volunteerLocationInputOption', document.getElementById('volunteerLocationInputOption').value);
                     formData.append('date', document.getElementById('volunteerDate').value);
@@ -586,12 +561,6 @@ fetch('../../php-handlers/get-announcement.php')
                     formData.append('volunteer_TimeEnd', document.getElementById('volunteer_TimeEnd').value);
                     formData.append('experiencePts', document.getElementById('experiencePts').value);
                     formData.append('redeemablePts', document.getElementById('redeemablePts').value);
-                    
-                    // Get selected eligibility options
-                    const selectedEligibility = document.getElementById('selectedList').textContent;
-                    if (selectedEligibility !== 'None') {
-                        formData.append('eligibility', selectedEligibility);
-                    }
 
                     const fileInput = document.getElementById('volunteerFile');
                     if (fileInput.files.length > 0) {
@@ -684,15 +653,10 @@ function resetAnnouncementForm() {
     document.getElementById('upEventLocationInputOption').style.display = 'none';
 
     // Clear text in optional location inputs
+    document.getElementById('numberOfParticipants').value = '';
     document.getElementById('volunteerLocationInputOption').value = '';
     document.getElementById('upEventLocationInputOption').value = '';
 
-    // Reset eligibility section
-    document.getElementById('selectedList').textContent = 'None';
-    document.getElementById('otherEligibilityInput').value = '';
-    document.getElementById('otherEligibilityInputWrapper').classList.add('d-none');
-    document.querySelectorAll('.eligibility-option').forEach(cb => cb.checked = false);
-    document.getElementById('otherEligibilityCheck').checked = false;
 
     // Clear file inputs manually (file inputs can't be reset by .reset() in some browsers)
     document.getElementById('volunteerFile').value = '';
@@ -768,11 +732,12 @@ function validateForm() {
         // Check only Barangay Volunteer Drive fields
         var volunteerTitle = document.getElementById("volunteerTitle").value.trim();
         var volunteerDetails = document.getElementById("volunteerDetails").value.trim();
+        var numberOfParticipants = document.getElementById("numberOfParticipants").value;
         var volunteerLocation = document.getElementById("volunteerLocationCategory").value;
         var volunteerDate = document.getElementById("volunteerDate").value;
         var applicationDeadline = document.getElementById("applicationDeadline").value;
         var volunteerTimeStart = document.getElementById("volunteer_TimeStart").value;
-        var experiencePts = document.getElementById("creditPoints").value.trim();
+        var creditPoints = document.getElementById("creditPoints").value.trim();
         
         
         if (!volunteerTitle) {
@@ -802,6 +767,10 @@ function validateForm() {
       
         if (!creditPoints) {
             alert("Please enter the credit points for the Barangay Volunteer Drive.");
+            return false;
+        }
+        if(!numberOfParticipants){
+            alert("Please enter the number of participants for the Barangay Volunteer Drive.");
             return false;
         }
     }
@@ -906,9 +875,6 @@ function resetAnnouncementModal() {
             field.value = '';
         }
     });
-
-    // Hide optional fields
-    document.getElementById('otherEligibilityInputWrapper')?.classList.add('d-none');
 
     // Reset display text
     const selectedList = document.getElementById('selectedList');

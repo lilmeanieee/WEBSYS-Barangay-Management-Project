@@ -52,7 +52,7 @@ try {
             $stmt = $conn->prepare($updateStatsSql);
             $stmt->bind_param("ii", $creditPoints, $residentId);
             $stmt->execute();
-        } else if ($status === 'Did Not Participate') {
+        } else if ($status === 'Did Not Participated') {
             // For participants who did not attend, update no_show_streak and total_missed
             // Note: credit_points and total_participated remain unchanged
             $updateStatsSql = "UPDATE tbl_resident_participation_stats 
