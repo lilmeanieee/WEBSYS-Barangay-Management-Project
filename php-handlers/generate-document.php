@@ -7,8 +7,9 @@ require_once '../lib/PhpOffice/PhpWord/Autoloader.php';
 \PhpOffice\PhpWord\Autoloader::register();
 
 use PhpOffice\PhpWord\TemplateProcessor;
+use PhpOffice\PhpWord\IOFactory;
 
-// --- Helper function for date suffix ---
+// --- Helper function ---
 function getDayWithSuffix($day) {
     if (!in_array(($day % 100), [11, 12, 13])) {
         switch ($day % 10) {
@@ -20,7 +21,6 @@ function getDayWithSuffix($day) {
     return $day . 'th';
 }
 
-// --- Helper function to format date nicely ---
 function getFormattedDate() {
     $day = date('j');
     $month = date('F');
@@ -28,7 +28,7 @@ function getFormattedDate() {
     return getDayWithSuffix($day) . " day of " . $month . ", " . $year;
 }
 
-// --- Validate and get request_id ---
+// Validate request
 if (!isset($_GET['request_id'])) {
     die("Request ID is required.");
 }
@@ -37,7 +37,7 @@ $request_id = intval($_GET['request_id']);
 
 include 'connect.php'; // Your database connection
 
-// --- Fetch document request and template info ---
+// Fetch document request and template info
 $query = "
 SELECT r.*, t.name AS document_name, t.file_path
 FROM tbl_document_requests r
@@ -56,14 +56,14 @@ if ($result->num_rows === 0) {
 
 $request = $result->fetch_assoc();
 
-// --- Build values array ---
+// Build values array
 $values = [
     'name' => $request['resident_name'],
     'formatted_date' => getFormattedDate(),
-    'purpose' => $request['purpose'] ?? '' // optional if you want to use <purpose> in template
+    'purpose' => $request['purpose'] ?? ''
 ];
 
-// --- Fetch and merge custom fields ---
+// Fetch and merge custom fields
 $queryFields = "SELECT field_key, field_value FROM tbl_request_field_values WHERE request_id = ?";
 $stmtFields = $conn->prepare($queryFields);
 $stmtFields->bind_param('i', $request_id);
@@ -74,30 +74,39 @@ while ($field = $resultFields->fetch_assoc()) {
     $values[$field['field_key']] = $field['field_value'];
 }
 
-// --- Load the correct template ---
-$templatePath = $request['file_path']; // Adjust path as needed
+// Load template
+$templatePath = $request['file_path']; // Already contains ../uploads/document_templates/...
 if (!file_exists($templatePath)) {
-    die("Template file not found.");
+    die("Template file not found at: $templatePath");
 }
 
 $template = new TemplateProcessor($templatePath);
 
-// --- Replace placeholders dynamically ---
+// Replace placeholders
 foreach ($values as $key => $val) {
     $template->setValue($key, htmlspecialchars($val));
 }
 
-// --- Build dynamic filename ---
-$cleanName = str_replace(' ', '-', $request['resident_name']); // "Si Wellan Itoh" => "Si-Wellan-Itoh"
-$cleanDocName = str_replace(' ', '-', $request['document_name']); // "Solo Parent" => "Solo-Parent"
+// Save generated .docx
+$cleanName = str_replace(' ', '-', $request['resident_name']);
+$cleanDocName = str_replace(' ', '-', $request['document_name']);
 $year = date('Y');
-$filename = "{$cleanName}-{$cleanDocName}-{$year}.docx";
 
-// --- Output the file ---
-header('Content-Type: application/vnd.openxmlformats-officedocument.wordprocessingml.document');
-header('Content-Disposition: attachment;filename="' . $filename . '"');
-header('Cache-Control: max-age=0');
+$filenameDocx = "{$cleanName}-{$cleanDocName}-{$year}.docx";
+$filenameHtml = "{$cleanName}-{$cleanDocName}-{$year}.html";
 
-$template->saveAs('php://output');
+$generatedDocxPath = "../uploads/generated_documents/" . $filenameDocx;
+$generatedHtmlPath = "../uploads/generated_documents/" . $filenameHtml;
+
+// Save Word
+$template->saveAs($generatedDocxPath);
+
+// Convert to HTML
+$phpWord = IOFactory::load($generatedDocxPath);
+$htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
+$htmlWriter->save($generatedHtmlPath);
+
+// ✅ Now Redirect Admin to Document Editor
+header("Location: /ORENJCHOCO-Barangay-Management-Project/admin/document_request/document-editor.html?file=" . urlencode($filenameHtml));
 exit;
 ?>
