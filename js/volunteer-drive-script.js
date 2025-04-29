@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     document.getElementById('mark-not-participated').addEventListener('click', () => {
-        updateAttendance("Did Not Participate");
+        updateAttendance("Did Not Participated");
     });
 
     document.getElementById('select-all-participants').addEventListener('change', function () {
@@ -99,7 +99,7 @@ function fetchParticipants(eventId = 'all') {
 
             // Filter out participants who already have attendance marked
             const pendingParticipants = data.filter(item => 
-                item.attendance !== 'Participated' && item.attendance !== 'Did Not Participate'
+                item.attendance !== 'Participated' && item.attendance !== 'Did Not Participated'
             );
 
             if (pendingParticipants.length === 0) {
@@ -113,7 +113,7 @@ function fetchParticipants(eventId = 'all') {
 
             pendingParticipants.forEach(item => {
                 const badgeClass = item.attendance === 'Participated' ? 'bg-success' :
-                                  item.attendance === 'Did Not Participate' ? 'bg-danger' :
+                                  item.attendance === 'Did Not Participated' ? 'bg-danger' :
                                   'bg-warning';
 
                 tbody.innerHTML += `

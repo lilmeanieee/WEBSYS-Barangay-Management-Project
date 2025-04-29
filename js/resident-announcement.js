@@ -110,79 +110,64 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 newsContainer.appendChild(newsCard);
                 break;
                 
-            case 'Upcoming Event':
-                const eventCard = document.createElement('div');
-                eventCard.className = 'col-md-4 mb-4';
+            // Modify the volunteer card HTML structure in the renderAnnouncements function
+// Find the section where volunteer cards are created (case 'Barangay Volunteer Drive':)
 
-                const eventDateHTML = announcement.date ? `<div class="text-muted mb-2">${announcement.date}</div>` : '';
+case 'Barangay Volunteer Drive':
+    const volunteerCard = document.createElement('div');
+    volunteerCard.className = 'col-md-12 mb-4';
 
-                eventCard.innerHTML = `
-                    <div class="card h-100">
-                        <div class="card-body">
-                            ${eventDateHTML}
-                            <h5 class="card-title">${announcement.title}</h5>
-                            <p class="card-text">${announcement.details}</p>
-                            ${announcement.time_start && announcement.time_end
-                                ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
-                        </div>
-                    </div>
-                `;
-                eventsContainer.appendChild(eventCard);
-                break;
-                
-            case 'Barangay Volunteer Drive':
-                const volunteerCard = document.createElement('div');
-                volunteerCard.className = 'col-md-12 mb-4';
+    // Debug logging for volunteer announcement data
+    console.log('Volunteer announcement data:', announcement);
+    console.log('Volunteer ID from data:', announcement.id);
 
-                // Debug logging for volunteer announcement data
-                console.log('Volunteer announcement data:', announcement);
-                console.log('Volunteer ID from data:', announcement.id);
+    // Check if the user has already joined this event
+    // Convert both to strings for proper comparison
+    const volunteerId = String(announcement.id);
+    const hasJoined = joinedEventIds.includes(volunteerId);
+    
+    console.log(`Checking if event ${volunteerId} is joined: ${hasJoined}`);
 
-                // Check if the user has already joined this event
-                // Convert both to strings for proper comparison
-                const volunteerId = String(announcement.id);
-                const hasJoined = joinedEventIds.includes(volunteerId);
-                
-                console.log(`Checking if event ${volunteerId} is joined: ${hasJoined}`);
+    // Determine button state based on join status
+    let buttonHTML;
+    if (hasJoined) {
+        buttonHTML = `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`;
+    } else {
+        buttonHTML = `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
+    }
 
-                // Determine button state based on join status
-                let buttonHTML;
-                if (hasJoined) {
-                    buttonHTML = `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`;
-                } else {
-                    buttonHTML = `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
-                }
-
-                volunteerCard.innerHTML = `
-                <div class="card shadow-sm">
-                    <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
-                        <div style="flex: 1 1 auto; min-width: 70%;">
-                            <h5 class="card-title mb-2">${announcement.title}</h5>
-                            <p class="card-text">${announcement.details}</p>
-                            <p class="mb-1">
-                                <small class="text-muted">
-                                    📅 <strong>Application:</strong> ${formatDate(announcement.application_start)} - ${formatDate(announcement.application_deadline)}
-                                </small>
-                            </p>
-                            <p class="mb-1">
-                                <small class="text-muted">
-                                    ⏰ <strong>Event Time:</strong> ${formatTime(announcement.time_start)} - ${formatTime(announcement.time_end)}
-                                </small>
-                            </p>
-                            <p class="mb-1">
-                                <small class="text-muted">🎖️ Credit Points: ${announcement.credit_points}</small>
-                            </p>
-                        </div>
-                        <div class="text-end" style="min-width: 150px;">
-                            <span class="badge bg-success mb-2">${formatDate(announcement.date)}</span><br>
-                            ${buttonHTML}
-                        </div>
-                    </div>
-                    <p class="volunteer-remaining-joins text-muted small mt-2"></p>
-                </div>
-                `;
-                volunteerContainer.appendChild(volunteerCard);
-                break;
+    volunteerCard.innerHTML = `
+    <div class="card shadow-sm">
+        <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
+            <div style="flex: 1 1 auto; min-width: 70%;">
+                <h5 class="card-title mb-2">${announcement.title}</h5>
+                <p class="card-text">${announcement.details}</p>
+                <p class="mb-1">
+                    <small class="text-muted">
+                        📅 <strong>Application:</strong> ${formatDate(announcement.application_start)} - ${formatDate(announcement.application_deadline)}
+                    </small>
+                </p>
+                <p class="mb-1">
+                    <small class="text-muted">
+                        ⏰ <strong>Event Time:</strong> ${formatTime(announcement.time_start)} - ${formatTime(announcement.time_end)}
+                    </small>
+                </p>
+                <p class="mb-1">
+                    <small class="text-muted"><strong>🎖️ Credit Points:</strong> ${announcement.credit_points}</small>
+                </p>
+                <p class="mb-1 volunteer-remaining-joins">
+                    <small class="text-muted"><strong>🔁 Remaining joins this Month:</strong>    </small>
+                </p>
+            </div>
+            <div class="text-end" style="min-width: 150px;">
+                <span class="badge bg-success mb-2">${formatDate(announcement.date)}</span><br>
+                ${buttonHTML}
+            </div>
+        </div>
+    </div>
+    `;
+    volunteerContainer.appendChild(volunteerCard);
+    break;
                 
             default:
                 console.warn('Uncategorized announcement:', announcement);
@@ -338,7 +323,7 @@ function fetchJoinCountAndUpdateCards(residentId) {
 
         // Update all volunteer cards
         document.querySelectorAll('.volunteer-remaining-joins').forEach(elem => {
-            elem.textContent = `🔁 Remaining Joins This Month: ${remaining}`;
+            elem.textContent = `🔁 Remaining joins this Month: ${remaining}`;
             
             // Disable join buttons if no remaining joins
             if (remaining === 0) {
@@ -355,7 +340,7 @@ function fetchJoinCountAndUpdateCards(residentId) {
     .catch(err => {
         console.error('Error fetching join count:', err);
     });
-}
+}   
 
 // Filter by category
 document.getElementById('categoryFilter')?.addEventListener('change', function() {

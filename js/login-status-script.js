@@ -8,7 +8,8 @@ document.addEventListener("DOMContentLoaded", function() {
         if (userData) {
             // User is logged in
             const user = JSON.parse(userData);
-            document.getElementById('userName').textContent = user.name;
+            // Format as First name Last name
+            document.getElementById('userName').textContent = `${user.first_name} ${user.last_name}`;
             
         } else {
             // User is not logged in
