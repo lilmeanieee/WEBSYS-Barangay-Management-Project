@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Sample document types data (this would typically come from a database)
     function fetchDocumentTemplates() {
-        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-templates.php')
+        fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-templates.php')
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
