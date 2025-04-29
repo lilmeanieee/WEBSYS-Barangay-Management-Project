@@ -47,10 +47,19 @@ document.addEventListener("DOMContentLoaded", () => {
       const wrapper = document.createElement("div");
       wrapper.classList.add("mb-3", "custom-field");
 
-      wrapper.innerHTML = `
-        <label class="form-label">${field.label}${field.is_required ? ' *' : ''}</label>
-        <input type="text" class="form-control" data-key="${field.field_key}" ${field.is_required ? 'required' : ''} />
-      `;
+      const label = document.createElement("label");
+      label.classList.add("form-label");
+      label.textContent = field.label;
+      if (field.is_required) label.textContent += " *";
+
+      const input = document.createElement("input");
+      input.type = "text";
+      input.classList.add("form-control");
+      input.dataset.key = field.field_key;
+      if (field.is_required) input.required = true;
+
+      wrapper.appendChild(label);
+      wrapper.appendChild(input);
 
       customFieldsContainer.appendChild(wrapper);
     });
