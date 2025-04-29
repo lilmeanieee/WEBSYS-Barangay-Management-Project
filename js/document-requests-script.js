@@ -1,11 +1,11 @@
-// === GLOBAL VARIABLES ===
+// GLOBAL VARIABLES
 const tableBody = document.querySelector("tbody");
 const searchInput = document.getElementById('search');
 const statusButtons = document.querySelectorAll('.status-filter button');
 let currentPage = 1;
 let currentStatus = ''; // '', 'Pending', 'Approved', 'Rejected'
 
-// === FUNCTIONS ===
+// FUNCTIONS
 
 // Load document requests
 function loadRequests(page = 1, search = '', status = '') {
@@ -216,7 +216,7 @@ function openViewDetailsModal(id) {
     });
 }
 
-// === INIT ===
+// INIT
 document.addEventListener("DOMContentLoaded", () => {
   searchInput.addEventListener('input', () => {
     const search = searchInput.value.trim();
