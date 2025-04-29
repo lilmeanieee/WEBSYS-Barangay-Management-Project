@@ -55,11 +55,9 @@ window.openEditModal = function (docId) {
 
 
 document.addEventListener('DOMContentLoaded', function () {
-    //I removed the documentTypes array to the global scope to avoid re-declaring it in the fetch function
-
     // Sample document types data (this would typically come from a database)
     function fetchDocumentTemplates() {
-        fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-templates.php')
+        fetch('../../../php-handlers/get-templates.php')
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
