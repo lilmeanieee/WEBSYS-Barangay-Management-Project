@@ -5,13 +5,13 @@ let joinedEventIds = []; // Track joined event IDs
 function fetchAnnouncementsAndJoinedEvents() {
     const userData = JSON.parse(localStorage.getItem('userData') || '{}');
     const residentId = userData.resident_id;
-    
+
     // First fetch announcements
     fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-announcement.php')
         .then(res => res.json())
         .then(data => {
             announcementsFromDB = data;
-            
+
             // Then fetch joined events if logged in
             if (residentId) {
                 return fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-joined-events.php', {
@@ -19,17 +19,17 @@ function fetchAnnouncementsAndJoinedEvents() {
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `resident_id=${encodeURIComponent(residentId)}`
                 })
-                .then(res => res.json())
-                .then(joinedEvents => {
-                    // Store joined events as strings for easier comparison
-                    joinedEventIds = joinedEvents.map(id => String(id));
-                    console.log('Joined event IDs:', joinedEventIds);
-                    renderAnnouncements(); // Now render with complete data
-                })
-                .catch(err => {
-                    console.error('Error fetching joined events:', err);
-                    renderAnnouncements(); // Render anyway, even if joined status fetch fails
-                });
+                    .then(res => res.json())
+                    .then(joinedEvents => {
+                        // Store joined events as strings for easier comparison
+                        joinedEventIds = joinedEvents.map(id => String(id));
+                        console.log('Joined event IDs:', joinedEventIds);
+                        renderAnnouncements(); // Now render with complete data
+                    })
+                    .catch(err => {
+                        console.error('Error fetching joined events:', err);
+                        renderAnnouncements(); // Render anyway, even if joined status fetch fails
+                    });
             } else {
                 renderAnnouncements(); // Not logged in, just render
             }
@@ -103,13 +103,13 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                             <h5 class="card-title">${announcement.title}</h5>
                             <p class="card-text">${announcement.details}</p>
                             ${announcement.time_start && announcement.time_end
-                                ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
+                        ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
                         </div>
                     </div>
                 `;
                 newsContainer.appendChild(newsCard);
                 break;
-                
+
             case 'Upcoming Event':
                 const eventCard = document.createElement('div');
                 eventCard.className = 'col-md-4 mb-4';
@@ -123,13 +123,13 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                             <h5 class="card-title">${announcement.title}</h5>
                             <p class="card-text">${announcement.details}</p>
                             ${announcement.time_start && announcement.time_end
-                                ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
+                        ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
                         </div>
                     </div>
                 `;
                 eventsContainer.appendChild(eventCard);
                 break;
-                
+
             case 'Barangay Volunteer Drive':
                 const volunteerCard = document.createElement('div');
                 volunteerCard.className = 'col-md-12 mb-4';
@@ -142,7 +142,7 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 // Convert both to strings for proper comparison
                 const volunteerId = String(announcement.id);
                 const hasJoined = joinedEventIds.includes(volunteerId);
-                
+
                 console.log(`Checking if event ${volunteerId} is joined: ${hasJoined}`);
 
                 // Determine button state based on join status
@@ -154,11 +154,16 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 }
 
                 volunteerCard.innerHTML = `
-                <div class="card shadow-sm">
+                <div class="card volunteer-card shadow-sm">
                     <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
                         <div style="flex: 1 1 auto; min-width: 70%;">
-                            <h5 class="card-title mb-2">${announcement.title}</h5>
-                            <p class="card-text">${announcement.details}</p>
+                            <div class="d-flex flex-wrap align-items-center mb-2 volunteer-title-container">
+                                <h5 class="card-title mb-0">${announcement.title}</h5>
+                                <span class="badge bg-success ms-md-2">${formatDate(announcement.date)}</span>
+                            </div>
+
+
+                            <p class="card-text volunteer-details">${announcement.details}</p>
                             <p class="mb-1">
                                 <small class="text-muted">
                                     📅 <strong>Application:</strong> ${formatDate(announcement.application_start)} - ${formatDate(announcement.application_deadline)}
@@ -173,17 +178,22 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                                 <small class="text-muted">🎖️ Credit Points: ${announcement.credit_points}</small>
                             </p>
                         </div>
-                        <div class="text-end" style="min-width: 150px;">
-                            <span class="badge bg-success mb-2">${formatDate(announcement.date)}</span><br>
+                    </div>
+
+                    <!-- ✅ Add this new flex container for Remaining Joins + Button -->
+                    <div class="volunteer-joins-container px-3 pb-3">
+                        <p class="volunteer-remaining-joins text-muted small mb-2">
+                            🔁 Remaining Joins This Month: 0
+                        </p>
+                        <div class="volunteer-button">
                             ${buttonHTML}
                         </div>
                     </div>
-                    <p class="volunteer-remaining-joins text-muted small mt-2"></p>
                 </div>
                 `;
                 volunteerContainer.appendChild(volunteerCard);
                 break;
-                
+
             default:
                 console.warn('Uncategorized announcement:', announcement);
                 break;
@@ -192,16 +202,16 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
 
     // Bind join buttons after DOM is updated
     document.querySelectorAll('.join-button').forEach(btn => {
-        btn.addEventListener('click', function() {
+        btn.addEventListener('click', function () {
             const card = this.closest('.card');
             const volunteerId = this.dataset.volunteerId;
-            
+
             console.log("Volunteer ID being used:", volunteerId); // Debug log
-            
+
             // Remove any existing modal
             const existing = document.querySelector('.terms-modal-container');
             if (existing) existing.remove();
-            
+
             // Insert Terms & Conditions Modal
             const modalHTML = `
                 <div class="terms-modal-container position-absolute top-50 start-50 translate-middle bg-white border rounded shadow p-4" style="z-index: 20; width: 100%; max-width: 600px;">
@@ -244,76 +254,76 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                 </div>
             `;
             card.insertAdjacentHTML('beforeend', modalHTML);
-            
+
             // Now safely select the modal elements
             const confirmBtn = card.querySelector('#confirmJoinBtn');
             const cancelBtn = card.querySelector('#cancelJoinBtn');
             const agreeCheckbox = card.querySelector('#agreeCheckbox');
-            
+
             // Store volunteerId on button
             confirmBtn.dataset.volunteerId = volunteerId;
-            
+
             // Enable "Yes" only when checkbox is checked
-            agreeCheckbox.addEventListener('change', function() {
+            agreeCheckbox.addEventListener('change', function () {
                 confirmBtn.disabled = !this.checked;
             });
-            
+
             // Cancel button: remove modal
             cancelBtn.addEventListener('click', () => {
                 card.querySelector('.terms-modal-container')?.remove();
             });
-            
+
             // Confirm Join click
-            confirmBtn.addEventListener('click', function() {
+            confirmBtn.addEventListener('click', function () {
                 // Get user data from localStorage
                 const userData = JSON.parse(localStorage.getItem('userData') || '{}');
                 const residentId = userData.resident_id;
                 const volunteerId = this.dataset.volunteerId;
-                
+
                 console.log("Sending data:", {
                     residentId: residentId,
                     volunteerId: volunteerId
                 });
-                
+
                 if (!residentId) {
                     alert('Please log in to join volunteer events.');
                     return;
                 }
-                
+
                 fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/join-volunteer.php', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: `resident_id=${residentId}&volunteer_announcement_id=${volunteerId}`
                 })
-                .then(res => res.json())
-                .then(response => {
-                    console.log("Server response:", response); // Debug log
-                    
-                    if (response.success) {
-                        // Add to our tracked joined events
-                        joinedEventIds.push(volunteerId);
-                        
-                        // Update button to show joined
-                        const joinButton = this.closest('.card').querySelector('.join-button');
-                        joinButton.textContent = 'Joined';
-                        joinButton.disabled = true;
-                        joinButton.classList.remove('btn-outline-primary');
-                        joinButton.classList.add('btn-secondary');
-                        joinButton.classList.remove('join-button');
-                        
-                        // Remove modal
-                        card.querySelector('.terms-modal-container')?.remove();
-                        
-                        // Update remaining joins count
-                        fetchJoinCountAndUpdateCards(residentId);
-                    } else {
-                        alert('❌ ' + (response.error || 'Join failed.'));
-                    }
-                })
-                .catch(err => {
-                    console.error('❌ Join error:', err);
-                    alert('An error occurred. Please try again.');
-                });
+                    .then(res => res.json())
+                    .then(response => {
+                        console.log("Server response:", response); // Debug log
+
+                        if (response.success) {
+                            // Add to our tracked joined events
+                            joinedEventIds.push(volunteerId);
+
+                            // Update button to show joined
+                            const joinButton = this.closest('.card').querySelector('.join-button');
+                            joinButton.textContent = 'Joined';
+                            joinButton.disabled = true;
+                            joinButton.classList.remove('btn-outline-primary');
+                            joinButton.classList.add('btn-secondary');
+                            joinButton.classList.remove('join-button');
+
+                            // Remove modal
+                            card.querySelector('.terms-modal-container')?.remove();
+
+                            // Update remaining joins count
+                            fetchJoinCountAndUpdateCards(residentId);
+                        } else {
+                            alert('❌ ' + (response.error || 'Join failed.'));
+                        }
+                    })
+                    .catch(err => {
+                        console.error('❌ Join error:', err);
+                        alert('An error occurred. Please try again.');
+                    });
             });
         });
     });
@@ -331,41 +341,41 @@ function fetchJoinCountAndUpdateCards(residentId) {
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: `resident_id=${encodeURIComponent(residentId)}&check_only=true`
     })
-    .then(res => res.json())
-    .then(data => {
-        const used = parseInt(data.joined_this_month || 0);
-        const remaining = Math.max(3 - used, 0);
+        .then(res => res.json())
+        .then(data => {
+            const used = parseInt(data.joined_this_month || 0);
+            const remaining = Math.max(3 - used, 0);
 
-        // Update all volunteer cards
-        document.querySelectorAll('.volunteer-remaining-joins').forEach(elem => {
-            elem.textContent = `🔁 Remaining Joins This Month: ${remaining}`;
-            
-            // Disable join buttons if no remaining joins
-            if (remaining === 0) {
-                const card = elem.closest('.card');
-                const joinButton = card?.querySelector('.join-button');
-                if (joinButton) {
-                    joinButton.disabled = true;
-                    joinButton.classList.remove('btn-outline-primary');
-                    joinButton.classList.add('btn-outline-secondary');
+            // Update all volunteer cards
+            document.querySelectorAll('.volunteer-remaining-joins').forEach(elem => {
+                elem.textContent = `🔁 Remaining Joins This Month: ${remaining}`;
+
+                // Disable join buttons if no remaining joins
+                if (remaining === 0) {
+                    const card = elem.closest('.card');
+                    const joinButton = card?.querySelector('.join-button');
+                    if (joinButton) {
+                        joinButton.disabled = true;
+                        joinButton.classList.remove('btn-outline-primary');
+                        joinButton.classList.add('btn-outline-secondary');
+                    }
                 }
-            }
+            });
+        })
+        .catch(err => {
+            console.error('Error fetching join count:', err);
         });
-    })
-    .catch(err => {
-        console.error('Error fetching join count:', err);
-    });
 }
 
 // Filter by category
-document.getElementById('categoryFilter')?.addEventListener('change', function() {
+document.getElementById('categoryFilter')?.addEventListener('change', function () {
     const selected = this.value;
     const searchQuery = document.getElementById('searchInput')?.value || '';
     renderAnnouncements(selected, searchQuery);
 });
 
 // Search announcements
-document.getElementById('searchBtn')?.addEventListener('click', function() {
+document.getElementById('searchBtn')?.addEventListener('click', function () {
     const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
     const searchQuery = document.getElementById('searchInput')?.value || '';
     renderAnnouncements(selectedCategory, searchQuery);
@@ -373,7 +383,7 @@ document.getElementById('searchBtn')?.addEventListener('click', function() {
 
 function formatDate(dateString) {
     if (!dateString) return 'N/A';
-    
+
     try {
         const options = { year: 'numeric', month: 'long', day: 'numeric' };
         return new Date(dateString).toLocaleDateString('en-US', options);

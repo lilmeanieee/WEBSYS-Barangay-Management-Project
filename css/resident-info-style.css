@@ -8,10 +8,22 @@
     padding: 0;
 }
 
-.table-responsive {
-    overflow-x: auto;
+.res-table {
+    max-height: 400px; /* control the table scroll height */
+    overflow-x: auto; 
+    border-bottom: 2px solid #343a40;
+}
+
+.res-table thead th {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+}
+#residentTableBody tr .btn{
+    text-align: center;
 }
 /* end content */
 
-
-
+.pagination{
+    margin-top: 1rem;
+}
