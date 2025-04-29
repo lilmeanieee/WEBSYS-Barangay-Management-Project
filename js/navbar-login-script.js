@@ -1,43 +1,50 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // Check if user is logged in
-    // This is a simplified example - you would typically check session/local storage or make an API call
+document.addEventListener("DOMContentLoaded", function () {
     function checkLoginStatus() {
-        // Example: Check if user data exists in localStorage
         const userData = localStorage.getItem('userData');
-        
+
+        const loginButton = document.getElementById('loginButton');
+        const userDropdown = document.getElementById('userDropdown');
+
         if (userData) {
-            // User is logged in
             const user = JSON.parse(userData);
-            document.getElementById('loginButton').style.display = 'none';
-            document.getElementById('userDropdown').style.display = 'block';
-            document.getElementById('userName').textContent = user.name || 'User';
+
+            if (loginButton) loginButton.style.display = 'none';
+            if (userDropdown) userDropdown.style.display = 'block';
+
+            const creditPointsElement = document.getElementById('creditPoints');
+            if (creditPointsElement && user.role === "Resident") {
+                creditPointsElement.textContent = user.credit_points ?? 0;
+            }
+
+            const idElement = document.getElementById('resident_code');
+            if (idElement && user.role === "Resident") {
+                idElement.textContent = user.resident_code ?? '';
+            }
+
         } else {
-            // User is not logged in
-            document.getElementById('loginButton').style.display = 'block';
-            document.getElementById('userDropdown').style.display = 'none';
+            if (loginButton) loginButton.style.display = 'block';
+            if (userDropdown) userDropdown.style.display = 'none';
         }
     }
-    
-    // Handle logout
-    document.getElementById('logoutButton').addEventListener('click', function(e) {
-        e.preventDefault();
-        // Clear user data
-        localStorage.removeItem('userData');
-        // Redirect to home or login page
-        window.location.href = '../html/home.html';
-    });
-    
-    // Check login status when page loads
+
+    // ✅ Logout button logic
+    // ✅ Logout button logic
+    const logoutButton = document.getElementById('logoutButton');
+    if (logoutButton) {
+        logoutButton.addEventListener('click', function () {
+            localStorage.removeItem('userData');
+            
+            // Also clear PHP session via a logout endpoint
+            fetch('../php-handlers/logout.php')
+                .then(() => {
+                    window.location.href = '../html/home.html';
+                })
+                .catch(() => {
+                    // If the fetch fails, still redirect
+                    window.location.href = '../html/home.html';
+                });
+        });
+}
+
     checkLoginStatus();
 });
-
-// For demo purposes only - simulate login (remove in production)
-function simulateLogin() {
-    const demoUser = {
-        id: 1,
-        name: 'Juan Dela Cruz',
-        email: 'juan@example.com'
-    };
-    localStorage.setItem('userData', JSON.stringify(demoUser));
-    location.reload();
-}

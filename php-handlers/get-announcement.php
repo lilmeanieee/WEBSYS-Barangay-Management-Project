@@ -7,7 +7,7 @@ try {
 
     $allAnnouncements = [];
 
-    // Upcoming Events - Add WHERE status = 'active'
+    // Upcoming Events
     $stmt = $pdo->query("
         SELECT
             ue.upEvent_announcement_id AS id, 
@@ -24,18 +24,18 @@ try {
 
     foreach ($upcomingEvents as &$event) {
         $event['type'] = 'Upcoming Event';
-        $event['category'] = $event['category_name'];  
-        unset($event['category_name']); 
+        $event['category'] = $event['category_name'];
+        unset($event['category_name']);
         $allAnnouncements[] = $event;
     }
 
-    // News and Updates - Add WHERE status = 'active'
+    // News and Updates
     $stmt = $pdo->query("
         SELECT 
             n.news_update_announcement_id AS id,
             n.news_update_title AS title,
             n.news_update_details AS details,
-            n.created_at ,
+            n.created_at,
             c.category_name
         FROM tbl_news_update_announcement n
         JOIN tbl_announcement_category c ON n.category_id = c.category_id
@@ -45,20 +45,25 @@ try {
 
     foreach ($newsUpdates as &$news) {
         $news['type'] = 'News and Update';
-        $news['date'] = '';
+        $news['date'] = ''; // no date field
         $news['category'] = $news['category_name'];
         unset($news['category_name']);
         $allAnnouncements[] = $news;
     }
 
-    // Volunteer Drives - Add WHERE status = 'active'
-    $stmt = $pdo->query("   
+    // Volunteer Drives
+    $stmt = $pdo->query("
         SELECT 
             v.volunteer_announcement_id AS id,
             v.volunteer_announcement_title AS title,
             v.details,
             v.date,
+            v.application_start,
+            v.application_deadline,
+            v.time_start,
+            v.time_end,
             v.created_at AS date_posted,
+            v.credit_points AS credit_points,
             c.category_name
         FROM tbl_volunteer_drive_announcement v
         JOIN tbl_announcement_category c ON v.category_id = c.category_id

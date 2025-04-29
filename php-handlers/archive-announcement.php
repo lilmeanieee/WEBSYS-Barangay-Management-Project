@@ -1,13 +1,11 @@
 <?php
 require 'connect.php';
-include_once(__DIR__ . '/auto-archive-announcement.php'); 
 header('Content-Type: application/json');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['type'])) {
     $id = $_POST['id'];
     $type = $_POST['type'];
 
-    // Map the type to table and ID column
     $tableMap = [
         'Upcoming Event' => ['table' => 'tbl_upcoming_event_announcement', 'id_col' => 'upEvent_announcement_id'],
         'News and Update' => ['table' => 'tbl_news_update_announcement', 'id_col' => 'news_update_announcement_id'],
@@ -15,30 +13,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'], $_POST['type'])
     ];
 
     if (!array_key_exists($type, $tableMap)) {
-        http_response_code(400);
-        echo "Invalid announcement type.";
+        echo json_encode(['status' => 'error', 'message' => 'Invalid announcement type.']);
         exit;
     }
 
     $table = $tableMap[$type]['table'];
     $idColumn = $tableMap[$type]['id_col'];
 
-    // Set status to inactive and save today's date to date_archive
     $query = "UPDATE $table SET status = 'inactive', date_archive = NOW() WHERE $idColumn = ?";
     $stmt = $conn->prepare($query);
     $stmt->bind_param("i", $id);
 
     if ($stmt->execute()) {
-        echo "success";
+        echo json_encode(['status' => 'success', 'message' => 'Announcement archived successfully.']);
     } else {
-        http_response_code(500);
-        echo "Failed to archive.";
+        echo json_encode(['status' => 'error', 'message' => 'Database error.']);
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    http_response_code(400);
-    echo "Invalid request.";
+    echo json_encode(['status' => 'error', 'message' => 'Invalid request.']);
 }
-?>

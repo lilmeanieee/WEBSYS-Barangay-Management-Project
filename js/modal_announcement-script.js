@@ -175,39 +175,36 @@ document.getElementById('postAnnouncementBtn').addEventListener('click', functio
         formData.append('volunteerLocationCategory', document.getElementById('volunteerLocationCategory').value);
         formData.append('volunteerLocationInputOption', document.getElementById('volunteerLocationInputOption').value);
         formData.append('date', document.getElementById('volunteerDate').value);
+        formData.append('applicationStart', document.getElementById('applicationStart').value); // newly added
         formData.append('deadline', document.getElementById('applicationDeadline').value);
         formData.append('time_start', document.getElementById('volunteer_TimeStart').value);
         formData.append('time_end', document.getElementById('volunteer_TimeEnd').value);
-        formData.append('exp_points', document.getElementById('experiencePts').value);
-        formData.append('redeem_points', document.getElementById('redeemablePts').value);
-
+        formData.append('credit_points', document.getElementById('creditPoints').value); // updated ID
+    
         fetch('/WEBSYS-Barangay-Management-Project/php-handlers/insert-volunteer-drive-announcement.php', {
             method: 'POST',
             body: formData
         })
-        
         .then(res => res.text())
         .then(response => {
             alert('Volunteer Drive successfully submitted!');
             console.log(response);
-
-             // Close the modal
+    
             const modalElement = document.getElementById('announcementModal');
             const modalInstance = bootstrap.Modal.getInstance(modalElement);
-
+    
             announcementsFromDB.push({
                 type: 'Barangay Volunteer Drive',
                 title: document.getElementById('volunteerTitle').value,
                 details: document.getElementById('volunteerDetails').value,
                 date: document.getElementById('volunteerDate').value
             });
-
+    
             renderAnnouncements(document.getElementById('categoryFilter').value);
             if (modalInstance) {
                 modalInstance.hide();
             }
             resetAnnouncementForm();
-        
         })
         .catch(error => {
             console.error('Error:', error);
@@ -775,8 +772,8 @@ function validateForm() {
         var volunteerDate = document.getElementById("volunteerDate").value;
         var applicationDeadline = document.getElementById("applicationDeadline").value;
         var volunteerTimeStart = document.getElementById("volunteer_TimeStart").value;
-        var experiencePts = document.getElementById("experiencePts").value.trim();
-        var redeemablePts = document.getElementById("redeemablePts").value.trim();
+        var experiencePts = document.getElementById("creditPoints").value.trim();
+        
         
         if (!volunteerTitle) {
             alert("Please enter the title for the Barangay Volunteer Drive.");
@@ -802,12 +799,9 @@ function validateForm() {
             alert("Please select the start time for the Barangay Volunteer Drive.");
             return false;
         }
-        if (!experiencePts) {
-            alert("Please enter the experience points for the Barangay Volunteer Drive.");
-            return false;
-        }
-        if (!redeemablePts) {
-            alert("Please enter the redeemable points for the Barangay Volunteer Drive.");
+      
+        if (!creditPoints) {
+            alert("Please enter the credit points for the Barangay Volunteer Drive.");
             return false;
         }
     }
@@ -850,32 +844,36 @@ document.addEventListener('click', function (e) {
                 },
                 body: new URLSearchParams({ id, type })
             })
-            .then(res => res.text())
+            .then(res => res.json())
             .then(response => {
-                if (response.trim() === 'success') {
-                    alert('Announcement archived.');
-                    
-                    // Fetch fresh data before re-rendering
+                console.log('Archive response:', response);
+                if (response.status === 'success') {
+                    alert(response.message || 'Announcement archived.');
+            
+                    // Instantly remove from DOM
+                    const announcementCard = e.target.closest('.card');
+                    if (announcementCard) announcementCard.remove();
+            
+                    // Optional re-fetch
                     fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-announcement.php')
                         .then(res => res.json())
                         .then(data => {
-                            // Update your global array with the fresh data
                             announcementsFromDB = data;
-                            // Then re-render with the updated data
-                            renderAnnouncements(document.getElementById('categoryFilter').value);
+                            const selectedFilter = document.getElementById('categoryFilter').value;
+                            renderAnnouncements(selectedFilter);
                         })
                         .catch(err => {
                             console.error('Failed to refresh announcements:', err);
-                            alert('Announcement archived, but page needs refreshing to see changes.');
                         });
                 } else {
-                    alert('Failed to archive: ' + response);
+                    alert('Failed to archive: ' + response.message);
                 }
             })
             .catch(err => {
                 console.error('Archive failed:', err);
                 alert('Failed to archive.');
             });
+            
         }
     }
 });
@@ -919,5 +917,6 @@ function resetAnnouncementModal() {
 
 // Run reset when modal is hidden (either close button or clicking outside)
 document.getElementById('announcementModal').addEventListener('hidden.bs.modal', function () {
-    resetAnnouncementModal();
+    const selectedFilter = document.getElementById('categoryFilter').value;
+renderAnnouncements(selectedFilter);
 });

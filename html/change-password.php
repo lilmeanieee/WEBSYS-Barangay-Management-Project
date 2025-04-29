@@ -2,6 +2,7 @@
 session_start();
 include '../php-handlers/connect.php';
 
+// Check for both session and localStorage (via JavaScript check)
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../html/login.html");
     exit();
@@ -39,9 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if ($update->execute()) {
         $_SESSION['success'] = "Password updated successfully.";
-
+        
+        // Make paths consistent with login.js
         if ($_SESSION['role'] == "Admin" || $_SESSION['role'] == "Sub-Admin") {
-            header("Location: ../html/admin/dashboard.html");
+            // UPDATE path to match login.js
+            header("Location: ../admin/dashboard.html");
         } else {
             header("Location: ../html/home.html");
         }
@@ -105,6 +108,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     ?>
 
     <script>
+        // Added check to ensure localStorage is in sync with session
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in via localStorage
+            const userData = localStorage.getItem('userData');
+            if (!userData) {
+                window.location.href = '../html/login.html';
+            }
+        });
+        
         document.getElementById("changePasswordForm").addEventListener("submit", function (e) {
             const newPw = document.querySelector("[name='new_password']").value;
             const confirmPw = document.querySelector("[name='confirm_password']").value;

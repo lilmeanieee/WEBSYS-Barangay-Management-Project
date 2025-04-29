@@ -1,247 +1,200 @@
-// Sample data - In a real application, this would come from a database
-const sampleApplicants = [
-    { id: 1, name: "John Doe", eventName: "Community Cleanup", joinDate: "2025-04-10" },
-    { id: 2, name: "Jane Smith", eventName: "Food Drive", joinDate: "2025-04-09" },
-    { id: 3, name: "Sam Johnson", eventName: "Community Cleanup", joinDate: "2025-04-12" },
-    { id: 4, name: "Emily Wilson", eventName: "Senior Center Visit", joinDate: "2025-04-08" },
-    { id: 5, name: "Michael Brown", eventName: "Food Drive", joinDate: "2025-04-11" }
-];
+document.addEventListener('DOMContentLoaded', function () {
+    populateEventDropdown();
+    fetchParticipants(); // Load all by default
 
-// Sample approved participants with attendance status
-const sampleParticipants = [];
+    document.getElementById('event-filter').addEventListener('change', function () {
+        const selectedId = this.value;
+        document.getElementById('search-input').value = '';
+        fetchParticipants(selectedId); // fetch based on selected event
+    });
 
-// Event points allocation
-const eventPoints = {
-    "Community Cleanup": 10,
-    "Food Drive": 15,
-    "Senior Center Visit": 20
-};
+    document.getElementById('mark-participated').addEventListener('click', () => {
+        updateAttendance("Participated");
+    });
 
-// Initialize the dashboard when the document is ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Populate applicants table
-    populateApplicantsTable();
+    document.getElementById('mark-not-participated').addEventListener('click', () => {
+        updateAttendance("Did Not Participate");
+    });
+
+    document.getElementById('select-all-participants').addEventListener('change', function () {
+        document.querySelectorAll('.row-checkbox').forEach(cb => cb.checked = this.checked);
+    });
+
+    document.getElementById('search-input').addEventListener('input', function () {
+        const searchTerm = this.value.toLowerCase();
     
-    // Initialize event listeners
-    initEventListeners();
+        document.querySelectorAll('#participants-table tbody tr').forEach(row => {
+            const nameCell = row.querySelector('td:nth-child(2)');
+            const originalName = nameCell.dataset.original || nameCell.textContent;
     
-    // Populate event filter dropdown
-    populateEventFilter();
+            // Save original on first run
+            if (!nameCell.dataset.original) {
+                nameCell.dataset.original = originalName;
+            }
+    
+            const lowerName = originalName.toLowerCase();
+    
+            if (lowerName.includes(searchTerm)) {
+                // Highlight matching text with bold
+                const start = lowerName.indexOf(searchTerm);
+                const end = start + searchTerm.length;
+                const highlighted = originalName.substring(0, start) +
+                    `<strong>` +
+                    originalName.substring(start, end) +
+                    `</strong>` +
+                    originalName.substring(end);
+    
+                nameCell.innerHTML = highlighted;
+                row.style.display = '';
+            } else {
+                // No match
+                nameCell.innerHTML = originalName;
+                row.style.display = 'none';
+            }
+        });
+    });
 });
 
-// Function to populate applicants table
-function populateApplicantsTable() {
-    const tableBody = document.querySelector('#applicants-table tbody');
-    tableBody.innerHTML = '';
-    
-    sampleApplicants.forEach(applicant => {
-        // Don't display applicants who have already been approved
-        if (!sampleParticipants.some(p => p.id === applicant.id)) {
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>
-                    <input type="checkbox" class="form-check-input applicant-checkbox" data-id="${applicant.id}">
-                </td>
-                <td>${applicant.name}</td>
-                <td>${applicant.eventName}</td>
-                <td>${applicant.joinDate}</td>
-            `;
-            tableBody.appendChild(row);
-        }
+function makeRowsClickable() {
+    document.querySelectorAll("#participants-table tbody tr").forEach(row => {
+        row.addEventListener("click", function (e) {
+            // Prevent toggling when the actual checkbox is clicked
+            if (e.target.tagName.toLowerCase() === 'input') return;
+
+            const checkbox = this.querySelector("input[type='checkbox']");
+            if (checkbox) {
+                checkbox.checked = !checkbox.checked;
+            }
+        });
     });
-    
-    // If no applicants left, show message
-    if (tableBody.children.length === 0) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td colspan="4" class="text-center">No pending applicants.</td>
-        `;
-        tableBody.appendChild(row);
-    }
 }
 
-// Function to populate participants table
-function populateParticipantsTable(eventFilter = 'all') {
-    const tableBody = document.querySelector('#participants-table tbody');
-    tableBody.innerHTML = '';
+function populateEventDropdown() {
+    fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-upcoming-event.php')
+        .then(res => res.json())
+        .then(events => {
+            const dropdown = document.getElementById('event-filter');
+            dropdown.innerHTML = `<option value="all">All Events</option>`;
+            events.forEach(event => {
+                dropdown.innerHTML += `<option value="${event.volunteer_announcement_id}">${event.volunteer_announcement_title}</option>`;
+            });
+        });
+}
+
+function fetchParticipants(eventId = 'all') {
+    fetch(`http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-volunteer-attendance.php?event_id=${eventId}`)
+        .then(res => res.json())
+        .then(data => {
+            const tbody = document.querySelector("#participants-table tbody");
+            tbody.innerHTML = '';
+
+            if (data.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted fw-bold">No pending participants to evaluate.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            // Filter out participants who already have attendance marked
+            const pendingParticipants = data.filter(item => 
+                item.attendance !== 'Participated' && item.attendance !== 'Did Not Participate'
+            );
+
+            if (pendingParticipants.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted fw-bold">No pending participants to evaluate.</td>
+                    </tr>
+                `;
+                return;
+            }
+
+            pendingParticipants.forEach(item => {
+                const badgeClass = item.attendance === 'Participated' ? 'bg-success' :
+                                  item.attendance === 'Did Not Participate' ? 'bg-danger' :
+                                  'bg-warning';
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td><input type="checkbox" class="row-checkbox" value="${item.participation_id}"></td>
+                        <td>${item.name}</td>
+                        <td>${item.event_title}</td>
+                        <td>${item.event_date}</td>
+                        <td>${item.credit_points}</td>
+                        <td><span class="badge ${badgeClass}">${item.attendance}</span></td>
+                    </tr>`;
+            });
+            makeRowsClickable();
+        });
+}
     
-    const filteredParticipants = eventFilter === 'all' 
-        ? sampleParticipants 
-        : sampleParticipants.filter(p => p.eventName === eventFilter);
-    
-    filteredParticipants.forEach(participant => {
-        const row = document.createElement('tr');
+function updateAttendance(status) {
+    const selectedCheckboxes = Array.from(document.querySelectorAll('.row-checkbox:checked'));
+
+    if (selectedCheckboxes.length === 0) {
+        alert("Please select participants.");
+        return;
+    }
+
+    const participationData = [];
+
+    selectedCheckboxes.forEach(checkbox => {
+        const participationId = checkbox.value;
+        const row = checkbox.closest("tr");
+        const creditPoints = parseInt(row.cells[4].textContent);
         
-        // Determine attendance status display
-        let attendanceStatus = '';
-        let pointsAwarded = 0;
-        
-        if (participant.attended === true) {
-            attendanceStatus = '<span class="badge-attended">Participated</span>';
-            pointsAwarded = eventPoints[participant.eventName];
-        } else if (participant.attended === false) {
-            attendanceStatus = '<span class="badge-absent">Did Not Participate</span>';
-            pointsAwarded = 0;
+        participationData.push({
+            id: participationId,
+            creditPoints: creditPoints,
+            status: status // Pass the status to the backend
+        });
+    });
+
+    fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/update-volunteer-attendance.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            participation_data: participationData,
+            status: status
+        })
+    })
+    .then(res => res.json())
+    .then(response => {
+        if (response.success) {
+            // Show success message
+            alert("✅ Attendance updated successfully!");
+            
+            // Remove the selected rows from the table
+            selectedCheckboxes.forEach(checkbox => {
+                const row = checkbox.closest("tr");
+                if (row) {
+                    row.remove();
+                }
+            });
+            
+            // Uncheck the "Select All" checkbox if it exists
+            const selectAllCheckbox = document.getElementById('select-all-participants');
+            if (selectAllCheckbox) {
+                selectAllCheckbox.checked = false;
+            }
+            
+            // If the table is now empty, show a message
+            const tbody = document.querySelector("#participants-table tbody");
+            if (tbody.children.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center text-muted fw-bold">No pending participants to evaluate.</td>
+                    </tr>
+                `;
+            }
         } else {
-            attendanceStatus = '<span class="badge-pending">Pending</span>';
-            pointsAwarded = '-';
+            alert("❌ Failed to update attendance: " + (response.error || "Unknown error"));
         }
-        
-        row.innerHTML = `
-            <td>
-                <input type="checkbox" class="form-check-input participant-checkbox" data-id="${participant.id}">
-            </td>
-            <td>${participant.name}</td>
-            <td>${participant.eventName}</td>
-            <td>${eventPoints[participant.eventName]}</td>
-            <td>${attendanceStatus}</td>
-            <td>${pointsAwarded}</td>
-        `;
-        tableBody.appendChild(row);
+    })
+    .catch(err => {
+        console.error("🔥 Error:", err);
+        alert("❌ Error occurred while updating attendance.");
     });
-    
-    // If no participants, show message
-    if (tableBody.children.length === 0) {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td colspan="6" class="text-center">No participants found.</td>
-        `;
-        tableBody.appendChild(row);
-    }
-}
-
-// Function to populate event filter dropdown
-function populateEventFilter() {
-    const eventFilter = document.getElementById('event-filter');
-    
-    // Create a set of unique event names
-    const eventNames = [...new Set(sampleApplicants.map(a => a.eventName))];
-    
-    // Add options to the dropdown
-    eventNames.forEach(eventName => {
-        const option = document.createElement('option');
-        option.value = eventName;
-        option.textContent = eventName;
-        eventFilter.appendChild(option);
-    });
-    
-    // Add event listener for filter change
-    eventFilter.addEventListener('change', function() {
-        populateParticipantsTable(this.value);
-    });
-}
-
-// Initialize all event listeners
-function initEventListeners() {
-    // Select all applicants checkbox
-    document.getElementById('select-all-applicants').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.applicant-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-            toggleRowSelection(checkbox);
-        });
-    });
-    
-    // Select all participants checkbox
-    document.getElementById('select-all-participants').addEventListener('change', function() {
-        const checkboxes = document.querySelectorAll('.participant-checkbox');
-        checkboxes.forEach(checkbox => {
-            checkbox.checked = this.checked;
-            toggleRowSelection(checkbox);
-        });
-    });
-    
-    // Individual checkbox selection (delegated event)
-    document.addEventListener('change', function(event) {
-        if (event.target.classList.contains('applicant-checkbox') || 
-            event.target.classList.contains('participant-checkbox')) {
-            toggleRowSelection(event.target);
-        }
-    });
-    
-    // Approve selected applicants button
-    document.getElementById('approve-selected').addEventListener('click', approveSelectedApplicants);
-    
-    // Mark participation buttons
-    document.getElementById('mark-participated').addEventListener('click', function() {
-        markAttendance(true);
-    });
-    
-    document.getElementById('mark-not-participated').addEventListener('click', function() {
-        markAttendance(false);
-    });
-}
-
-// Toggle row selection highlighting
-function toggleRowSelection(checkbox) {
-    const row = checkbox.closest('tr');
-    if (checkbox.checked) {
-        row.classList.add('selected-row');
-    } else {
-        row.classList.remove('selected-row');
-    }
-}
-
-// Approve selected applicants
-function approveSelectedApplicants() {
-    const selectedCheckboxes = document.querySelectorAll('.applicant-checkbox:checked');
-    
-    if (selectedCheckboxes.length === 0) {
-        alert('Please select at least one applicant to approve.');
-        return;
-    }
-    
-    // Convert selected checkboxes to an array of IDs
-    const selectedIds = Array.from(selectedCheckboxes).map(cb => parseInt(cb.getAttribute('data-id')));
-    
-    // Find the corresponding applicants
-    const approvedApplicants = sampleApplicants.filter(a => selectedIds.includes(a.id));
-    
-    // Add them to participants with pending attendance
-    approvedApplicants.forEach(applicant => {
-        sampleParticipants.push({
-            ...applicant,
-            attended: null // null means pending
-        });
-    });
-    
-    // Update both tables
-    populateApplicantsTable();
-    populateParticipantsTable(document.getElementById('event-filter').value);
-    
-    // Clear select all checkbox
-    document.getElementById('select-all-applicants').checked = false;
-    
-    // Show success message
-    alert(`Successfully approved ${selectedIds.length} applicant(s).`);
-}
-
-// Mark participation/attendance
-function markAttendance(participated) {
-    const selectedCheckboxes = document.querySelectorAll('.participant-checkbox:checked');
-    
-    if (selectedCheckboxes.length === 0) {
-        alert('Please select at least one participant to mark attendance.');
-        return;
-    }
-    
-    // Convert selected checkboxes to an array of IDs
-    const selectedIds = Array.from(selectedCheckboxes).map(cb => parseInt(cb.getAttribute('data-id')));
-    
-    // Update attendance status
-    sampleParticipants.forEach(participant => {
-        if (selectedIds.includes(participant.id)) {
-            participant.attended = participated;
-        }
-    });
-    
-    // Update participants table
-    populateParticipantsTable(document.getElementById('event-filter').value);
-    
-    // Clear select all checkbox
-    document.getElementById('select-all-participants').checked = false;
-    
-    // Show success message
-    const action = participated ? 'participated' : 'did not participate';
-    alert(`Successfully marked ${selectedIds.length} participant(s) as ${action}.`);
 }
