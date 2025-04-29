@@ -9,7 +9,8 @@ let currentStatus = ''; // '', 'Pending', 'Approved', 'Rejected'
 
 // Load document requests
 function loadRequests(page = 1, search = '', status = '') {
-  fetch(`/ORENJCHOCO-Barangay-Management-Project/php-handlers/fetch-document-requests.php?page=${page}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`)
+  fetch(`../../../php-handlers/fetch-document-requests.php?page=${page}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`)
+
     .then(response => response.json())
     .then(data => {
       tableBody.innerHTML = "";
