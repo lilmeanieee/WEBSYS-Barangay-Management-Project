@@ -1,6 +1,8 @@
 <?php
-include 'connect.php';
 header('Content-Type: application/json');
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
 // Inputs
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;

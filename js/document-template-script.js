@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Sample document types data (this would typically come from a database)
     function fetchDocumentTemplates() {
-        fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-templates.php')
+        fetch('http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/get-templates.php')
             .then(res => res.json())
             .then(data => {
                 if (Array.isArray(data)) {
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append("template_file", fileInput.files[0]);
         }
     
-        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/add-template.php', {
+        fetch('../php-handlers/add-template.php', {
             method: 'POST',
             body: formData
         })
