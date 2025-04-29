@@ -47,31 +47,36 @@ document.addEventListener('DOMContentLoaded', function() {
       }
   
       function showPage(pageNumber) {
-          const residentRows = getResidentRows();
-          const totalPages = getTotalPages();
-          currentPage = pageNumber;
-  
-          residentRows.forEach((row, index) => {
-              row.style.display = 'none';
-          });
-  
-          const startIndex = (currentPage - 1) * itemsPerPage;
-          const endIndex = Math.min(startIndex + itemsPerPage - 1, residentRows.length - 1);
-  
-          for (let i = startIndex; i <= endIndex; i++) {
-              if (residentRows[i]) {
-                  residentRows[i].style.display = '';
-              }
-          }
-  
-          // Update active class
-          const pageItems = document.querySelectorAll('.pagination .page-item');
-          pageItems.forEach(item => item.classList.remove('active'));
-          const activeItem = document.querySelector(`.pagination .page-link[data-page="${pageNumber}"]`);
-          if (activeItem && activeItem.parentElement) {
-              activeItem.parentElement.classList.add('active');
-          }
-      }
+        const residentRows = getResidentRows();
+        const totalPages = getTotalPages();
+        currentPage = pageNumber;
+    
+        residentRows.forEach((row, index) => {
+            row.style.display = 'none';
+        });
+    
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage - 1, residentRows.length - 1);
+    
+        for (let i = startIndex; i <= endIndex; i++) {
+            if (residentRows[i]) {
+                residentRows[i].style.display = '';
+            }
+        }
+    
+        // Update active class
+        const pageItems = document.querySelectorAll('.pagination .page-item');
+        pageItems.forEach(item => item.classList.remove('active'));
+        const activeItem = document.querySelector(`.pagination .page-link[data-page="${pageNumber}"]`);
+        if (activeItem && activeItem.parentElement) {
+            activeItem.parentElement.classList.add('active');
+        }
+    
+        // Disable/Enable Previous and Next buttons
+        document.getElementById('prevPage').classList.toggle('disabled', currentPage === 1);
+        document.getElementById('nextPage').classList.toggle('disabled', currentPage === totalPages);
+    }
+    
   
       // ✅ Only bind these ONCE
       document.getElementById('prevPage').addEventListener('click', function(e) {

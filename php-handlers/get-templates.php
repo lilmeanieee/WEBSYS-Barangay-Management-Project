@@ -5,9 +5,11 @@ header('Content-Type: application/json');
 
 $templates = [];
 
-$query = "SELECT t.id, t.name, t.description, t.fee, t.template_text, f.field_key, f.label, f.is_required
+$query = "SELECT t.id, t.name, t.description, t.fee, t.file_name, t.file_path,
+                 f.field_key, f.label, f.is_required
           FROM tbl_document_templates t
           LEFT JOIN tbl_document_template_custom_fields f ON t.id = f.template_id
+          WHERE t.is_archived = 0
           ORDER BY t.id, f.id";
 
 $result = mysqli_query($conn, $query);
@@ -26,7 +28,8 @@ while ($row = mysqli_fetch_assoc($result)) {
             "name" => $row['name'],
             "description" => $row['description'],
             "fee" => (float)$row['fee'],
-            "template_text" => $row['template_text'],
+            "file_name" => $row['file_name'],      // ✅ include uploaded file name
+            "file_path" => $row['file_path'],      // ✅ include relative file path
             "customFields" => []
         ];
     }

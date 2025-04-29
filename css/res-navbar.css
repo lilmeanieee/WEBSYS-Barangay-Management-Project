@@ -107,6 +107,9 @@ body {
 .hidden {
   display: none;
 }
+.invisible-placeholder {
+  visibility: hidden;
+}
 /* navbar end */
 
 /* footer */
