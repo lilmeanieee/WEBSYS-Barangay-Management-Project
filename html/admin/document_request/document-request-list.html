@@ -232,7 +232,7 @@
                                 <table class="table table-hover">
                                     <thead class="table-dark">
                                         <tr>
-                                            <th>Request ID</th>
+                                            <!--The IDs of the file are not necessary in this context-->
                                             <th>Resident</th>
                                             <th>Document Type</th>
                                             <th>Date Requested</th>
@@ -324,6 +324,36 @@
             </div>
         </div>
     </div>
+
+    <!-- View Details Modal -->
+    <div class="modal fade" id="viewDetailsModal" tabindex="-1" aria-labelledby="viewDetailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="viewDetailsModalLabel">Request Details</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="modalContent">       
+             <!-- Spinner shown while loading -->
+            <div id="modalLoadingSpinner" class="d-flex justify-content-center align-items-center modal-loading-spinner">
+            <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+            </div>
+            </div>
+            <!-- Content shown after loaded -->
+            <div id="modalActualContent" class="d-none">
+                <!-- The request details will be inserted here by JavaScript -->
+            </div>  
+                </div>
+            <!-- Filled dynamically -->
+            </div>
+            <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+  
 
 
     <!-- Bootstrap Bundle with Popper -->
