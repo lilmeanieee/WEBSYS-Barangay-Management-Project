@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function () {
             formData.append("template_file", fileInput.files[0]);
         }
     
-        fetch('../php-handlers/add-template.php', {
+        fetch('http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/add-template.php', {
             method: 'POST',
             body: formData
         })
@@ -285,7 +285,7 @@ document.addEventListener('DOMContentLoaded', function () {
         };
          
 
-    fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+    fetch('../php-handlers/add-template.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', function () {
         if (!doc) return;
     
         // Send archive request
-        fetch('/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-template.php', {
+        fetch('../php-handlers/update-template.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

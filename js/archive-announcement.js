@@ -1,4 +1,4 @@
-fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-archive.php', {
+fetch('../php-handlers/fetch-archive.php', {
     method: 'GET'
 })
 .then(response => {

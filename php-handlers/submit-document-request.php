@@ -32,9 +32,13 @@ try {
     // Insert main request
     $stmt = $conn->prepare("INSERT INTO tbl_document_requests (resident_id, resident_name, template_id, purpose, status) VALUES (?, ?, ?, ?, 'Pending')");
     $stmt->bind_param("isis", $residentId, $residentFullName, $templateId, $purpose);
-    $stmt->execute();
-    $requestId = $stmt->insert_id;
-    $stmt->close();
+    if ($stmt->execute()) {
+        $requestId = $conn->insert_id;
+        $stmt->close();
+    } else {
+        throw new Exception("Failed to insert document request: " . $stmt->error);
+    }
+    
 
     // Save custom field values
     if (!empty($customFields)) {

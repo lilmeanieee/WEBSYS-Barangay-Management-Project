@@ -25,7 +25,7 @@ function saveRate() {
     formData.append('credit_points', creditPoints);
     formData.append('redeemable_points', redeemPoints);
 
-    fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/insert-conversion-rate.php', {
+    fetch('../php-handlers/insert-conversion-rate.php', {
         method: 'POST',
         body: formData
     })

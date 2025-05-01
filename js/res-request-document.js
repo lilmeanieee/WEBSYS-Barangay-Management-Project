@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const templatesMap = {};
 
   // 🔵 1. Fetch Resident Full Name
-  fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-resident-name.php")
+  fetch("http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/get-resident-name.php")
     .then(res => res.json())
     .then(data => {
       if (data.fullName) {
@@ -21,7 +21,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
   // 🔵 2. Load Document Templates into Dropdown
-  fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-templates.php")
+  fetch("http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/get-templates.php")
     .then(res => res.json())
     .then(templates => {
       dropdown.innerHTML = '<option value="" disabled selected>Choose a document type</option>';
@@ -83,7 +83,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const residentId = localStorage.getItem('residentId') || '';
     formData.append("residentId", residentId);
 
-    fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/submit-document-request.php", {
+    fetch("http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/submit-document-request.php ", {
       method: "POST",
       body: formData
     })
@@ -95,7 +95,7 @@ document.addEventListener("DOMContentLoaded", () => {
           // Success: Redirect to home.html after 1 second (optional slight delay)
           alert("Document request submitted successfully!");
           setTimeout(() => {
-            window.location.href = "/ORENJCHOCO-Barangay-Management-Project/html/home.html"; 
+            window.location.href = "http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/html/residents/document-request.html"; 
           }, 1000); // 1 second delay so they can see the alert before redirect
       } else {
           alert("Error: " + json.error);

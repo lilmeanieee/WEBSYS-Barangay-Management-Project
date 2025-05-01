@@ -9,7 +9,7 @@ let currentStatus = ''; // '', 'Pending', 'Approved', 'Rejected'
 
 // Load document requests
 function loadRequests(page = 1, search = '', status = '') {
-  fetch(`../../../php-handlers/fetch-document-requests.php?page=${page}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`)
+  fetch(`http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/fetch-document-requests.php?page=${page}&search=${encodeURIComponent(search)}&status=${encodeURIComponent(status)}`)
 
     .then(response => response.json())
     .then(data => {
@@ -24,6 +24,7 @@ function loadRequests(page = 1, search = '', status = '') {
       data.requests.forEach(request => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
+          <td>${request.id}</td>
           <td>${request.resident_name}</td>
           <td>${request.document_name}</td>
           <td>${formatDate(request.created_at)}</td>
@@ -116,14 +117,14 @@ function attachActionListeners() {
     button.addEventListener('click', () => {
       const requestId = button.dataset.id;
       // Open the PHP generator that outputs the Word doc
-      window.open(`/ORENJCHOCO-Barangay-Management-Project/php-handlers/generate-document.php?request_id=${requestId}`, '_blank');
+      window.open(`http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/generate-document.php?request_id=${requestId}`, '_blank');
     });
   });
 }
 
 // Update request status (approve/reject)
 function updateRequestStatus(id, status) {
-  fetch("/ORENJCHOCO-Barangay-Management-Project/php-handlers/update-document-status.php", {
+  fetch("http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/update-document-status.php", {
     method: "POST",
     headers: {
       'Content-Type': 'application/x-www-form-urlencoded'
@@ -168,7 +169,7 @@ function openViewDetailsModal(id) {
   const viewModal = new bootstrap.Modal(document.getElementById('viewDetailsModal'));
   viewModal.show();
 
-  fetch(`/ORENJCHOCO-Barangay-Management-Project/php-handlers/get-document-request-details.php?id=${id}`)
+  fetch(`http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/get-document-request-details.php?id=${id}`)
     .then(response => response.json())
     .then(data => {
       const actualContent = document.getElementById('modalActualContent');
@@ -196,11 +197,11 @@ function openViewDetailsModal(id) {
         data.attachments.forEach(attachment => {
           const ext = attachment.file_name.split('.').pop().toLowerCase();
           if (["jpg", "jpeg", "png", "gif"].includes(ext)) {
-            html += `<img src="/ORENJCHOCO-Barangay-Management-Project/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" class="img-fluid mb-2" alt="Attachment Image">`;
+            html += `<img src="http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" class="img-fluid mb-2" alt="Attachment Image">`;
           } else if (ext === "pdf") {
-            html += `<iframe src="/ORENJCHOCO-Barangay-Management-Project/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" width="100%" height="500px" class="mb-2"></iframe>`;
+            html += `<iframe src="http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" width="100%" height="500px" class="mb-2"></iframe>`;
           } else {
-            html += `<a href="/ORENJCHOCO-Barangay-Management-Project/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" target="_blank" class="btn btn-sm btn-outline-secondary mb-2">${attachment.file_name}</a><br>`;
+            html += `<a href="http://localhost/Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/php-handlers/view-doc-req-attachment.php?id=${attachment.id}" target="_blank" class="btn btn-sm btn-outline-secondary mb-2">${attachment.file_name}</a><br>`;
           }
         });
       } else {

@@ -3,9 +3,11 @@ header('Content-Type: application/json');
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+include 'connect.php';
 
 // Inputs
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$page = isset($_GET['page']) && (int)$_GET['page'] > 0 ? (int)$_GET['page'] : 1;
+
 $search = isset($_GET['search']) ? trim($_GET['search']) : '';
 $status = isset($_GET['status']) ? trim($_GET['status']) : '';
 
@@ -42,6 +44,7 @@ $countSql = "
     LEFT JOIN tbl_document_templates dt ON dr.template_id = dt.id
     $whereClause
 ";
+
 $countStmt = $conn->prepare($countSql);
 
 if (!empty($params)) {

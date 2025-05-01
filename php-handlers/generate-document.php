@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+include 'connect.php';
 
 // --- Load PHPWord manually ---
 require_once '../lib/PhpOffice/PhpWord/Autoloader.php';
@@ -107,6 +108,6 @@ $htmlWriter = IOFactory::createWriter($phpWord, 'HTML');
 $htmlWriter->save($generatedHtmlPath);
 
 // ✅ Now Redirect Admin to Document Editor
-header("Location: /ORENJCHOCO-Barangay-Management-Project/admin/document_request/document-editor.html?file=" . urlencode($filenameHtml));
+header("Location: /Web-based-Management-System-for-Barangay-Ligaya-with-Gamified-Features/admin/document_request/document-editor.html?file=" . urlencode($filenameHtml));
 exit;
 ?>
