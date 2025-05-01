@@ -37,6 +37,7 @@ function fetchAnnouncementsAndJoinedEvents() {
         .catch(err => {
             console.error('Error fetching announcements:', err);
         });
+        
 }
 
 // Initialize by fetching all data
@@ -51,6 +52,36 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
         console.error('One or more announcement containers are missing.');
         return;
     }
+
+    // Section containers
+        const newsSection = document.getElementById('news-updates');
+        const eventsSection = document.getElementById('upcoming-events');
+        const volunteerSection = document.getElementById('volunteer-events');
+
+        // Hide/show entire sections based on filter
+        if (categoryFilter === 'News and Update') {
+            newsSection.style.display = '';
+            eventsSection.style.display = 'none';
+            volunteerSection.style.display = 'none';
+        } else if (categoryFilter === 'Upcoming Event') {
+            newsSection.style.display = 'none';
+            eventsSection.style.display = '';
+            volunteerSection.style.display = 'none';
+        } else if (categoryFilter === 'Barangay Volunteer Drive') {
+            newsSection.style.display = 'none';
+            eventsSection.style.display = 'none';
+            volunteerSection.style.display = '';
+        } else {
+            // Show all if 'all'
+            newsSection.style.display = '';
+            eventsSection.style.display = '';
+            volunteerSection.style.display = '';
+        }
+        const highlight = (text) => {
+            if (!searchQuery) return text;
+            const regex = new RegExp(`(${searchQuery})`, 'gi');
+            return text.replace(regex, '<strong>$1</strong>');
+        };
 
     // Clear previous content
     newsContainer.innerHTML = '';
@@ -133,6 +164,111 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
             case 'Barangay Volunteer Drive':
                 const volunteerCard = document.createElement('div');
                 volunteerCard.className = 'col-md-12 mb-4';
+
+                // Filter per type
+const newsFiltered = filtered.filter(a => a.type === 'News and Update');
+const eventsFiltered = filtered.filter(a => a.type === 'Upcoming Event');
+const volunteerFiltered = filtered.filter(a => a.type === 'Barangay Volunteer Drive');
+
+// 📰 News
+if (newsFiltered.length > 0) {
+    newsSection.style.display = '';
+    newsContainer.innerHTML = '';
+    newsFiltered.forEach(announcement => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">${highlight(announcement.title)}</h5>
+                    <p class="card-text">${highlight(announcement.details)}</p>
+                </div>
+            </div>
+        `;
+        newsContainer.appendChild(card);
+    });
+} else {
+    newsSection.style.display = '';
+    newsContainer.innerHTML = `<p class="text-muted">No announcements posted yet.</p>`;
+}
+
+// 📅 Upcoming
+if (eventsFiltered.length > 0) {
+    eventsSection.style.display = '';
+    eventsContainer.innerHTML = '';
+    eventsFiltered.forEach(announcement => {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+        card.innerHTML = `
+            <div class="card h-100">
+                <div class="card-body">
+                    <h5 class="card-title">${highlight(announcement.title)}</h5>
+                    <p class="card-text">${highlight(announcement.details)}</p>
+                </div>
+            </div>
+        `;
+        eventsContainer.appendChild(card);
+    });
+} else {
+    eventsSection.style.display = '';
+    eventsContainer.innerHTML = `<p class="text-muted">No announcements posted yet.</p>`;
+}
+
+// 🤝 Volunteer
+if (volunteerFiltered.length > 0) {
+    volunteerSection.style.display = '';
+    volunteerContainer.innerHTML = '';
+    volunteerFiltered.forEach(announcement => {
+        const volunteerCard = document.createElement('div');
+        volunteerCard.className = 'col-md-12 mb-4';
+    
+        const volunteerId = String(announcement.id);
+        const hasJoined = joinedEventIds.includes(volunteerId);
+    
+        const buttonHTML = hasJoined
+            ? `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`
+            : `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
+    
+        volunteerCard.innerHTML = `
+            <div class="card volunteer-card shadow-sm">
+                <div class="card-body d-flex justify-content-between align-items-start flex-wrap">
+                    <div style="flex: 1 1 auto; min-width: 70%;">
+                        <div class="d-flex flex-wrap align-items-center mb-2 volunteer-title-container">
+                            <h5 class="card-title mb-0">${highlight(announcement.title)}</h5>
+                            <span class="badge bg-success ms-md-2">${formatDate(announcement.date)}</span>
+                        </div>
+                        <p class="card-text volunteer-details">${highlight(announcement.details)}</p>
+                        <p class="mb-1">
+                            <small class="text-muted">
+                                📅 <strong>Application:</strong> ${formatDate(announcement.application_start)} - ${formatDate(announcement.application_deadline)}
+                            </small>
+                        </p>
+                        <p class="mb-1">
+                            <small class="text-muted">
+                                ⏰ <strong>Event Time:</strong> ${formatTime(announcement.time_start)} - ${formatTime(announcement.time_end)}
+                            </small>
+                        </p>
+                        <p class="mb-1">
+                            <small class="text-muted">🎖️ Credit Points: ${announcement.credit_points}</small>
+                        </p>
+                    </div>
+                </div>
+                <div class="volunteer-joins-container px-3 pb-3">
+                    <p class="volunteer-remaining-joins text-muted small mb-2">
+                        🔁 Remaining Joins This Month: 0
+                    </p>
+                    <div class="volunteer-button">${buttonHTML}</div>
+                </div>
+            </div>
+        `;
+        volunteerContainer.appendChild(volunteerCard);
+    });
+    
+} else {
+    volunteerContainer.style.display = '';
+    newsContainer.innerHTML = `<p class="text-muted">No announcements posted yet.</p>`;
+}
+
 
     // Debug logging for volunteer announcement data
     console.log('Volunteer announcement data:', announcement);
@@ -376,6 +512,14 @@ document.getElementById('categoryFilter')?.addEventListener('change', function (
 
 // Search announcements
 document.getElementById('searchBtn')?.addEventListener('click', function () {
+    document.getElementById('searchInput')?.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') {
+            const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+            const searchQuery = this.value || '';
+            renderAnnouncements(selectedCategory, searchQuery);
+        }
+    });
+    
     const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
     const searchQuery = document.getElementById('searchInput')?.value || '';
     renderAnnouncements(selectedCategory, searchQuery);
@@ -411,4 +555,13 @@ function formatTime(timeString) {
         console.error('Error formatting time:', e);
         return timeString || 'N/A';
     }
+}
+
+const searchInput = document.getElementById('searchInput');
+if (searchInput) {
+    searchInput.addEventListener('input', () => {
+        const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+        const searchQuery = searchInput.value.trim();
+        renderAnnouncements(selectedCategory, searchQuery);
+    });
 }
