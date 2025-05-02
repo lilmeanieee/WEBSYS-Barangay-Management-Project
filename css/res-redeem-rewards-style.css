@@ -1,4 +1,9 @@
-
-.nav-tabs{
+.nav-tabs {
     margin-bottom: 10px;
+}
+
+/*available reward tab*/
+/*available reward cards*/
+.available-reward-content .reward-details .card-text{
+    min-height: 80px;
 }

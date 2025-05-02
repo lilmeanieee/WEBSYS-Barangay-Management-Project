@@ -181,7 +181,7 @@ document.getElementById('postAnnouncementBtn').addEventListener('click', functio
         formData.append('time_end', document.getElementById('volunteer_TimeEnd').value);
         formData.append('credit_points', document.getElementById('creditPoints').value); // updated ID
     
-        fetch('/WEBSYS-Barangay-Management-Project/php-handlers/insert-volunteer-drive-announcement.php', {
+        fetch('../../php-handlers/insert-volunteer-drive-announcement.php', {
             method: 'POST',
             body: formData
         })
@@ -275,10 +275,11 @@ fetch('../../php-handlers/get-announcement.php')
                     ` : ''}
                     <span class="badge bg-secondary">${formatType(announcement.type)}</span>
                 </div>
-                <div>
-                    <button class="btn btn-sm btn-primary me-2 edit-btn" data-id="${announcement.id}" data-type="${announcement.type}">Edit</button>
+                <div class="d-flex gap-2 align-items-center">
+                    <button class="btn btn-sm btn-primary edit-btn" data-id="${announcement.id}" data-type="${announcement.type}">Edit</button>
                     <button class="btn btn-sm btn-danger archive-btn" data-id="${announcement.id}" data-type="${announcement.type}">Archive</button>
                 </div>
+
             </div>
             `;
 

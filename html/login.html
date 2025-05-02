@@ -87,7 +87,7 @@
                         
                         if (data.user.first_login == 1) {
                             // Redirect to change password page if it's the user's first login
-                            window.location.href = '../change-password.php';
+                            window.location.href = '../html/change-password.php';
                         } else if (data.user.first_login == 0) {
                             // Check user role for proper redirection
                             if (data.user.role === 'Admin' || data.user.role === 'SubAdmin') {

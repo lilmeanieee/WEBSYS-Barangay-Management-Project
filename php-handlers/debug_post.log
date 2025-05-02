@@ -2,11 +2,21 @@ Array
 (
     [announcementCategory] => Upcoming Event
     [target_audience] => All Residents
-    [upEvent_title] => Pageant
-    [upEvent_details] => Axknaicnwicw
+    [upEvent_title] => Barangay Family Fun Day 2025
+    [upEvent_details] => Mark your calendars for our Barangay Family Fun Day on June 8, Sunday afternoon! Enjoy an exciting day filled with:
+
+Parlor games for kids and parents
+
+Live performances by local talents
+
+Raffle draws and prizes
+
+Free snacks and drinks
+
+Everyone is invited! Come and celebrate community, fun, and family with your neighbors. Just bring your smiles — no registration or volunteering required.
     [upEventLocationCategory] => Barangay Gymnasium
     [upEventLocationInputOption] => 
-    [date] => 2025-04-17
-    [time_start] => 18:30
-    [time_end] => 22:30
+    [date] => 2025-05-25
+    [time_start] => 08:00
+    [time_end] => 12:00
 )

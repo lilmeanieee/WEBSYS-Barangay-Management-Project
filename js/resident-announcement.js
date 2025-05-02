@@ -98,7 +98,7 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
     });
 
     if (filtered.length === 0) {
-        const noDataHTML = '<p class="text-muted">No announcements found.</p>';
+        const noDataHTML = '<p class="text-muted">No announcements posted yet.</p>';
         newsContainer.innerHTML = noDataHTML;
         eventsContainer.innerHTML = noDataHTML;
         volunteerContainer.innerHTML = noDataHTML;

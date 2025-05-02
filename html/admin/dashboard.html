@@ -60,7 +60,6 @@
                             data-bs-toggle="popover" data-bs-html="true" data-bs-placement="right" data-bs-content='
                                 <ul class="list-unstyled mb-0">
                                     <li><a href="document_request/document-request-list.html" class="nav-link text-white">Document Request</a></li>
-                                    <li><a href="document_request/document-issuance.html" class="nav-link  list text-white">Document Issuance</a></li>
                                     <li><a href="document_request/document-template.html" class="nav-link list text-white">Add Document Template</a></li>
                                 </ul>'>
                             <i class="bi bi-file-earmark-text"></i>
@@ -75,8 +74,6 @@
                         <ul class="collapse list-unstyled " id="servicesDropdown">
                             <li><a href="document_request/document-request-list.html"
                                     class="nav-link list text-white">Document Request</a></li>
-                            <li><a href="document_request/document-issuance.html"
-                                    class="nav-link list text-white">Document Issuance</a></li>
                             <li><a href="document_request/document-template.html"
                                     class="nav-link list text-white">Add Document Template</a></li>
                         </ul>
@@ -167,7 +164,7 @@
 
                 <!-- Settings -->
                 <hr class="text-white">
-                <div class="pt-4 pb-1 mb-auto">
+                <div class=" mb-auto">
                     <a href="#" class="nav-link text-white">
                         <i class="bi bi-gear me-2"></i>
                         <span class="d-none d-lg-inline">Settings</span>
@@ -175,7 +172,7 @@
                 </div>
                 <!-- Sign out -->
                 <hr class="text-white">
-                <div class="pt-4 pb-1  mb-auto">
+                <div class=" mb-auto">
                     <a href="#" class="nav-link text-white" id="logoutBtn">
                         <i class="bi bi-box-arrow-left me-2"></i>
                         <span class="d-none d-lg-inline">Sign out</span>
@@ -199,58 +196,53 @@
                         <div class="row mt-4">
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-primary text-white">
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 class="card-title">Total Residents</h6>
-                                                <h3 class="card-text">1,250</h3>
+                                                <h3 class="card-text">0</h3>
                                             </div>
                                             <i class="fas fa-users fa-2x"></i>
                                         </div>
-                                        <p class="mt-2 mb-0 small">5% increase since last month</p>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-success text-white">
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 class="card-title">Document Issued</h6>
-                                                <h3 class="card-text">45</h3>
+                                                <h3 class="card-text">0</h3>
                                             </div>
                                             <i class="fas fa-certificate fa-2x"></i>
                                         </div>
-                                        <p class="mt-2 mb-0 small">This week</p>
                                     </div>
                                 </div>
                             </div>
 
-
-
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-info text-white">
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 class="card-title">Scheduled Events</h6>
-                                                <h3 class="card-text">8</h3>
+                                                <h3 class="card-text">0</h3>
                                             </div>
                                             <i class="fas fa-calendar-alt fa-2x"></i>
                                         </div>
-                                        <p class="mt-2 mb-0 small">Upcoming this month</p>
                                     </div>
                                 </div>
                             </div>
                             
                             <div class="col-md-3 mb-4">
                                 <div class="card stats-card bg-info text-white">
-                                    <div class="card-body">
+                                    <div class="card-body dashboard-card">
                                         <div class="d-flex justify-content-between align-items-center">
                                             <div>
                                                 <h6 class="card-title">Total Projects</h6>
-                                                <h3 class="card-text">8</h3>
+                                                <h3 class="card-text">0</h3>
                                             </div>
                                             <i class="fas fa-clipboard-list fa-2x"></i>
                                         </div>
@@ -381,6 +373,7 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script src="../../js/sidebar-script.js"></script>
+    <script src="../../js/dashboard-script.js"></script>
 </body>
 
 </html>

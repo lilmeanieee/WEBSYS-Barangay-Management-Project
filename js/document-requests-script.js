@@ -24,7 +24,7 @@ function loadRequests(page = 1, search = '', status = '') {
       data.requests.forEach(request => {
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td>${request.id}</td>
+          <td>REQ - 000${request.id}</td>
           <td>${request.resident_name}</td>
           <td>${request.document_name}</td>
           <td>${formatDate(request.created_at)}</td>

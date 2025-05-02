@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Clear user data
         localStorage.removeItem('userData');
         // Redirect to home or login page
-        window.location.href = '../html/home.html';
+        window.location.href = '../home.html';
     });
     
     // Check login status when page loads
