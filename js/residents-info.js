@@ -49,38 +49,74 @@ window.addNewResident = function(residentData) {
 
 };
 
-// âœ… Fetch residents and update table
+            
+
+document.addEventListener("DOMContentLoaded", function () {
+    fetchResidents();
+});
+
+// Dynamically add a new resident (sorted alphabetically)
+function renderResidents(residents) {
+    const tableBody = document.getElementById("residentTableBody");
+    tableBody.innerHTML = ""; // Clear table first
+
+    residents.forEach((r) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${r.residentCode || ""}</td>
+            <td>${r.lastName || ""}</td>
+            <td>${r.firstName || ""}</td>
+            <td>${r.middleName || ""}</td>
+            <td>${r.sex || ""}</td>
+            <td>${r.address || ""}</td>
+            <td>${r.status || "Active"}</td>
+            <td>
+                <button class="btn btn-sm btn-info">View</button>
+                <button class="btn btn-sm btn-primary">Edit</button>
+            </td>
+        `;
+
+        tableBody.appendChild(row);
+    });
+}
+
+// Fetch and refresh the full list of residents
 function fetchResidents() {
     $.ajax({
-        url: "http://localhost/Brgy-Ligaya-Management-Systemased-/handlers_php/fetch-residents.php",
-        type: "GET",
+        url: "http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-residents.php",
+        method: "GET",
         dataType: "json",
         success: function (data) {
-            let table = document.getElementById("residentTableBody");
-            table.innerHTML = ""; // Clear existing rows before updating
+            const table = document.getElementById("residentTableBody");
+            table.innerHTML = ""; // clear
 
-            // Sort by last_name, first_name, middle_name
-            data.sort((a, b) => {
-                // First compare by last_name
-                let lastNameCompare = a.last_name.toLowerCase().localeCompare(b.last_name.toLowerCase());
-                if (lastNameCompare !== 0) return lastNameCompare;
+            const residents = data.residents || [];
 
-                // If last names are equal, compare by first_name
-                let firstNameCompare = a.first_name.toLowerCase().localeCompare(b.first_name.toLowerCase());
-                if (firstNameCompare !== 0) return firstNameCompare;
-
-                // If first names are also equal, compare by middle_name
-                return a.middle_name.toLowerCase().localeCompare(b.middle_name.toLowerCase());
+            residents.sort((a, b) => {
+                const compare = (x, y) => x.toLowerCase().localeCompare(y.toLowerCase());
+                return compare(a.lastName, b.lastName); // or a.residentCode, depending on your default sort
             });
-
-            // Add residents to table dynamically
-            data.forEach(resident => {
-                addNewResident(resident);
-            });
+            
+            // Then use residents variable for rendering
+            renderResidents(residents);
+            data.residents.forEach(addNewResident);
         },
-        error: function (xhr, status, error) {
-            console.error("Fetch Error:", xhr.responseText);
+        error: function (xhr) {
+            console.error("❌ Fetch error:", xhr.responseText);
         }
     });
-    console.log("residents-list.js loaded");
 }
+
+// Global function to allow refreshing manually
+window.refreshResidents = fetchResidents;
+
+window.addEventListener("storage", (event) => {
+    if (event.key === "newResidentAdded") {
+        const newResidents = JSON.parse(event.newValue);
+        if (Array.isArray(newResidents)) {
+            renderResidents(newResidents, true); // append only
+            localStorage.removeItem("newResidentAdded");
+        }
+    }
+});

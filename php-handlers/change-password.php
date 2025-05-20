@@ -37,8 +37,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Hash and update new password
     $new_hashed_password = password_hash($new_password, PASSWORD_BCRYPT);
-    $update = $conn->prepare("UPDATE tbl_users SET password = ?, first_login = 0 WHERE user_id = ?");
-    $update->bind_param("si", $new_hashed_password, $user_id);
+    $update = $pdo->prepare("UPDATE tbl_users SET password = ?, first_login = 0 WHERE resident_id = ?");
+    $update->execute([$newPasswordHashed, $_SESSION['users_id']]);
+
 
     if ($update->execute()) {
         $_SESSION['success'] = "Password updated successfully.";

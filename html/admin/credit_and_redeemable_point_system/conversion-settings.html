@@ -186,66 +186,65 @@
                         <h4 class="mb-0"> Residents Management</h4>
                     </div>
                     <!-- End Content Header Title -->
-                    <h4 class="mb-3 p-3">Conversion Settings</h4>
                 </div>
                 <!--  Content -->
-                <div class="container mt-4 px-5">
-                    <!-- Conversion Rate -->
-                    <div class="card mb-4">
-                        <div class="card-header">Conversion Rate</div>
-                        <div class="card-body">
-                            <form id="conversionForm">
-                                <div class="row g-3">
-                                    <div class="col-md-4">
-                                        <label for="creditInput" class="form-label">Credit Points</label>
-                                        <input type="number" class="form-control" id="creditInput"
-                                            placeholder="e.g., 100" required />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="redeemInput" class="form-label">Redeemable Points</label>
-                                        <input type="number" class="form-control" id="redeemInput"
-                                            placeholder="e.g., 10" required />
-                                    </div>
-                                    <div class="col-md-4">
-                                        <label for="conversionFrequency" class="form-label">Auto-Conversion
-                                            Frequency</label>
-                                        <select class="form-select" id="conversionFrequency">
-                                            <option value="yearly">Yearly</option>
-                                            <option value="monthly">Monthly</option>
-                                            <option value="custom">Custom</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                
-                                <button type="submit" class="btn btn-primary mt-3">
-                                    Save Rate
-                                </button>
-                            </form>
+                <div class="container">
+                    <div class="container pt-3">
+                        <div
+                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                            <h3 class=" ">Conversion Settings</h3>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                            </div>
                         </div>
-                    </div>
+                        <!-- Conversion Rate -->
+                        <div class="card mb-4">
+                            <div class="card-header">Conversion Rate</div>
+                            <div class="card-body">
+                                <form id="conversionForm">
+                                    <div class="row g-3">
+                                        <div class="col-md-4">
+                                            <label for="creditInput" class="form-label">Credit Points</label>
+                                            <input type="number" class="form-control" id="creditInput"
+                                                placeholder="e.g., 100" min="0" step="0.01" required />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="redeemInput" class="form-label">Redeemable Points</label>
+                                            <input type="number" class="form-control" id="redeemInput"
+                                                placeholder="e.g., 10" min="0" step="0.01" required />
+                                        </div>
 
-                    <!-- Conversion Thresholds -->
-                    <div class="card mb-4">
-                        <div class="card-header">Conversion Thresholds</div>
-                        <div class="card-body">
-                            <form id="thresholdForm">
-                                <div class="row g-3 align-items-center">
-                                    <div class="col-md-6">
-                                        <label for="minThreshold" class="form-label">Minimum Credit Points
-                                            Required</label>
-                                        <input type="number" class="form-control" id="minThreshold"
-                                            placeholder="e.g., 100" required />
                                     </div>
-                                    <div class="col-12">
-                                        <button type="submit" class="btn btn-primary mt-2">
-                                            Save Threshold
-                                        </button>
-                                    </div>
-                                </div>
-                            </form>
+
+                                    <button type="submit" class="btn btn-primary mt-3">
+                                        Save Rate
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                    </div>
 
+                        <!-- Conversion Thresholds -->
+                        <div class="card mb-4">
+                            <div class="card-header">Conversion Thresholds</div>
+                            <div class="card-body">
+                                <form id="thresholdForm">
+                                    <div class="row g-3 align-items-center">
+                                        <div class="col-md-6">
+                                            <label for="minThreshold" class="form-label">Minimum Credit Points
+                                                Required</label>
+                                            <input type="number" class="form-control" id="minThreshold"
+                                                placeholder="e.g., 100" required />
+                                        </div>
+                                        <div class="col-12">
+                                            <button type="submit" class="btn btn-primary mt-2">
+                                                Save Threshold
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -257,6 +256,8 @@
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
     <script src="../../../js/sidebar-script.js"></script>
+    <script src="../../../js/conversion-settings.js"></script>
+
 </body>
 
 </html>

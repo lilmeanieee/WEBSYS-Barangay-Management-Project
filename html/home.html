@@ -2,8 +2,9 @@
 <html lang="en">
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -11,7 +12,6 @@
     <!-- FullCalendar CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css">
 
-    <title>Home</title>
 
     <link rel="stylesheet" href="../css/home.css">
     <link rel="stylesheet" href="../css/public_navbar.css">
@@ -21,13 +21,23 @@
     <!--navbar -->
     <nav class="navbar navbar-header navbar-expand-lg bg-light fixed-top">
         <div class="container-fluid">
-            <div class="navbar-logo ">
-                <img src="../asset/img/brgy_official_seal.png" alt="Barangay Ligaya official seal">
-                <a class="me-auto navbar-brand " href="../html/home.html">Ligaya</a>
+            <!-- hamburger collapsed menu button besides the logo -->
+            <div class="d-flex align-items-center">
+                <!-- hamburger menu button -->
+                <button class="navbar-toggler " type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <!-- navbar logo -->
+                <div class="navbar-logo ">
+                    <img src="../asset/img/brgy_official_seal.png" alt="Barangay Ligaya official seal">
+                    <a class="me-auto navbar-brand " href="home.html">Ligaya</a>
+                </div>
             </div>
 
-            <!-- Offcanvas Menu -->
-            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+
+            <!-- Offcanvas Menu Content -->
+            <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasNavbar"
                 aria-labelledby="offcanvasNavbarLabel">
                 <div class="offcanvas-header">
                     <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Logo</h5>
@@ -38,26 +48,16 @@
                     <ul class="navbar-nav justify-content-center flex-grow-1 pe-3">
                         <!-- nav home -->
                         <li class="nav-item">
-                            <a class="mx-md-2 nav-link active" aria-current="page" href="../html/home.html">Home</a>
+                            <a class="mx-md-2 nav-link active" aria-current="page" href="home.html">Home</a>
                         </li>
                         <!-- nav about -->
                         <li class="nav-item">
-                            <a class="mx-md-2 nav-link" href="../html/about.html">About</a>
+                            <a class="mx-md-2 nav-link" href="about.html">About</a>
                         </li>
 
-                        <li class="nav-item dropdown">
-                            <a class="mx-md-2 nav-link dropdown-toggle" href="../html/service.html" role="button"
-                                data-bs-toggle="dropdown" aria-expanded="false">
-                                Services
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">View Services</a></li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li><a class="dropdown-item" href="#">Document Request</a></li>
-                                <li><a class="dropdown-item" href="#">Submit Complaints</a></li>
-                            </ul>
+                        <!-- nav services -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link" href="home.html#service">Service</a>
                         </li>
 
                         <!-- nav announcement -->
@@ -71,21 +71,21 @@
                                         Updates</a></li>
                                 <li><a class="dropdown-item" href="announcement.html#upcoming-events">Upcomming
                                         Events</a></li>
-                                <li><a class="dropdown-item" href="announcement.html#special-announcements">Barangay Volunteer Drive</a></li>
+                                <li><a class="dropdown-item" href="announcement.html#special-announcements">Barangay
+                                        Volunteer Drive</a>
+                                </li>
                             </ul>
                         </li>
-                        <!-- nav community -->
-                        <li class="nav-item dropdown">
-                            <a class="mx-md-2 nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Community
-                            </a>
-                            <ul class="dropdown-menu">
-
-                                <li><a class="dropdown-item" href="leaderboard.html">Leaderboard</a></li>
-
-                            </ul>
+                        <!-- nav leaderboard -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link" href="leaderboard.html">Leaderboard</a>
                         </li>
+
+                        <!-- nav project tracking -->
+                        <li class="nav-item">
+                            <a class="mx-md-2 nav-link" href="track-project.html">Brgy Projects</a>
+                        </li>
+
                     </ul>
                 </div>
             </div>
@@ -96,29 +96,33 @@
                 <a href="../html/login.html" class="btn login-button" id="loginButton">Login</a>
 
                 <!-- User icon with dropdown (shown when user is logged in) -->
+                <!-- Login & Menu Button Group -->
+            <div class="d-flex align-items-center">
+               
+
+                <!-- User icon with dropdown (shown when user is logged in) -->
                 <div class="dropdown user-dropdown hidden" id="userDropdown">
                     <button class="btn dropdown-toggle user-icon-button" type="button" data-bs-toggle="dropdown"
                         aria-expanded="false">
-                        <img src="../asset/img/user-icon.png" alt="User" class="user-icon">
+                        <img src="../asset/img/default_acc_icon.png" alt="User" class="user-icon">
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li>
                             <h6 class="dropdown-header user-name" id="userName">User Name</h6>
                         </li>
-                        <li><a class="dropdown-item" href="residents/index.html">My Profile</a></li>
-                        <li><a class="dropdown-item" href="residents/my-requests.html">My Requests</a></li>
+                        <li><a class="dropdown-item" href="residents/index.html">Dashboard</a></li>
+                        <li><a class="dropdown-item" href="residents/convert-points.html">Convert Points</a></li>
+                        <li><a class="dropdown-item" href="residents/redeem-rewards.html">Redeem Rewards</a></li>
+                        <li><a class="dropdown-item" href="residents/document-request.html">Document Requests</a></li>
                         <li><a class="dropdown-item" href="residents/request-document.html">Request Document</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
+
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="residents/settings.html">Settings</a></li>
+
+                        <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="home.html" id="logoutButton">Logout</a></li>
                     </ul>
                 </div>
-
-                <button class="navbar-toggler pe-0" type="button" data-bs-toggle="offcanvas"
-                    data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" title="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
             </div>
         </div>
     </nav>
@@ -313,65 +317,6 @@
         </section>
         <!--anouncement section end-->
 
-        <!-- Events Calendar Section 
-        <section id="events" class="py-5">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12 text-center mb-4">
-                        <h2 class="section-title">Upcoming Events & Activities</h2>
-                        <div class="section-divider"></div>
-                        <p class="section-description">Stay up-to-date with community events such as clean-up drives,
-                            job fairs, workshops, and local festivals.</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-lg-3 mb-4">
-                        <div class="upcoming-events">
-                            <h4>Upcoming Events</h4>
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="event-day">25</span>
-                                    <span class="event-month">MAR</span>
-                                </div>
-                                <div class="event-details">
-                                    <h5>Event Title</h5>
-                                    <p><i class="far fa-clock"></i> 9:00 AM - 12:00 PM</p>
-                                    <p><i class="fas fa-map-marker-alt"></i> Location </p>
-                                </div>
-                            </div>
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="event-day">2</span>
-                                    <span class="event-month">APR</span>
-                                </div>
-                                <div class="event-details">
-                                    <h5>Event Title</h5>
-                                    <p><i class="far fa-clock"></i> 10:00 AM - 3:00 PM</p>
-                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                                </div>
-                            </div>
-                            <div class="event-item">
-                                <div class="event-date">
-                                    <span class="event-day">10</span>
-                                    <span class="event-month">APR</span>
-                                </div>
-                                <div class="event-details">
-                                    <h5>Event Title</h5>
-                                    <p><i class="far fa-clock"></i> 6:30 PM - 8:00 PM</p>
-                                    <p><i class="fas fa-map-marker-alt"></i> Location</p>
-                                </div>
-                            </div>
-                            <a href="/html/announcement.html#upcoming-events"
-                                class="btn btn-outline-primary mt-3 w-100">View All Events</a>
-                        </div>
-                    </div>
-                    <div class="col-lg-9">
-                        <div id="calendar"></div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        -->
 
     </div>
 
@@ -394,6 +339,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- FullCalendar JS -->
     <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.js"></script>
+
     <script src="../js/navbar-login-script.js"></script>
     <script src="../js/login-status-script.js"></script>
     <script src="../js/logout-script.js"></script>

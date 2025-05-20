@@ -7,18 +7,22 @@
 }
 
 body {
-    background-color: var(--light-blue);
-    font-family: Arial, sans-serif;
-    overflow: auto;
-    height: 100vh;
-    padding: 20px;
-    margin-top: 100px;  
+    background-color: #e6f0f3;
 }
+
 /* leaderbord */
 .leaderboard-title {
     color: var(--dark-blue);
+    display: flex;
+    justify-content: center;
     font-weight: bold;
     margin-bottom: 20px;
+
+}
+
+.top-contributors-container {
+   margin-left: 5%;
+   margin-right: 5%;
 }
 
 .top-contributors {
@@ -30,9 +34,16 @@ body {
     border-radius: 5px 5px 0 0;
 }
 
+#timePeriodSelect {
+    background-color: var(--gold);
+    color: var(--dark-blue);
+    border-radius:  5px 5px 0 0;
+    font-weight: bold;
+}
+
 .podium-container {
     background-color: var(--dark-blue);
-    border-radius: 10px;
+    border-radius: 0 0 10px 10px;
     padding: 25px;
     padding-inline: 60px;
     display: flex;
@@ -101,7 +112,7 @@ body {
     margin-top: 5px;
 }
 .podium-place:nth-child(2) { 
-    transform: translateY(-15px); /* Moves first a bit place higher */
+    transform: translateY(-15px); 
 }
 
 .podium-points {
@@ -154,7 +165,8 @@ body {
 }
 
 .list-container {
-    max-height: calc(100vh - 300px);
+    background-color: white;
+    max-height: 400px;
     overflow-y: auto;
     border-radius: 5px;
 }

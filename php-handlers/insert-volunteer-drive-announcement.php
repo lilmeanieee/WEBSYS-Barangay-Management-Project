@@ -1,99 +1,78 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-
-
-function getOrInsertAnnouncementCategory($pdo, $category) {
-    $stmt = $pdo->prepare("SELECT category_id FROM tbl_announcement_category WHERE category_name = ?");
-    $stmt->execute([$category]);
-    $result = $stmt->fetch(PDO::FETCH_ASSOC);
-    if ($result) return $result['category_id'];
-
-    $stmt = $pdo->prepare("INSERT INTO tbl_announcement_category (category_name) VALUES (?)");
-    $stmt->execute([$category]);
-    return $pdo->lastInsertId();
-}
+include 'connect.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'] ?? '';
-    $details = $_POST['details'] ?? '';
-    $date = $_POST['date'] ?? '';
-    $deadline = $_POST['deadline'] ?? '';
-    $time_start = $_POST['time_start'] ?? '';
-    $time_end = $_POST['time_end'] ?? '';
-    $exp_points = $_POST['exp_points'] ?? 0;
-    $redeem_points = $_POST['redeem_points'] ?? 0;
-    $eligibility = $_POST['eligibility'] ?? '';
-    $category = $_POST['announcementCategory'] ?? '';
+    $category = $_POST['announcementCategory'];
 
-    // Handle location
-    $location = $_POST['volunteerLocationCategory'] === 'other'
-        ? ($_POST['volunteerLocationInputOption'] ?? '')
-        : ($_POST['volunteerLocationCategory'] ?? '');
-
-    // Handle file upload
-    $file = $_FILES['file'] ?? null;
-    $fileName = '';
-    $fileType = '';
-
-    if ($file && $file['error'] === UPLOAD_ERR_OK) {
-        $uploadDir = __DIR__ . '/../uploads/volunteer_drive/';
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0777, true);
-        }
-
-        $fileName = time() . '_' . basename($file['name']);
-        $targetPath = $uploadDir . $fileName;
-
-        if (!move_uploaded_file($file['tmp_name'], $targetPath)) {
-            http_response_code(500);
-            echo 'File upload failed.';
+    // fetch category_id from tbl_announcement_category
+        $category_id_stmt = $conn->prepare("SELECT category_id FROM tbl_announcement_category WHERE category_name = ?");
+        $category_id_stmt->bind_param("s", $category);
+        $category_id_stmt->execute();
+        $category_result = $category_id_stmt->get_result();
+        if ($category_result->num_rows > 0) {
+            $row = $category_result->fetch_assoc();
+            $category = $row['category_id']; // this replaces $_POST['announcementCategory']
+        } else {
+            echo "Error: Invalid category";
             exit;
         }
+    $title = $_POST['title'];
+    $details = $_POST['details'];
+    $eligibility = $_POST['eligibility'];
+    $location_category = $_POST['volunteerLocationCategory'];
+    $location_input = $_POST['volunteerLocationInputOption'];
 
-        $fileType = pathinfo($fileName, PATHINFO_EXTENSION);
+    $final_location = ($location_category === 'other' && !empty($location_input)) 
+        ? $location_input 
+        : $location_category;
+    $event_date = $_POST['date'];
+    $application_start = $_POST['applicationStart']; // NEW
+    $application_deadline = $_POST['deadline'];
+    $time_start = $_POST['time_start'];
+    $time_end = $_POST['time_end'];
+    $credit_points = $_POST['credit_points'];
+
+    $file_name = $_FILES['file']['name'];
+    $file_tmp = $_FILES['file']['tmp_name'];
+    $file_type = $_FILES['file']['type'];
+    $upload_dir = '../uploads/';
+
+    if (!is_dir($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
     }
 
-    try {
-        $pdo = new PDO('mysql:host=localhost;dbname=bms_database', 'root', '');
-        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $pdo->beginTransaction();
+    $destination = $upload_dir . basename($file_name);
+    move_uploaded_file($file_tmp, $destination);
 
-        $categoryId = getOrInsertAnnouncementCategory($pdo, $category);
+    $stmt = $conn->prepare("INSERT INTO tbl_volunteer_drive_announcement 
+        (category_id, volunteer_announcement_title, details, file, file_name, file_type, eligible_volunteers, location, date, application_start, application_deadline, time_start, time_end, credit_points, status) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'active')");
+    
+    $stmt->bind_param(
+        "sssssssssssssi", 
+        $category, 
+        $title, 
+        $details, 
+        $destination, 
+        $file_name, 
+        $file_type, 
+        $eligibility, 
+        $final_location, 
+        $event_date, 
+        $application_start,
+        $application_deadline, 
+        $time_start, 
+        $time_end, 
+        $credit_points
+    );
 
-        $stmt = $pdo->prepare("INSERT INTO tbl_volunteer_drive_announcement (
-            category_id, volunteer_announcement_title, details, date, application_deadline,
-            time_start, time_end, location, eligible_volunteers, experience_points,
-            redeemable_points, file_name, file_type, status
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-
-        $stmt->execute([
-            $categoryId,
-            $title,
-            $details,
-            $date,
-            $deadline,
-            $time_start,
-            $time_end,
-            $location,
-            $eligibility,
-            $exp_points,
-            $redeem_points,
-            $fileName,
-            $fileType,
-            'active'
-        ]);
-
-        $pdo->commit();
-        echo 'Success';
-    } catch (PDOException $e) {
-        if ($pdo->inTransaction()) {
-            $pdo->rollBack();
-        }
-        http_response_code(500);
-        echo 'Database error: ' . $e->getMessage();
+    if ($stmt->execute()) {
+        echo "Success";
+    } else {
+        echo "Error: " . $stmt->error;
     }
-} else {
-    http_response_code(405);
-    echo 'Invalid request method';
+
+    $stmt->close();
+    $conn->close();
 }
+?>

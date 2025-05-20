@@ -9,14 +9,17 @@
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
     <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
 
-    <link rel="stylesheet" href="../../../css/resident-info-style.css">
     <link rel="stylesheet" href="../../../css/sidebar-style.css">
+    <link rel="stylesheet" href="../../../css/resident-info-style.css">
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+    <script src="../../../js/residents-info.js"></script>
+
+
 
 
 </head>
@@ -189,57 +192,59 @@
                 <div class="container px">
                     <div class="container">
                         <div
-                        class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                        <h3 class=" ">Resident List</h3>
-                        <div class="btn-toolbar mb-2 mb-md-0">
-                            <div class="btn-group me-2">
-                                <a href="household_profiling.html" class="btn btn-primary">
-                                    <i class="bi bi-person-plus"></i>
-                                    Add Resident
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Filters Row -->
-                    <div class="d-flex flex-column flex-md-row gap-2 mb-4 filters-row">
-                        <!-- Search Bar -->
-                        <div class="flex-grow-1 search-bar">
-                            <div class="input-group">
-                                <span class="input-group-text"><i class="bi bi-search"></i></span>
-                                <input type="text" class="form-control" id="nameSearch" placeholder="Search by name">
+                            class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                            <h3 class=" ">Resident List</h3>
+                            <div class="btn-toolbar mb-2 mb-md-0">
+                                <div class="btn-group me-2">
+                                    <a href="household_profiling.html" class="btn btn-primary">
+                                        <i class="bi bi-person-plus"></i>
+                                        Add Resident
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Sort Dropdown -->
-                        <div class="sort-dropdown">
-                            <select class="form-select" id="sortOption" title="Sort by">
-                                <option selected disabled>Sort by </option>
-                                <option value="name">Sort by Name</option>
-                                <option value="gender">Sort by Gender</option>
-                                <option value="status">Sort by Status</option>
-                            </select>
+                        <!-- Filters Row -->
+                        <div class="d-flex flex-column flex-md-row gap-2 mb-4 filters-row">
+                            <!-- Search Bar -->
+                            <div class="flex-grow-1 search-bar">
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" id="nameSearch"
+                                        placeholder="Search by name">
+                                </div>
+                            </div>
+
+                            <!-- Sort Dropdown -->
+                            <div class="sort-dropdown">
+                                <select class="form-select" id="sortOption" title="Sort by">
+                                    <option selected disabled>Sort by </option>
+                                    <option value="name">Sort by Name</option>
+                                    <option value="gender">Sort by Gender</option>
+                                    <option value="status">Sort by Status</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    </div>
-
-
 
                     <div class="container  mt-3">
                         <!-- Table -->
-                        <div class="table-responsive mt-3">
+                        <div class="table-responsive res-table mt-3">
                             <table class="table table-bordered" id="residentTable">
                                 <thead class="table-dark">
                                     <tr>
-                                        <th>Name</th>
+                                        <th>Resident Id</th>
+                                        <th>Last Name</th>
+                                        <th>First Name</th>
+                                        <th>Middle Name</th>
                                         <th>Gender</th>
                                         <th>Address</th>
-                                        <th>Mobile No.</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
                                 <tbody id="residentTableBody">
+
 
                                 </tbody>
                             </table>
@@ -248,12 +253,9 @@
 
                     <!-- Pagination -->
                     <nav>
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled"><a class="page-link">Previous</a></li>
-                            <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                        <ul class="pagination justify-content-center" id="pagination">
+                            <li class="page-item" id="prevPage"><a class="page-link" href="#">Previous</a></li>
+                            <li class="page-item" id="nextPage"><a class="page-link" href="#">Next</a></li>
                         </ul>
                     </nav>
                 </div>
@@ -266,6 +268,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <script src="../../../js/sidebar-script.js"></script>
 </body>
 

@@ -1,46 +1,78 @@
 <?php
-session_start();
 include 'connect.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $email = trim($_POST["email"]);
-    $password = trim($_POST["password"]);
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+header('Content-Type: application/json');
 
-    if (empty($email) || empty($password)) {
-        $_SESSION['error'] = "Both fields are required.";
-        header("Location: ../html/login.html");
-        exit();
+try {
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid request method']);
+        exit;
     }
 
-    $stmt = $conn->prepare("SELECT user_id, password, role, first_login FROM tbl_users WHERE email = ? AND status = 'Active'");
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
+
+    // Step 1: Find user by email
+    $stmt = $conn->prepare("SELECT * FROM tbl_users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result();
+    $result = $stmt->get_result();
 
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($user_id, $hashed_password, $role, $first_login);
-        $stmt->fetch();
-
-        if (password_verify($password, $hashed_password)) {
-            $_SESSION['user_id'] = $user_id;
-            $_SESSION['role'] = $role;
-
-            if ($first_login == 1 && ($role == "Admin" || $role == "Sub-Admin" || $role == "Resident")) {
-                header("Location: ../html/change-password.php");
-            } else if ($first_login == 0 && $role == "Resident") {
-                header("Location: ../html/home.html");
-            } else if ($first_login == 0 && ($role == "Admin" || $role == "Sub-Admin")) {
-                header("Location: ../html/admin/dashboard.html");
-            } else {
-                $_SESSION['error'] = "Invalid role.";
-                header("Location: ../html/login.html");
-            }
-            exit();
-        }
+    if ($result->num_rows === 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Account not found']);
+        exit;
     }
 
-    $_SESSION['error'] = "Invalid credentials or inactive account.";
-    header("Location: ../html/login.html");
-    exit();
+    $user = $result->fetch_assoc();
+
+    // Step 2: Verify password
+    if (!password_verify($password, $user['password'])) {
+        echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
+        exit;
+    }
+
+    // Step 3: Get linked resident (if any)
+    $residentStmt = $conn->prepare("SELECT * FROM tbl_household_members WHERE user_id = ?");
+    $residentStmt->bind_param("i", $user['user_id']);
+    $residentStmt->execute();
+    $residentResult = $residentStmt->get_result();
+
+    if ($residentResult->num_rows === 0) {
+        echo json_encode(['status' => 'error', 'message' => 'Resident profile not found']);
+        exit;
+    }
+
+    $resident = $residentResult->fetch_assoc();
+
+    // Step 4: Combine info
+    $userData = [
+        'user_id' => $user['user_id'],
+        'resident_id' => $resident['resident_id'],
+        'resident_code' => $resident['resident_code'],
+        'first_name' => $resident['first_name'],
+        'middle_name' => $resident['middle_name'],
+        'last_name' => $resident['last_name'],
+        'role' => $user['role'],
+        'first_login' => $user['first_login'],
+        'name' => $resident['last_name'] . ', ' . $resident['first_name'] . ' ' . $resident['middle_name']
+    ];
+    
+    // ADD THIS SECTION - Start the session and store user data
+    session_start();
+    $_SESSION['user_id'] = $user['user_id'];
+    $_SESSION['role'] = $user['role'];
+    $_SESSION['first_login'] = $user['first_login'];
+    $_SESSION['resident_id'] = $resident['resident_id'];
+    // END OF ADDED SECTION
+
+    echo json_encode([
+        'status' => 'success',
+        'user' => $userData
+    ]);
+
+} catch (Exception $e) {
+    echo json_encode(['status' => 'error', 'message' => 'Login error: ' . $e->getMessage()]);
 }
 ?>
