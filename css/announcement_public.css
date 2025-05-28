@@ -65,3 +65,8 @@
 .card-text {
     font-size: 0.95rem;
 }
+
+.join-confirmation {
+    width: 100%;
+    max-width: 300px;
+}

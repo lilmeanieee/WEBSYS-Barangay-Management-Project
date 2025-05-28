@@ -8,9 +8,10 @@ document.addEventListener("DOMContentLoaded", function() {
         if (userData) {
             // User is logged in
             const user = JSON.parse(userData);
-            document.getElementById('loginButton').style.display = 'none';
-            document.getElementById('userDropdown').style.display = 'block';
-            document.getElementById('userName').textContent = user.name || 'User';
+            document.getElementById('residentCode').textContent = user.resident_code;
+            document.getElementById('userName').textContent = user.name;
+            document.getElementById('creditPoints').textContent = user.credit_points;
+            
         } else {
             // User is not logged in
             document.getElementById('loginButton').style.display = 'block';
@@ -31,13 +32,3 @@ document.addEventListener("DOMContentLoaded", function() {
     checkLoginStatus();
 });
 
-// For demo purposes only - simulate login (remove in production)
-function simulateLogin() {
-    const demoUser = {
-        id: 1,
-        name: 'Juan Dela Cruz',
-        email: 'juan@example.com'
-    };
-    localStorage.setItem('userData', JSON.stringify(demoUser));
-    location.reload();
-}

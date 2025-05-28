@@ -3,16 +3,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const tbody = document.getElementById('memberTableBody');
 
     function createMemberRow(index) {
-        const tr = document.createElement('tr');
-        tr.classList.add('member-row');
+        const tr = document.createElement("tr");
+        tr.classList.add("member-row");
+    
         tr.innerHTML = `
             <td>${index}</td>
-            <td><input class="form-control" title="Last Name" placeholder="Last Name"></td>
-            <td><input class="form-control" title="First Name" placeholder="First Name"></td>
-            <td><input class="form-control" title="Middle Name" placeholder="Middle Name"></td>
-            <td><input class="form-control" title="Suffix" placeholder="(e.g Jr., Sr.)"></td>
+            <td><input class="form-control" id="lastName_${index}" placeholder="Last Name" /></td>
+            <td><input class="form-control" id="firstName_${index}" placeholder="First Name" /></td>
+            <td><input class="form-control" id="middleName_${index}" placeholder="Middle Name" /></td>
+            <td><input class="form-control" id="suffix_${index}" placeholder="Suffix" /></td>
             <td>
-                <select class="form-select" title="Relation">
+                <select class="form-select" id="relationship_${index}">
                     <option value="" disabled selected>Select</option>
                     <option value="1">1 - Head</option>
                     <option value="2">2 - Spouse</option>
@@ -22,15 +23,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td>
-                <select class="form-select" title="Sex">
+                <select class="form-select" id="sex_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>F - Female</option>
                     <option>M - Male</option>
                 </select>
             </td>
-            <td><input class="form-control" title="Birthdate" type="date" placeholder="Enter Birthdate"></td>
+            <td><input class="form-control" id="birthdate_${index}" type="date" placeholder="Birthdate" /></td>
             <td>
-                <select class="form-select" title="Civil Status">
+                <select class="form-select" id="civilStatus_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>S - Single</option>
                     <option>M - Married</option>
@@ -39,16 +40,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option>C - Cohabitation</option>
                 </select>
             </td>
-            <td><input class="form-control" title="PhilHealth ID" placeholder="Enter PhilHealth ID"></td>
+            <td><input class="form-control" id="philhealthId_${index}" placeholder="PhilHealth ID" /></td>
             <td>
-                <select class="form-select" title="Membership">
+                <select class="form-select" id="membership_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>M - Member</option>
                     <option>D - Dependent</option>
                 </select>
             </td>
             <td>
-                <select class="form-select" title="PhilHealth Category">
+                <select class="form-select" id="category_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>HPH - Hypertension</option>
                     <option>D - Diabetes</option>
@@ -57,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td>
-                <select class="form-select" title="Medical History">
+                <select class="form-select" id="medicalHistory_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>HPH - Hypertension</option>
                     <option>D - Diabetes</option>
@@ -66,7 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td>
-                <select class="form-select" title="Using any FP Method?">
+                <select class="form-select" id="usingFp_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>Y - Yes</option>
                     <option>N - No</option>
@@ -75,13 +76,13 @@ document.addEventListener('DOMContentLoaded', () => {
             <td>
                 <div class="dropdown dropup">
                     <button class="btn btn-outline-secondary dropdown-toggle w-100" type="button"
-                        data-bs-toggle="dropdown" aria-expanded="false">Select FP Method(s)</button>
+                        id="fpDropdown_${index}" data-bs-toggle="dropdown" aria-expanded="false">Select FP Method(s)</button>
                     <ul class="dropdown-menu p-2 dropdown-menu-scrollable">
                         ${['COC','POP','Injectable','Condom','LAM','BT2','Implant','BOM','DPT','Withdrawal','Others'].map(method => `
                             <li>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="${method}" id="fp-${method.toLowerCase()}">
-                                    <label class="form-check-label" for="fp-${method.toLowerCase()}">${method}</label>
+                                    <input class="form-check-input" type="checkbox" value="${method}" id="fp${method}_${index}">
+                                    <label class="form-check-label" for="fp${method}_${index}">${method}</label>
                                 </div>
                             </li>
                         `).join('')}
@@ -89,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </div>
             </td>
             <td>
-                <select class="form-select" title="FP Status">
+                <select class="form-select" id="fpStatus_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>NA - New Acceptor</option>
                     <option>CU - Current User</option>
@@ -99,12 +100,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option>R - Restarter</option>
                 </select>
             </td>
-            ${[1, 2, 3, 4].map(() => `
-                <td><input class="form-control" title="Age" placeholder="Age"></td>
-                <td><input class="form-control" title="Class" placeholder="Class"></td>
+            ${[1, 2, 3, 4].map(q => `
+                <td><input class="form-control" id="ageQ${q}_${index}" placeholder="Age Q${q}" /></td>
+                <td><input class="form-control" id="classQ${q}_${index}" placeholder="Class Q${q}" /></td>
             `).join('')}
             <td>
-                <select class="form-select" title="Educational Attainment">
+                <select class="form-select" id="education_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>N - None</option>
                     <option>K - Kinder</option>
@@ -122,7 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 </select>
             </td>
             <td>
-                <select class="form-select" title="Religion">
+                <select class="form-select" id="religion_${index}">
                     <option value="" disabled selected>Select</option>
                     <option>Roman Catholic</option>
                     <option>Christian</option>
@@ -143,42 +144,53 @@ document.addEventListener('DOMContentLoaded', () => {
                     <option>Other</option>
                 </select>
             </td>
-            <td><input class="form-control" title="Remarks" placeholder="Enter Additional Info"></td>
+            <td><input class="form-control" id="remarks_${index}" placeholder="Remarks" /></td>
         `;
+    
+        Array.from(tr.querySelectorAll("input, select")).forEach(el => {
+            el.addEventListener("input", () => {
+                el.classList.remove("is-invalid");
+            });
+        
+            el.addEventListener("change", () => {
+                el.classList.remove("is-invalid");
+        
+                // Also clear is-invalid from grouped radio buttons
+                if (el.type === "radio" || el.type === "checkbox") {
+                    const group = document.querySelectorAll(`input[name="${el.name}"]`);
+                    group.forEach(rb => rb.classList.remove("is-invalid"));
+                }
+            });
+        });
+    
         return tr;
     }
+    
 
-    function addMemberRowIfNeeded() {
-        const rows = Array.from(tbody.querySelectorAll('.member-row'));
-        const lastRow = rows[rows.length - 1];
+   // ✅ This function adds a new row manually
+   function addNewMemberRow() {
+    const currentRows = document.querySelectorAll(".member-row");
+    const newIndex = currentRows.length + 1;
+    const newRow = createMemberRow(newIndex);
+    tbody.appendChild(newRow);
+
     
-        const inputs = lastRow.querySelectorAll('input, select');
-        const hasInput = Array.from(inputs).some(field => {
-            if (field.tagName === 'SELECT') {
-                return field.value && field.value !== '';
-            }
-            return field.value.trim() !== '';
-        });
-    
-        // Only add if the last row has any input
-        if (hasInput) {
-            const newIndex = rows.length + 1;
-            const newRow = createMemberRow(newIndex);
-            tbody.appendChild(newRow);
-            attachInputListeners(newRow);
+}
+
+// ✅ Pressing Enter inside the last row adds a new one
+document.addEventListener("keydown", function (e) {
+    if (e.key === "Enter") {
+        const active = document.activeElement;
+        const allRows = document.querySelectorAll(".member-row");
+
+        if (active && active.closest(".member-row") === allRows[allRows.length - 1]) {
+            e.preventDefault();
+            addNewMemberRow();
         }
     }
-    function attachInputListeners(row) {
-        const inputs = row.querySelectorAll('input, select');
-        inputs.forEach(input => {
-            input.addEventListener('change', addMemberRowIfNeeded);
-        });
-    }
+});
 
-    // Initially add 2 rows
-    for (let i = 1; i <= 2; i++) {
-        const row = createMemberRow(i);
-        tbody.appendChild(row);
-        attachInputListeners(row);
-    }
+// ✅ Render the initial 1 row
+const row = createMemberRow(1);
+tbody.appendChild(row);
 });
