@@ -108,6 +108,8 @@ fetch("http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/add-resi
         document.getElementById("accountInfoContent").innerHTML = html;
         const modal = new bootstrap.Modal(document.getElementById('accountInfoModal'));
         modal.show();
+
+        localStorage.setItem("newResidentAdded", JSON.stringify(data.accounts));
         
         fetch("http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/fetch-residents.php")
         .then(res => res.json())

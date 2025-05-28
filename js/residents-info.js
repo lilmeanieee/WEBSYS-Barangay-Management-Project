@@ -49,41 +49,7 @@ window.addNewResident = function(residentData) {
 
 };
 
-// âœ… Fetch residents and update table
-function fetchResidents() {
-    $.ajax({
-        url: "http://localhost/Brgy-Ligaya-Management-Systemased-/handlers_php/fetch-residents.php",
-        type: "GET",
-        dataType: "json",
-        success: function (data) {
-            let table = document.getElementById("residentTableBody");
-            table.innerHTML = ""; // Clear existing rows before updating
-
-            // Sort by last_name, first_name, middle_name
-            data.sort((a, b) => {
-                // First compare by last_name
-                let lastNameCompare = a.last_name.toLowerCase().localeCompare(b.last_name.toLowerCase());
-                if (lastNameCompare !== 0) return lastNameCompare;
-
-                // If last names are equal, compare by first_name
-                let firstNameCompare = a.first_name.toLowerCase().localeCompare(b.first_name.toLowerCase());
-                if (firstNameCompare !== 0) return firstNameCompare;
-
-                // If first names are also equal, compare by middle_name
-                return a.middle_name.toLowerCase().localeCompare(b.middle_name.toLowerCase());
-            });
-
-            // Add residents to table dynamically
-            data.forEach(resident => {
-                addNewResident(resident);
-            });
-        },
-        error: function (xhr, status, error) {
-            console.error("Fetch Error:", xhr.responseText);
-        }
-    });
-    console.log("residents-list.js loaded");
-}
+            
 
 document.addEventListener("DOMContentLoaded", function () {
     fetchResidents();
@@ -134,7 +100,7 @@ function fetchResidents() {
             
             // Then use residents variable for rendering
             renderResidents(residents);
-            data.forEach(addNewResident);
+            data.residents.forEach(addNewResident);
         },
         error: function (xhr) {
             console.error("❌ Fetch error:", xhr.responseText);
@@ -144,3 +110,13 @@ function fetchResidents() {
 
 // Global function to allow refreshing manually
 window.refreshResidents = fetchResidents;
+
+window.addEventListener("storage", (event) => {
+    if (event.key === "newResidentAdded") {
+        const newResidents = JSON.parse(event.newValue);
+        if (Array.isArray(newResidents)) {
+            renderResidents(newResidents, true); // append only
+            localStorage.removeItem("newResidentAdded");
+        }
+    }
+});

@@ -73,6 +73,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->execute();
         $residentId = $stmt->insert_id;
 
+        $stmtInsertStats = $conn->prepare("INSERT INTO tbl_resident_participation_stats (resident_id, credit_points, redeemable_points, no_show_streak, total_participated, total_missed, last_participation_date) VALUES (?, 0, 0, 0, 0, 0, NULL)");
+        $stmtInsertStats->bind_param("i", $residentId);
+        $stmtInsertStats->execute();
+
         $codeOnly = str_pad($residentId, 7, '0', STR_PAD_LEFT);
         $residentCode = "RES-$codeOnly";
         $conn->query("UPDATE tbl_household_members SET resident_code = '$residentCode' WHERE resident_id = $residentId");
@@ -97,6 +101,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $hashedPassword = password_hash($rawPass, PASSWORD_DEFAULT);
 
         $conn->query("INSERT INTO tbl_users (email, password, role) VALUES ('$email', '$hashedPassword', 'resident')");
+        $userId = $conn->insert_id;
+
+        // ✅ Update user_id in tbl_household_members
+        $conn->query("UPDATE tbl_household_members SET user_id = $userId WHERE resident_id = $residentId");
+
 
         $accounts[] = [
             "residentCode" => $residentCode,
@@ -105,6 +114,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "password" => $rawPass
         ];
     }
+
+    
 
     echo json_encode(["success" => true, "accounts" => $accounts]);
     ob_end_flush();

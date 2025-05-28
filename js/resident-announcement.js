@@ -1,15 +1,46 @@
 let announcementsFromDB = [];
+let joinedEventIds = []; // Track joined event IDs
 
 // Fetch announcements
-fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-announcement.php')
-    .then(res => res.json())
-    .then(data => {
-        announcementsFromDB = data;
-        renderAnnouncements(); // Show all initially
-    })
-    .catch(err => {
-        console.error('Error fetching announcements:', err);
-    });
+function fetchAnnouncementsAndJoinedEvents() {
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    const residentId = userData.resident_id;
+    
+    // First fetch announcements
+    fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-announcement.php')
+        .then(res => res.json())
+        .then(data => {
+            announcementsFromDB = data;
+            
+            // Then fetch joined events if logged in
+            if (residentId) {
+                return fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/get-joined-events.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `resident_id=${encodeURIComponent(residentId)}`
+                })
+                .then(res => res.json())
+                .then(joinedEvents => {
+                    // Store joined events as strings for easier comparison
+                    joinedEventIds = joinedEvents.map(id => String(id));
+                    console.log('Joined event IDs:', joinedEventIds);
+                    renderAnnouncements(); // Now render with complete data
+                })
+                .catch(err => {
+                    console.error('Error fetching joined events:', err);
+                    renderAnnouncements(); // Render anyway, even if joined status fetch fails
+                });
+            } else {
+                renderAnnouncements(); // Not logged in, just render
+            }
+        })
+        .catch(err => {
+            console.error('Error fetching announcements:', err);
+        });
+}
+
+// Initialize by fetching all data
+fetchAnnouncementsAndJoinedEvents();
 
 function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
     const newsContainer = document.getElementById('newsUpdatesList');
@@ -58,24 +89,69 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
 
     // Render all filtered announcements
     filtered.forEach(announcement => {
-        const card = document.createElement('div');
-        card.className = 'col-md-4 mb-4';
+        switch (announcement.type) {
+            case 'News and Update':
+                const newsCard = document.createElement('div');
+                newsCard.className = 'col-md-4 mb-4';
 
-        const dateHTML = announcement.date ? `<div class="text-muted mb-2">${announcement.date}</div>` : '';
+                const dateHTML = announcement.date ? `<div class="text-muted mb-2">${announcement.date}</div>` : '';
 
-        card.innerHTML = `
-            <div class="card h-100">
-                <div class="card-body">
-                    ${dateHTML}
-                    <h5 class="card-title">${announcement.title}</h5>
-                    <p class="card-text">${announcement.details}</p>
-                    ${announcement.time_start && announcement.time_end
-                        ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
-                </div>
-            </div>
-        `;
-        const volunteerCard = document.createElement('div');
+                newsCard.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            ${dateHTML}
+                            <h5 class="card-title">${announcement.title}</h5>
+                            <p class="card-text">${announcement.details}</p>
+                            ${announcement.time_start && announcement.time_end
+                                ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
+                        </div>
+                    </div>
+                `;
+                newsContainer.appendChild(newsCard);
+                break;
+                
+            case 'Upcoming Event':
+                const eventCard = document.createElement('div');
+                eventCard.className = 'col-md-4 mb-4';
+
+                const eventDateHTML = announcement.date ? `<div class="text-muted mb-2">${announcement.date}</div>` : '';
+
+                eventCard.innerHTML = `
+                    <div class="card h-100">
+                        <div class="card-body">
+                            ${eventDateHTML}
+                            <h5 class="card-title">${announcement.title}</h5>
+                            <p class="card-text">${announcement.details}</p>
+                            ${announcement.time_start && announcement.time_end
+                                ? `<small class="text-muted">${announcement.time_start} - ${announcement.time_end}</small>` : ''}
+                        </div>
+                    </div>
+                `;
+                eventsContainer.appendChild(eventCard);
+                break;
+                
+            case 'Barangay Volunteer Drive':
+                const volunteerCard = document.createElement('div');
                 volunteerCard.className = 'col-md-12 mb-4';
+
+                // Debug logging for volunteer announcement data
+                console.log('Volunteer announcement data:', announcement);
+                console.log('Volunteer ID from data:', announcement.id);
+
+                // Check if the user has already joined this event
+                // Convert both to strings for proper comparison
+                const volunteerId = String(announcement.id);
+                const hasJoined = joinedEventIds.includes(volunteerId);
+                
+                console.log(`Checking if event ${volunteerId} is joined: ${hasJoined}`);
+
+                // Determine button state based on join status
+                let buttonHTML;
+                if (hasJoined) {
+                    buttonHTML = `<button class="btn btn-sm btn-secondary" disabled>Joined</button>`;
+                } else {
+                    buttonHTML = `<button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${volunteerId}">Join</button>`;
+                }
 
                 volunteerCard.innerHTML = `
                 <div class="card shadow-sm">
@@ -83,30 +159,31 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
                         <div style="flex: 1 1 auto; min-width: 70%;">
                             <h5 class="card-title mb-2">${announcement.title}</h5>
                             <p class="card-text">${announcement.details}</p>
-                            <small class="text-muted">🎖️ EXP: ${announcement.experience_points} | 🎁 Redeem: ${announcement.redeemable_points}</small>
-                            ${announcement.time_start && announcement.time_end
-                                ? `<p class="card-text text-muted mb-0"><small>${announcement.time_start} - ${announcement.time_end}</small></p>` : ''}
+                            <p class="mb-1">
+                                <small class="text-muted">
+                                    📅 <strong>Application:</strong> ${formatDate(announcement.application_start)} - ${formatDate(announcement.application_deadline)}
+                                </small>
+                            </p>
+                            <p class="mb-1">
+                                <small class="text-muted">
+                                    ⏰ <strong>Event Time:</strong> ${formatTime(announcement.time_start)} - ${formatTime(announcement.time_end)}
+                                </small>
+                            </p>
+                            <p class="mb-1">
+                                <small class="text-muted">🎖️ Credit Points: ${announcement.credit_points}</small>
+                            </p>
                         </div>
                         <div class="text-end" style="min-width: 150px;">
                             <span class="badge bg-success mb-2">${formatDate(announcement.date)}</span><br>
-                            <button class="btn btn-sm btn-outline-primary join-button" data-volunteer-id="${announcement.volunteer_announcement_id}">Join</button>
+                            ${buttonHTML}
                         </div>
                     </div>
+                    <p class="volunteer-remaining-joins text-muted small mt-2"></p>
                 </div>
-            `;
-
-            console.log(announcement);
-        switch (announcement.type) {
-            case 'News and Update':
-                newsContainer.appendChild(card);
-                break;
-            case 'Upcoming Event':
-                eventsContainer.appendChild(card);
-                break;
-            case 'Barangay Volunteer Drive':
-                
+                `;
                 volunteerContainer.appendChild(volunteerCard);
                 break;
+                
             default:
                 console.warn('Uncategorized announcement:', announcement);
                 break;
@@ -114,77 +191,214 @@ function renderAnnouncements(categoryFilter = 'all', searchQuery = '') {
     });
 
     // Bind join buttons after DOM is updated
-    setTimeout(() => {
-        document.querySelectorAll('.join-button').forEach(button => {
-            button.addEventListener('click', function () {
-                const userData = localStorage.getItem('userData');
-                const volunteerId = this.dataset.volunteerId;
+    document.querySelectorAll('.join-button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const card = this.closest('.card');
+            const volunteerId = this.dataset.volunteerId;
+            
+            console.log("Volunteer ID being used:", volunteerId); // Debug log
+            
+            // Remove any existing modal
+            const existing = document.querySelector('.terms-modal-container');
+            if (existing) existing.remove();
+            
+            // Insert Terms & Conditions Modal
+            const modalHTML = `
+                <div class="terms-modal-container position-absolute top-50 start-50 translate-middle bg-white border rounded shadow p-4" style="z-index: 20; width: 100%; max-width: 600px;">
+                    <h5 class="mb-3">📋 Terms and Conditions</h5>
+                    <div class="terms-content" style="max-height: 300px; overflow-y: auto; font-size: 0.9rem;">
+                        <p><strong>📌 Commitment to Participate</strong><br>
+                        You are expected to be present and actively participate in the scheduled event.<br>
+                        ❌ If you join but fail to attend 3 consecutive events, you will be subject to a deduction of points and may be temporarily restricted from joining future volunteer events.</p>
 
-                if (!userData) {
-                    alert("⚠️ You need to log in first to join this activity.");
+                        <p><strong>⏱️ Minimum Time Requirement</strong><br>
+                        Volunteers must complete the full scheduled event time to be eligible for rewards.<br>
+                        Leaving early or partially attending without approval will result in no points awarded for that event.</p>
+
+                        <p><strong>🏅 Point Allocation</strong><br>
+                        ✅ After the event is completed and verified by event coordinators.<br>
+                        ✅ Based on full attendance and active participation.</p>
+
+                        <p><strong>📆 Monthly Join Limit</strong><br>
+                        To ensure equal opportunity among residents, each individual may only join up to 3 volunteer events per month.<br>
+                        After confirming, your remaining chances will decrease by 1.</p>
+
+                        <p><strong>🤝 Proper Conduct</strong><br>
+                        All volunteers are expected to:<br>
+                        - Show respect to coordinators, residents, and fellow volunteers.<br>
+                        - Follow all instructions given by the event organizers.<br>
+                        - Refrain from any disruptive or inappropriate behavior.</p>
+                    </div>
+
+                    <div class="form-check mt-3">
+                        <input class="form-check-input" type="checkbox" id="agreeCheckbox">
+                        <label class="form-check-label" for="agreeCheckbox">
+                            I have read and agree to the terms and conditions above.
+                        </label>
+                    </div>
+
+                    <div class="d-flex justify-content-end gap-2 mt-3">
+                        <button class="btn btn-success btn-sm" id="confirmJoinBtn" disabled>Yes, Join</button>
+                        <button class="btn btn-outline-secondary btn-sm" id="cancelJoinBtn">Cancel</button>
+                    </div>
+                </div>
+            `;
+            card.insertAdjacentHTML('beforeend', modalHTML);
+            
+            // Now safely select the modal elements
+            const confirmBtn = card.querySelector('#confirmJoinBtn');
+            const cancelBtn = card.querySelector('#cancelJoinBtn');
+            const agreeCheckbox = card.querySelector('#agreeCheckbox');
+            
+            // Store volunteerId on button
+            confirmBtn.dataset.volunteerId = volunteerId;
+            
+            // Enable "Yes" only when checkbox is checked
+            agreeCheckbox.addEventListener('change', function() {
+                confirmBtn.disabled = !this.checked;
+            });
+            
+            // Cancel button: remove modal
+            cancelBtn.addEventListener('click', () => {
+                card.querySelector('.terms-modal-container')?.remove();
+            });
+            
+            // Confirm Join click
+            confirmBtn.addEventListener('click', function() {
+                // Get user data from localStorage
+                const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+                const residentId = userData.resident_id;
+                const volunteerId = this.dataset.volunteerId;
+                
+                console.log("Sending data:", {
+                    residentId: residentId,
+                    volunteerId: volunteerId
+                });
+                
+                if (!residentId) {
+                    alert('Please log in to join volunteer events.');
                     return;
                 }
-
-                const confirmationDiv = document.createElement("div");
-                confirmationDiv.className = "join-confirmation mt-2";
-                confirmationDiv.innerHTML = `
-                    <div class="p-3 border rounded bg-light">
-                        <p>Are you sure you want to join this activity?</p>
-                        <button class="btn btn-success btn-sm me-2 yes-btn">Yes</button>
-                        <button class="btn btn-secondary btn-sm no-btn">No</button>
-                    </div>
-                `;
-                this.parentElement.appendChild(confirmationDiv);
-
-                const yesBtn = confirmationDiv.querySelector(".yes-btn");
-                const noBtn = confirmationDiv.querySelector(".no-btn");
-                const buttonRef = this;
-
-                yesBtn.addEventListener("click", function () {
-                    const user = JSON.parse(userData);
-                    const residentId = user.resident_id;
-
-                    fetch('../php-handlers/join-volunteer.php', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                        body: `resident_id=${encodeURIComponent(residentId)}&volunteer_announcement_id=${encodeURIComponent(volunteerId)}`
-                    })
-                    .then(res => res.text())
-                    .then(response => {
-                        console.log("✅ Server response:", response);
-                        buttonRef.textContent = "Joined";
-                        buttonRef.disabled = true;
-                        confirmationDiv.remove();
-                    })
-                    .catch(err => {
-                        console.error("❌ Join failed:", err);
-                        alert("An error occurred. Please try again.");
-                    });
-                });
-
-                noBtn.addEventListener("click", function () {
-                    confirmationDiv.remove();
+                
+                fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/join-volunteer.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `resident_id=${residentId}&volunteer_announcement_id=${volunteerId}`
+                })
+                .then(res => res.json())
+                .then(response => {
+                    console.log("Server response:", response); // Debug log
+                    
+                    if (response.success) {
+                        // Add to our tracked joined events
+                        joinedEventIds.push(volunteerId);
+                        
+                        // Update button to show joined
+                        const joinButton = this.closest('.card').querySelector('.join-button');
+                        joinButton.textContent = 'Joined';
+                        joinButton.disabled = true;
+                        joinButton.classList.remove('btn-outline-primary');
+                        joinButton.classList.add('btn-secondary');
+                        joinButton.classList.remove('join-button');
+                        
+                        // Remove modal
+                        card.querySelector('.terms-modal-container')?.remove();
+                        
+                        // Update remaining joins count
+                        fetchJoinCountAndUpdateCards(residentId);
+                    } else {
+                        alert('❌ ' + (response.error || 'Join failed.'));
+                    }
+                })
+                .catch(err => {
+                    console.error('❌ Join error:', err);
+                    alert('An error occurred. Please try again.');
                 });
             });
         });
-    }, 100);
+    });
+
+    // Update remaining joins count after rendering
+    const userData = JSON.parse(localStorage.getItem('userData') || '{}');
+    if (userData.resident_id) {
+        fetchJoinCountAndUpdateCards(userData.resident_id);
+    }
+}
+
+function fetchJoinCountAndUpdateCards(residentId) {
+    fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/join-volunteer.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: `resident_id=${encodeURIComponent(residentId)}&check_only=true`
+    })
+    .then(res => res.json())
+    .then(data => {
+        const used = parseInt(data.joined_this_month || 0);
+        const remaining = Math.max(3 - used, 0);
+
+        // Update all volunteer cards
+        document.querySelectorAll('.volunteer-remaining-joins').forEach(elem => {
+            elem.textContent = `🔁 Remaining Joins This Month: ${remaining}`;
+            
+            // Disable join buttons if no remaining joins
+            if (remaining === 0) {
+                const card = elem.closest('.card');
+                const joinButton = card?.querySelector('.join-button');
+                if (joinButton) {
+                    joinButton.disabled = true;
+                    joinButton.classList.remove('btn-outline-primary');
+                    joinButton.classList.add('btn-outline-secondary');
+                }
+            }
+        });
+    })
+    .catch(err => {
+        console.error('Error fetching join count:', err);
+    });
 }
 
 // Filter by category
-document.getElementById('categoryFilter').addEventListener('change', function () {
+document.getElementById('categoryFilter')?.addEventListener('change', function() {
     const selected = this.value;
-    const searchQuery = document.getElementById('searchInput').value;
+    const searchQuery = document.getElementById('searchInput')?.value || '';
     renderAnnouncements(selected, searchQuery);
 });
 
 // Search announcements
-document.getElementById('searchBtn').addEventListener('click', function () {
-    const selectedCategory = document.getElementById('categoryFilter').value;
-    const searchQuery = document.getElementById('searchInput').value;
+document.getElementById('searchBtn')?.addEventListener('click', function() {
+    const selectedCategory = document.getElementById('categoryFilter')?.value || 'all';
+    const searchQuery = document.getElementById('searchInput')?.value || '';
     renderAnnouncements(selectedCategory, searchQuery);
 });
 
 function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date(dateString).toLocaleDateString('en-US', options);
+    if (!dateString) return 'N/A';
+    
+    try {
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString('en-US', options);
+    } catch (e) {
+        console.error('Error formatting date:', e);
+        return dateString || 'N/A';
+    }
+}
+
+function formatTime(timeString) {
+    if (!timeString || typeof timeString !== 'string' || !timeString.includes(':')) {
+        return 'N/A';
+    }
+
+    try {
+        const [hours, minutes] = timeString.split(':');
+        const date = new Date();
+        date.setHours(parseInt(hours), parseInt(minutes));
+        return date.toLocaleTimeString('en-US', {
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+    } catch (e) {
+        console.error('Error formatting time:', e);
+        return timeString || 'N/A';
+    }
 }

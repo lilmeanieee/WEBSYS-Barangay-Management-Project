@@ -23,19 +23,19 @@
 
                 <h2 class="text-center mb-3">Log in</h2>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingEmail" placeholder="name@ligaya.gensan.com"
+                    <input type="email" class="form-control" id="emailInput" placeholder="name@ligaya.gensan.com"
                         required name="email">
                     <label for="floatingEmail">Email</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control" id="floatingPassword" placeholder="Password"
+                    <input type="password" class="form-control" id="passwordInput" placeholder="Password"
                         name="password" required>
                     <label for="floatingPassword">Password</label>
                 </div>
                 <div class="forgot-pass">
                     <a href="../html/change_pass.html">forgot password</a>
                 </div>
-                <button class="btn btn-login" type="submit">Login</button>
+                <button class="btn btn-login" type="submit" id="loginBtn">Login</button>
                 <div class="register-link">
                     <p>Don't have an account?</p>
                     <a href="../html/signup.html">Register</a>
@@ -51,39 +51,54 @@
 
     <!-- ✅ Moved script inside body for safe DOM access -->
     <script>
-        document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const email = document.getElementById("floatingEmail").value;
-    const password = document.getElementById("floatingPassword").value;
-
-    fetch("../php-handlers/login.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
-        body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
-    })
-    .then(res => res.json())
-    .then(data => {
-        console.log("🔎 Login Response:", data);
-        if (data.status === "success") {
-    localStorage.setItem("userData", JSON.stringify(data.user));
-    window.location.href = data.redirect;
-} else if (data.redirect) {
-    // First time login
-    localStorage.setItem("userData", JSON.stringify(data.user || {}));
-    window.location.href = data.redirect;
-} else {
-    alert(data.message || "Login failed");
-}
-
-    })
-    .catch(err => {
-        console.error("Login error:", err);
-        alert("Something went wrong. Please check the console.");
-    });
-});
-
-    </script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('loginForm');
+        
+            if (!form) {
+                console.error("Login form not found.");
+                return;
+            }
+        
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+        
+                const email = document.getElementById('emailInput')?.value.trim();
+                const password = document.getElementById('passwordInput')?.value.trim();
+        
+                if (!email || !password) {
+                    alert("Please fill out both email and password.");
+                    return;
+                }
+        
+                fetch('http://localhost/WEBSYS-Barangay-Management-Project/php-handlers/login.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `email=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        localStorage.setItem('userData', JSON.stringify(data.user));
+        
+                        if (data.user.first_login == 1) {
+                            window.location.href = '../html/change-password.php';
+                        } else if (data.user.role === 'admin') {
+                            window.location.href = '../admin/dashboard.html';
+                        } else {
+                            window.location.href = '../html/home.html';
+                        }
+                    } else {
+                        alert(data.message || "Login failed.");
+                    }
+                })
+                .catch(err => {
+                    console.error("Login error:", err);
+                    alert("Something went wrong.");
+                });
+            });
+        });
+        </script>
+        
     <script src="../js/navbar-login-script.js"></script>
    
 
