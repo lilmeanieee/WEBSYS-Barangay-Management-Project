@@ -28,13 +28,23 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     // ✅ Logout button logic
+    // ✅ Logout button logic
     const logoutButton = document.getElementById('logoutButton');
     if (logoutButton) {
         logoutButton.addEventListener('click', function () {
             localStorage.removeItem('userData');
-            window.location.href = '../html/home.html';
+            
+            // Also clear PHP session via a logout endpoint
+            fetch('../php-handlers/logout.php')
+                .then(() => {
+                    window.location.href = '../html/home.html';
+                })
+                .catch(() => {
+                    // If the fetch fails, still redirect
+                    window.location.href = '../html/home.html';
+                });
         });
-    }
+}
 
     checkLoginStatus();
 });

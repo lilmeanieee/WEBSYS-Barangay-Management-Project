@@ -32,8 +32,6 @@ try {
         echo json_encode(['status' => 'error', 'message' => 'Invalid password']);
         exit;
     }
-    error_log("Entered: [$password]");
-error_log("Stored : [" . $user['password'] . "]");
 
     // Step 3: Get linked resident (if any)
     $residentStmt = $conn->prepare("SELECT * FROM tbl_household_members WHERE user_id = ?");
@@ -51,7 +49,7 @@ error_log("Stored : [" . $user['password'] . "]");
     // Step 4: Combine info
     $userData = [
         'user_id' => $user['user_id'],
-        'resident_id' => $resident['resident_id'], // ✅ this is what you need!
+        'resident_id' => $resident['resident_id'],
         'resident_code' => $resident['resident_code'],
         'first_name' => $resident['first_name'],
         'middle_name' => $resident['middle_name'],
@@ -60,6 +58,14 @@ error_log("Stored : [" . $user['password'] . "]");
         'first_login' => $user['first_login'],
         'name' => $resident['last_name'] . ', ' . $resident['first_name'] . ' ' . $resident['middle_name']
     ];
+    
+    // ADD THIS SECTION - Start the session and store user data
+    session_start();
+    $_SESSION['user_id'] = $user['user_id'];
+    $_SESSION['role'] = $user['role'];
+    $_SESSION['first_login'] = $user['first_login'];
+    $_SESSION['resident_id'] = $resident['resident_id'];
+    // END OF ADDED SECTION
 
     echo json_encode([
         'status' => 'success',
